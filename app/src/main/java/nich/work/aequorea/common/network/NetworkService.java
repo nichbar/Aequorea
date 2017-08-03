@@ -1,7 +1,7 @@
-package nich.work.aequorea.network;
+package nich.work.aequorea.common.network;
 
 import io.reactivex.Observable;
-import nich.work.aequorea.model.mainpage.Page;
+import nich.work.aequorea.main.model.mainpage.Page;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 

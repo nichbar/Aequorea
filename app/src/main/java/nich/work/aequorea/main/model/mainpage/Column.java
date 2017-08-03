@@ -1,5 +1,5 @@
 
-package nich.work.aequorea.model.mainpage;
+package nich.work.aequorea.main.model.mainpage;
 
 import com.google.gson.annotations.SerializedName;
 

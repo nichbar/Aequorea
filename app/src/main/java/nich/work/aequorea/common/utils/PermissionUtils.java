@@ -1,4 +1,4 @@
-package nich.work.aequorea.utils;
+package nich.work.aequorea.common.utils;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

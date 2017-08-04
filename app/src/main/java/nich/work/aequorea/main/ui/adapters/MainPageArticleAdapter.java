@@ -35,8 +35,17 @@ public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticle
 
     @Override
     public void onBindViewHolder(MainPageArticleViewHolder holder, int position) {
-        holder.draweeView.setImageURI(mArticleList.get(position).getData().get(0).getCoverUrl());
-        holder.titleTextView.setText(mArticleList.get(position).getData().get(0).getTitle());
+        Datum data = mArticleList.get(position).getData().get(0);
+
+        holder.articleImg.setImageURI(data.getCoverUrl());
+        holder.titleText.setText(data.getTitle());
+
+        if (data.getAuthors() != null) {
+            holder.authorImg.setImageURI(data.getAuthors().get(0).getAvatar());
+            holder.authorText.setText(data.getAuthors().get(0).getName());
+        }
+        Long likeCount = data.getLikeTimes() == null ? 0 : data.getLikeTimes();
+        holder.likeText.setText(Long.toString(likeCount));
     }
 
     @Override
@@ -45,11 +54,11 @@ public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticle
     }
 
     public static class MainPageArticleViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_article)
-        SimpleDraweeView draweeView;
-
-        @BindView(R.id.tv_article_title)
-        TextView titleTextView;
+        @BindView(R.id.iv_article) SimpleDraweeView articleImg;
+        @BindView(R.id.iv_author) SimpleDraweeView authorImg;
+        @BindView(R.id.tv_article_title) TextView titleText;
+        @BindView(R.id.tv_author) TextView authorText;
+        @BindView(R.id.tv_like) TextView likeText;
 
         public MainPageArticleViewHolder(View itemView) {
             super(itemView);

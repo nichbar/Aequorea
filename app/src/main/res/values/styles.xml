@@ -10,6 +10,7 @@
         <item name="title_color">@color/colorTextTitle_light</item>
         <item name="subtitle_color">@color/colorTextSubtitle_light</item>
         <item name="content_color">@color/colorTextContent_light</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:windowBackground">@color/colorPrimary_light</item>
         <item name="android:textColorPrimary">?attr/content_color</item>
         <item name="android:windowTranslucentStatus">false</item>
@@ -21,6 +22,13 @@
     <style name="AppTheme.Light.Main" parent="AppTheme.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="TextWithShadow">
+        <item name="android:shadowColor">@color/colorPrimary_dark</item>
+        <item name="android:shadowDx">1.0</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowRadius">2.0</item>
     </style>
 
 </resources>

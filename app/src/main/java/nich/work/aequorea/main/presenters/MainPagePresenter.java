@@ -13,24 +13,29 @@ import nich.work.aequorea.main.ui.activities.MainActivity;
 
 public class MainPagePresenter extends AbsPresenter {
     private MainActivity mView;
-    private Page mPage;
+    private Page mPageData;
 
     private CompositeDisposable disposables;
     private Throwable mError;
+    private int mPage = 1;
 
     @Override
     public void initialize() {
-        NetworkService networkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
-
         disposables = new CompositeDisposable();
+        loadData();
+    }
+
+    public void loadData() {
+        NetworkService networkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         disposables.add(networkService
-                .getMainPageInfo(1)
+                .getMainPageInfo(mPage)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Page>() {
                     @Override
                     public void accept(Page page) throws Exception {
-                        mPage = page;
+                        mPageData = page;
+                        mPage++;
                         publish();
                     }
                 }, new Consumer<Throwable>() {
@@ -43,12 +48,14 @@ public class MainPagePresenter extends AbsPresenter {
     }
 
     private void publish() {
-        if (mView != null ) {
-            if (mPage != null)
-                mView.onUpdateAdapter(mPage.getData());
-            else if (mError != null){
+        if (mView != null) {
+            if (mPageData != null)
+                mView.onUpdateAdapter(mPageData.getData(), mView.getModel().isRefreshing());
+            else if (mError != null) {
                 mView.onError(mError);
             }
+            mView.getModel().setRefreshing(false);
+            mView.getModel().setLoading(false);
         }
     }
 
@@ -62,5 +69,10 @@ public class MainPagePresenter extends AbsPresenter {
     public void detach() {
         disposables.clear();
         mView = null;
+    }
+
+    public void refresh(){
+        mPage = 1;
+        loadData();
     }
 }

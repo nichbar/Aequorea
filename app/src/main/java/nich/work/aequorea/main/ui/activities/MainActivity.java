@@ -3,6 +3,7 @@ package nich.work.aequorea.main.ui.activities;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
+import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenters.MainPagePresenter;
 import nich.work.aequorea.main.ui.adapters.MainPageArticleAdapter;
@@ -25,12 +27,30 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
 
     private MainPagePresenter mPresenter;
     private MainPageArticleAdapter mAdapter;
+    private MainPageModel mModel;
+
+    private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            autoLoad(dy);
+        }
+    };
+
+    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            mModel.setRefreshing(true);
+            mPresenter.refresh();
+        }
+    };
 
     @BindView(R.id.rec) RecyclerView mRecyclerView;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.main_content) CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.appbar) NestedScrollAppBarLayout mAppBarLayout;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
+    @BindView(R.id.layout_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +63,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void initModel() {
-
+        mModel = new MainPageModel();
     }
 
     private void initPresenter() {
@@ -60,8 +80,11 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         mAdapter = new MainPageArticleAdapter(this, null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mScrollListener);
 
         mAppBarLayout.setOnNestedListener(this);
+
+        mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
 
     @Override
@@ -70,8 +93,17 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         mPresenter.detach();
     }
 
-    public void onUpdateAdapter(List<Datum> data) {
-        mAdapter.mArticleList = data;
+    public void onUpdateAdapter(List<Datum> data, boolean isRefresh) {
+        if (mAdapter.mArticleList == null || isRefresh) {
+            mAdapter.mArticleList = data;
+            mSwipeRefreshLayout.setRefreshing(false);
+        } else {
+            for (Datum d : data) {
+                if (!mAdapter.mArticleList.contains(d)) {
+                    mAdapter.mArticleList.add(d);
+                }
+            }
+        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -97,4 +129,20 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
             }
         }
     }
+
+    public MainPageModel getModel(){
+        return mModel;
+    }
+
+    private void autoLoad(int dy) {
+        int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
+                .findLastVisibleItemPosition();
+
+        int totalCount = mAdapter.getItemCount();
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 2) {
+            mModel.setLoading(true);
+            mPresenter.loadData();
+        }
+    }
+
 }

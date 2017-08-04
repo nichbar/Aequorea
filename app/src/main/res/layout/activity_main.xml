@@ -26,7 +26,7 @@
                 <nich.work.aequorea.common.ui.widget.StatusBarView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:placeholder="true"/>
+                    app:placeholder="true" />
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -36,12 +36,18 @@
             </LinearLayout>
         </nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/layout_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?attr/root_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/root_color" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

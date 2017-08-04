@@ -8,40 +8,40 @@ import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenters.AbsPresenter;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
-import nich.work.aequorea.main.model.mainpage.Page;
-import nich.work.aequorea.main.ui.activities.MainActivity;
+import nich.work.aequorea.main.model.article.Article;
+import nich.work.aequorea.main.ui.activities.ArticleActivity;
 
-public class MainPagePresenter extends AbsPresenter {
-    private MainActivity mView;
-    private Page mPageData;
-
+public class ArticlePresenter extends AbsPresenter {
     private CompositeDisposable mComposite;
-    private Throwable mError;
-    private int mPage = 1;
+    private ArticleActivity mView;
+    private Article mArticle;
+    private Throwable mThrowable;
+
+    public ArticlePresenter() {
+        super();
+    }
 
     @Override
     public void initialize() {
         mComposite = new CompositeDisposable();
-        loadData();
     }
 
-    public void loadData() {
-        NetworkService networkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
-        mComposite.add(networkService
-                .getMainPageInfo(mPage)
+    public void load(long id) {
+        NetworkService service = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+
+        mComposite.add(service.getArticleDetailInfo(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Page>() {
+                .subscribe(new Consumer<Article>() {
                     @Override
-                    public void accept(Page page) throws Exception {
-                        mPageData = page;
-                        mPage++;
+                    public void accept(Article article) throws Exception {
+                        mArticle = article;
                         publish();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        mError = throwable;
+                        mThrowable = throwable;
                         publish();
                     }
                 })
@@ -49,21 +49,16 @@ public class MainPagePresenter extends AbsPresenter {
     }
 
     private void publish() {
-        if (mView != null) {
-            if (mPageData != null)
-                mView.onUpdateAdapter(mPageData.getData(), mView.getModel().isRefreshing());
-            else if (mError != null) {
-                mView.onError(mError);
-            }
-            mView.getModel().setRefreshing(false);
-            mView.getModel().setLoading(false);
+        if (mArticle != null) {
+            mView.onUpdate(mArticle);
+        } else if (mThrowable != null) {
+            mView.onError(mThrowable);
         }
     }
 
     @Override
     public void attach(BaseActivity activity) {
-        mView = (MainActivity) activity;
-        publish();
+        mView = (ArticleActivity) activity;
     }
 
     @Override
@@ -72,8 +67,4 @@ public class MainPagePresenter extends AbsPresenter {
         mView = null;
     }
 
-    public void refresh() {
-        mPage = 1;
-        loadData();
-    }
 }

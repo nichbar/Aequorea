@@ -12,12 +12,18 @@
         android:theme="@style/AppTheme.Light" >
         <activity
             android:name=".main.ui.activities.MainActivity"
-            android:theme="@style/AppTheme.Light.Main">
+            android:theme="@style/AppTheme.Light.Main"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.ui.activities.ArticleActivity"
+            android:theme="@style/AppTheme.Light.Main"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

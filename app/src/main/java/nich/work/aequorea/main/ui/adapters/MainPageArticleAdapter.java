@@ -1,6 +1,7 @@
 package nich.work.aequorea.main.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nich.work.aequorea.R;
+import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.main.model.mainpage.Datum;
-
 
 public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticleAdapter.MainPageArticleViewHolder> {
     private LayoutInflater mInflater;
@@ -53,12 +55,18 @@ public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticle
         return mArticleList == null ? 0 : mArticleList.size();
     }
 
-    public static class MainPageArticleViewHolder extends RecyclerView.ViewHolder {
+    public  class MainPageArticleViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_article) SimpleDraweeView articleImg;
         @BindView(R.id.iv_author) SimpleDraweeView authorImg;
         @BindView(R.id.tv_article_title) TextView titleText;
         @BindView(R.id.tv_author) TextView authorText;
         @BindView(R.id.tv_like) TextView likeText;
+
+        @OnClick(R.id.iv_article) void startArticleActivity(){
+            if (this.getAdapterPosition() < mArticleList.size()){
+                IntentUtils.startArticleActivity(mContext, mArticleList.get(this.getAdapterPosition()).getData().get(0).getId());
+            }
+        }
 
         public MainPageArticleViewHolder(View itemView) {
             super(itemView);

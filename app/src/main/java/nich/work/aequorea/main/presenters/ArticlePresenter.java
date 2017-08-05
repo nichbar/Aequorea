@@ -50,7 +50,7 @@ public class ArticlePresenter extends AbsPresenter {
 
     private void publish() {
         if (mArticle != null) {
-            mView.onUpdate(mArticle);
+            mView.onUpdate(mArticle.getData());
         } else if (mThrowable != null) {
             mView.onError(mThrowable);
         }

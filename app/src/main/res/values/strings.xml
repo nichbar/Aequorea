@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Aequorea</string>
+    <string name="default_author">CBNWeekly</string>
 </resources>

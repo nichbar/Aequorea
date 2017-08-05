@@ -1,57 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_container_article"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/root_color">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/main_content"
+    <nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout
+        android:id="@+id/layout_swipe_back_article"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".main.ui.activities.MainActivity">
+        android:background="?attr/root_color">
 
-        <nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout
-            android:id="@+id/appbar"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_scrollFlags="scroll|enterAlways">
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="35dp">
 
-                <nich.work.aequorea.common.ui.widget.StatusBarView
+                <TextView
+                    android:id="@+id/tv_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorAccent_light"
+                    android:textSize="14sp"
+                    tools:text="#Tech" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="3dp"
+                    android:textColor="@color/colorTextDark"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="AMD is back!" />
+
+                <TextView
+                    android:id="@+id/tv_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="14sp"
+                    tools:text="Mazzello" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorTextGrey"
+                    android:textSize="14sp"
+                    tools:text="06/08/2017" />
+
+                <TextView
+                    android:id="@+id/tv_article_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:placeholder="true" />
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary_light" />
+                    android:layout_marginTop="50dp"
+                    android:lineSpacingExtra="5dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/colorTextDark2nd"
+                    android:letterSpacing="0.06"
+                    android:textSize="16sp"
+                    tools:text="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
-        </nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <TextView
-                android:id="@+id/tv_article_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </ScrollView>
-    </android.support.design.widget.CoordinatorLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
 

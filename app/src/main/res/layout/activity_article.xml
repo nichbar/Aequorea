@@ -33,7 +33,7 @@
                     android:layout_marginTop="10dp"
                     android:textColor="@color/colorAccent_light"
                     android:textSize="14sp"
-                    tools:text="#Tech" />
+                    tools:text="# Tech" />
 
                 <TextView
                     android:id="@+id/tv_title"
@@ -69,10 +69,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
+                    android:letterSpacing="0.06"
                     android:lineSpacingExtra="5dp"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorTextDark2nd"
-                    android:letterSpacing="0.06"
                     android:textSize="16sp"
                     tools:text="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>

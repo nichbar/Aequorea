@@ -99,7 +99,7 @@ public class ArticleActivity extends BaseActivity {
             mAuthorTv.setText(R.string.default_author);
         }
 
-        if (article.getTopics().size() != 0 && article.getTopics().get(0) != null) {
+        if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics().get(0) != null) {
             mTagTv.setText(String.format("# %s", article.getTopics().get(0).getName()));
         } else {
             mTagTv.setVisibility(View.GONE);

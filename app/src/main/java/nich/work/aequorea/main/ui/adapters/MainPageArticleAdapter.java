@@ -1,14 +1,14 @@
 package nich.work.aequorea.main.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -39,11 +39,17 @@ public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticle
     public void onBindViewHolder(MainPageArticleViewHolder holder, int position) {
         Datum data = mArticleList.get(position).getData().get(0);
 
-        holder.articleImg.setImageURI(data.getCoverUrl());
+        Glide.with(mContext)
+                .load(data.getCoverUrl())
+                .placeholder(R.color.colorPrimary_dark)
+                .into(holder.articleImg);
         holder.titleText.setText(data.getTitle());
 
         if (data.getAuthors() != null) {
-            holder.authorImg.setImageURI(data.getAuthors().get(0).getAvatar());
+            Glide.with(mContext)
+                    .load(data.getAuthors().get(0).getAvatar())
+                    .placeholder(R.drawable.icon_author)
+                    .into(holder.authorImg);
             holder.authorText.setText(data.getAuthors().get(0).getName());
         }
         Long likeCount = data.getLikeTimes() == null ? 0 : data.getLikeTimes();
@@ -56,8 +62,8 @@ public class MainPageArticleAdapter extends RecyclerView.Adapter<MainPageArticle
     }
 
     public  class MainPageArticleViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_article) SimpleDraweeView articleImg;
-        @BindView(R.id.iv_author) SimpleDraweeView authorImg;
+        @BindView(R.id.iv_article) ImageView articleImg;
+        @BindView(R.id.iv_author) ImageView authorImg;
         @BindView(R.id.tv_article_title) TextView titleText;
         @BindView(R.id.tv_author) TextView authorText;
         @BindView(R.id.tv_like) TextView likeText;

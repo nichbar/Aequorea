@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="270dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:id="@+id/iv_article"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        fresco:placeholderImage="@color/colorPrimary_dark" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,12 +21,10 @@
         android:paddingLeft="20dp"
         android:paddingRight="5dp">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/iv_author"
             android:layout_width="25dp"
-            android:layout_height="25dp"
-            fresco:placeholderImage="@drawable/icon_author"
-            fresco:roundAsCircle="true" />
+            android:layout_height="25dp" />
 
         <TextView
             android:id="@+id/tv_author"
@@ -63,12 +60,12 @@
         android:layout_marginRight="18dp"
         android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
+        <ImageView
             android:id="@+id/iv_like"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            fresco:placeholderImage="@drawable/icon_heart" />
+            android:src="@drawable/icon_heart" />
 
         <TextView
             android:id="@+id/tv_like"

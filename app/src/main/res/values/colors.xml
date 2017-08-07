@@ -30,7 +30,8 @@
     <color name="colorTextContent_dark">@color/colorTextLight2nd</color>
 
     <color name="colorTextDark">#333333</color>
-    <color name="colorTextDark2nd">#666666</color>
+    <color name="colorTextDark2nd">#555555</color>
+    <color name="colorTextDark3nd">#666666</color>
     <color name="colorTextGrey">#999999</color>
     <color name="colorTextGrey2nd">#bdbdbd</color>
     <color name="colorTextLight">#fafafa</color>

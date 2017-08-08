@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Aequorea</string>
     <string name="default_author">CBNWeekly</string>
+    <string name="network_error">网络异常 </string>
+    <string name="cover_story_not_supported">暂不支持封面故事</string>
+    <string name="not_supported">暂不支持</string>
 </resources>

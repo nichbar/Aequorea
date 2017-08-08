@@ -2,11 +2,11 @@ package nich.work.aequorea.main.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.List;
 
@@ -16,18 +16,21 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
+import nich.work.aequorea.common.utils.SnackBarUtils;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenters.MainPagePresenter;
-import nich.work.aequorea.main.ui.adapters.MainPageArticleAdapter;
+import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
 
-public class MainActivity extends BaseActivity implements NestedScrollAppBarLayout.OnNestedScrollListener {
+public class MainActivity extends BaseActivity implements NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
     private MainPagePresenter mPresenter;
-    private MainPageArticleAdapter mAdapter;
+    private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
+
+    private long mClickTime;
 
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -77,7 +80,9 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
 
         setStatusBarStyle(true);
         mToolbar.setTitle(getResources().getString(R.string.app_name));
-        mAdapter = new MainPageArticleAdapter(this, null);
+        mToolbar.setOnClickListener(this);
+
+        mAdapter = new MainArticleAdapter(this, null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
@@ -94,25 +99,36 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     public void onUpdateAdapter(List<Datum> data, boolean isRefresh) {
-        if (mAdapter.mArticleList == null || isRefresh) {
-            mAdapter.mArticleList = data;
-            mSwipeRefreshLayout.setRefreshing(false);
+        List<Datum> articleList = mAdapter.getArticleList();
+
+        if (articleList == null || isRefresh) {
+            mAdapter.setArticleList(data);
         } else {
             for (Datum d : data) {
-                if (!mAdapter.mArticleList.contains(d)) {
-                    mAdapter.mArticleList.add(d);
+                if (!articleList.contains(d)) {
+                    articleList.add(d);
                 }
             }
+            mAdapter.setArticleList(articleList);
         }
         mAdapter.notifyDataSetChanged();
     }
 
-    public void onError(Throwable error){
-        Snackbar.make(mRecyclerView, "网络异常", Snackbar.LENGTH_SHORT).show();
+    public void onError(Throwable error) {
+        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error) + error.getMessage());
+    }
+
+    public void setRefreshing(boolean isRefreshing){
+        mSwipeRefreshLayout.setRefreshing(isRefreshing);
     }
 
     @Override
     public void onNestedScrolling() {
+        changeStatusBarStyle();
+    }
+
+    @Override
+    public void onStopNestedScrolling() {
         changeStatusBarStyle();
     }
 
@@ -145,4 +161,18 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.toolbar:
+                if (System.currentTimeMillis() - mClickTime < 200){
+                    scrollToTop();
+                }
+                mClickTime = System.currentTimeMillis();
+        }
+    }
+
+    private void scrollToTop() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 }

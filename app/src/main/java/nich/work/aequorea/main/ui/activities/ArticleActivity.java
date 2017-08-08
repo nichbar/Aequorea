@@ -48,6 +48,15 @@ public class ArticleActivity extends BaseActivity {
         @Override
         public void onSwipeFinish(int dir) {
             finish();
+            switch (dir) {
+                case SwipeBackCoordinatorLayout.UP_DIR:
+                    overridePendingTransition(0, R.anim.activity_slide_out_top);
+                    break;
+
+                case SwipeBackCoordinatorLayout.DOWN_DIR:
+                    overridePendingTransition(0, R.anim.activity_slide_out_bottom);
+                    break;
+            }
         }
     };
 

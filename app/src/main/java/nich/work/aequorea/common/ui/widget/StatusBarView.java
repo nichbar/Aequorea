@@ -12,7 +12,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.DisplayUtils;
 
-
 public class StatusBarView extends View {
 
     public static final float LIGHT_INIT_MASK_ALPHA = 0.03f;

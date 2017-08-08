@@ -21,16 +21,12 @@ public class Datum {
     private Column mColumn;
     @SerializedName("comment_times")
     private Long mCommentTimes;
-    @SerializedName("cover_url")
-    private String mCoverUrl;
     @SerializedName("data")
     private List<Datum> mData;
     @SerializedName("display_time")
     private String mDisplayTime;
     @SerializedName("editor_choice_comments")
     private List<Object> mEditorChoiceComments;
-    @SerializedName("id")
-    private Long mId;
     @SerializedName("is_favorited")
     private Boolean mIsFavorited;
     @SerializedName("is_like")
@@ -57,6 +53,72 @@ public class Datum {
     private String mType;
     @SerializedName("visit_times")
     private Long mVisitTimes;
+    @SerializedName("articles_count")
+    private Long mArticlesCount;
+    @SerializedName("cover_url")
+    private String mCoverUrl;
+    @SerializedName("description")
+    private Object mDescription;
+    @SerializedName("id")
+    private Long mId;
+    @SerializedName("illustration")
+    private String mIllustration;
+    @SerializedName("name")
+    private String mName;
+    @SerializedName("total_read_times")
+    private Long mTotalReadTimes;
+    @SerializedName("total_visit_times")
+    private Long mTotalVisitTimes;
+
+    public Long getArticlesCount() {
+        return mArticlesCount;
+    }
+
+    public void setArticlesCount(Long articlesCount) {
+        mArticlesCount = articlesCount;
+    }
+
+
+    public Object getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(Object description) {
+        mDescription = description;
+    }
+
+    public String getIllustration() {
+        return mIllustration;
+    }
+
+    public void setIllustration(String illustration) {
+        mIllustration = illustration;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public Long getTotalReadTimes() {
+        return mTotalReadTimes;
+    }
+
+    public void setTotalReadTimes(Long totalReadTimes) {
+        mTotalReadTimes = totalReadTimes;
+    }
+
+    public Long getTotalVisitTimes() {
+        return mTotalVisitTimes;
+    }
+
+    public void setTotalVisitTimes(Long totalVisitTimes) {
+        mTotalVisitTimes = totalVisitTimes;
+    }
+
 
     public Long getAnonymousPurchaseTotalCount() {
         return mAnonymousPurchaseTotalCount;

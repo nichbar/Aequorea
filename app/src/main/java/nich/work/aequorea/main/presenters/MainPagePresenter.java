@@ -55,6 +55,9 @@ public class MainPagePresenter extends AbsPresenter {
             else if (mError != null) {
                 mView.onError(mError);
             }
+            mPageData = null;
+            mError = null;
+            mView.setRefreshing(false);
             mView.getModel().setRefreshing(false);
             mView.getModel().setLoading(false);
         }

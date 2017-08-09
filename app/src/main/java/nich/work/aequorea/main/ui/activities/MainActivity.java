@@ -20,7 +20,7 @@ import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.SnackBarUtils;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
-import nich.work.aequorea.main.presenters.MainPagePresenter;
+import nich.work.aequorea.main.presenter.MainPagePresenter;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
 
 public class MainActivity extends BaseActivity implements NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {

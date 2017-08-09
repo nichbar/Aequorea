@@ -1,4 +1,4 @@
-package nich.work.aequorea.common.presenters;
+package nich.work.aequorea.common.presenter;
 
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 

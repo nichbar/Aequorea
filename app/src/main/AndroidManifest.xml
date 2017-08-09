@@ -25,6 +25,11 @@
             android:theme="@style/AppTheme.Light.Main"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".author.ui.AuthorActivity"
+            android:theme="@style/AppTheme.Light.Main"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

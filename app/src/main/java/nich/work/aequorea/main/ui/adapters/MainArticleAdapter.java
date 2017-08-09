@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nich.work.aequorea.R;
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.ui.holder.NormalArticleHolder;
 import nich.work.aequorea.main.ui.holder.ThemeArticleHolder;
@@ -22,17 +23,6 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
     private List<Integer> typeList;
 
     private List<Datum> articleList;
-
-
-    private static final String ARTICLE_TYPE_MAGAZINE = "magazine_article";
-    private static final String ARTICLE_TYPE_NORMAL = "normal_article";
-    private static final String ARTICLE_TYPE_THEME = "theme";
-    private static final String ARTICLE_TYPE_TOP_ARTICLE = "top_article";
-
-    private static final int TYPE_MAGAZINE = 1;
-    private static final int TYPE_NORMAL = 2;
-    private static final int TYPE_THEME = 3;
-    private static final int TYPE_TOP_ARTICLE = 4;
 
     public MainArticleAdapter(Context context, List<Datum> articleList) {
         this.context = context;
@@ -48,18 +38,18 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
         if (articleList != null){
             for (Datum data : articleList){
                 switch (data.getType()){
-                    case ARTICLE_TYPE_MAGAZINE:
-                        typeList.add(TYPE_MAGAZINE);
+                    case Constants.ARTICLE_TYPE_MAGAZINE:
+                        typeList.add(Constants.TYPE_MAGAZINE);
                         break;
-                    case ARTICLE_TYPE_THEME:
-                        typeList.add(TYPE_THEME);
+                    case Constants.ARTICLE_TYPE_THEME:
+                        typeList.add(Constants.TYPE_THEME);
                         break;
-                    case ARTICLE_TYPE_TOP_ARTICLE:
-                        typeList.add(TYPE_TOP_ARTICLE);
+                    case Constants.ARTICLE_TYPE_TOP_ARTICLE:
+                        typeList.add(Constants.TYPE_TOP_ARTICLE);
                         break;
-                    case ARTICLE_TYPE_NORMAL:
+                    case Constants.ARTICLE_TYPE_NORMAL:
                     default:
-                        typeList.add(TYPE_NORMAL);
+                        typeList.add(Constants.TYPE_NORMAL);
                         break;
                 }
             }
@@ -79,9 +69,9 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case TYPE_NORMAL:
+            case Constants.TYPE_NORMAL:
                 return new NormalArticleHolder(inflater.inflate(R.layout.item_article, parent, false));
-            case TYPE_THEME:
+            case Constants.TYPE_THEME:
                 return new ThemeArticleHolder(inflater.inflate(R.layout.item_article_theme, parent, false));
             // Todo
             default:

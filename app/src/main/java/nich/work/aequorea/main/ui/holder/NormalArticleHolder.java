@@ -46,6 +46,10 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
 //                break;
     }
 
+    @OnClick(R.id.iv_author) void startAuthorActivity(){
+        IntentUtils.startAuthorActivity(context, 123);
+    }
+
     public NormalArticleHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

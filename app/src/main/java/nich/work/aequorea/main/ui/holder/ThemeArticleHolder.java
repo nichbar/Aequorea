@@ -20,8 +20,6 @@ public class ThemeArticleHolder extends MainArticleAdapter.ViewHolder {
     public ThemeArticleHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-
-        Context context = itemView.getContext();
     }
 
     @Override

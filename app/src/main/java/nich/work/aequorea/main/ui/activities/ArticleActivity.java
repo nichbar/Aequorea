@@ -18,7 +18,7 @@ import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.main.model.ArticleModel;
 import nich.work.aequorea.main.model.article.Data;
-import nich.work.aequorea.main.presenters.ArticlePresenter;
+import nich.work.aequorea.main.presenter.ArticlePresenter;
 
 public class ArticleActivity extends BaseActivity {
     private ArticlePresenter mPresenter;

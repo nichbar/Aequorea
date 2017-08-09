@@ -1,4 +1,4 @@
-package nich.work.aequorea.main.presenters;
+package nich.work.aequorea.main.presenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -6,7 +6,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
-import nich.work.aequorea.common.presenters.AbsPresenter;
+import nich.work.aequorea.common.presenter.AbsPresenter;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.main.model.article.Article;
 import nich.work.aequorea.main.ui.activities.ArticleActivity;

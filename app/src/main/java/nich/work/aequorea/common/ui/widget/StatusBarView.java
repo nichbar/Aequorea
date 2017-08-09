@@ -18,9 +18,9 @@ public class StatusBarView extends View {
     public static final float DARK_INIT_MASK_ALPHA = 0.2f;
     public static final float DARKER_MASK_ALPHA = 0.2f;
 
-    private boolean mIsPlaceHolder;
-    private boolean mIsOriginalStyle;
-    private ObjectAnimator mObjectAnimator;
+    private boolean isPlaceHolder;
+    private boolean isInitState;
+    private ObjectAnimator objectAnimator;
 
     public StatusBarView(Context context) {
         super(context);
@@ -44,10 +44,10 @@ public class StatusBarView extends View {
 
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StatusBarView, defStyleAttr, defStyleRes);
-        mIsPlaceHolder = a.getBoolean(R.styleable.StatusBarView_placeholder, false);
+        this.isPlaceHolder = a.getBoolean(R.styleable.StatusBarView_placeholder, false);
         a.recycle();
 
-        if (!mIsPlaceHolder) {
+        if (!isPlaceHolder) {
             setBackgroundResource(android.R.color.black);
             setAlpha(getAlphaFromDeviceApi());
         }
@@ -67,36 +67,36 @@ public class StatusBarView extends View {
     }
 
     public void setDarkMask(){
-        setOriginalStyle(false);
+        setInitState(false);
         changeAlpha(DARKER_MASK_ALPHA);
     }
 
     public void setLightMask(){
-        setOriginalStyle(true);
+        setInitState(true);
         changeAlpha(LIGHT_INIT_MASK_ALPHA);
     }
 
     private void changeAlpha(float alphaTo) {
         cancelAnimator();
         if (getAlpha() != alphaTo) {
-            mObjectAnimator = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), alphaTo)
+            objectAnimator = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), alphaTo)
                     .setDuration(150);
-            mObjectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-            mObjectAnimator.start();
+            objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            objectAnimator.start();
         }
     }
 
     private void cancelAnimator() {
-        if (mObjectAnimator != null) {
-            mObjectAnimator.cancel();
+        if (objectAnimator != null) {
+            objectAnimator.cancel();
         }
     }
 
-    public void setOriginalStyle(boolean originalStyle){
-        mIsOriginalStyle = originalStyle;
+    public void setInitState(boolean isInitState){
+        this.isInitState = isInitState;
     }
 
-    public boolean isOriginalStyle(){
-        return mIsOriginalStyle;
+    public boolean isInitState(){
+        return isInitState;
     }
 }

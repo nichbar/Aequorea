@@ -12,6 +12,7 @@ import nich.work.aequorea.main.model.mainpage.Page;
 import nich.work.aequorea.main.ui.activities.MainActivity;
 
 public class MainPagePresenter extends AbsPresenter {
+    private NetworkService mNetworkService;
     private MainActivity mView;
     private Page mPageData;
 
@@ -21,13 +22,13 @@ public class MainPagePresenter extends AbsPresenter {
 
     @Override
     public void initialize() {
+        mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mComposite = new CompositeDisposable();
         loadData();
     }
 
     public void loadData() {
-        NetworkService networkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
-        mComposite.add(networkService
+        mComposite.add(mNetworkService
                 .getMainPageInfo(mPage)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

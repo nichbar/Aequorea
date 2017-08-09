@@ -4,4 +4,6 @@
     <string name="network_error">网络异常 </string>
     <string name="cover_story_not_supported">暂不支持封面故事</string>
     <string name="not_supported">暂不支持</string>
+    <string name="default_introduction">第一财经周刊编辑</string>
+    <string name="article_count">%d篇文章</string>
 </resources>

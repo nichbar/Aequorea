@@ -35,4 +35,13 @@
         <item name="android:shadowRadius">2.0</item>
     </style>
 
+    <style name="TextAppearanceAuthorTitleExpand">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/colorTextDark2nd</item>
+    </style>
+
+    <style name="TextAppearanceAuthorTitleCollapsed">
+        <item name="android:textColor">@color/colorTextDark2nd</item>
+    </style>
+
 </resources>

@@ -17,7 +17,7 @@ public class IntentUtils {
 
     public static void startAuthorActivity(Context context, long id){
         Intent i = new Intent(context, AuthorActivity.class);
-        i.putExtra(Constants.ARTICLE_ID, id);
+        i.putExtra(Constants.AUTHOR_ID, id);
         context.startActivity(i);
     }
 }

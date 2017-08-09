@@ -45,9 +45,12 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
 //                SnackBarUtils.show(articleImg, mContext.getString(R.string.not_supported) + data.getType());
 //                break;
     }
-
-    @OnClick(R.id.iv_author) void startAuthorActivity(){
-        IntentUtils.startAuthorActivity(context, 123);
+    
+    @OnClick(R.id.iv_author)
+    void startAuthorActivity() {
+        if (articleData.getAuthors().get(0).getId() != null) {
+            IntentUtils.startAuthorActivity(context, articleData.getAuthors().get(0).getId());
+        }
     }
 
     public NormalArticleHolder(View itemView) {

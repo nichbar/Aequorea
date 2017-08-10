@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import com.zzhoujay.richtext.RichText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import nich.work.aequorea.R;
@@ -37,7 +41,7 @@ public class ArticleActivity extends BaseActivity {
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
         @Override
         public boolean canSwipeBack(int dir) {
-            return SwipeBackCoordinatorLayout.canSwipeBackForThisView(mScrollView, dir);
+            return true;
         }
 
         @Override
@@ -100,7 +104,18 @@ public class ArticleActivity extends BaseActivity {
     public void onUpdate(Data article) {
 
         mTitleTv.setText(article.getTitle());
-        mDateTv.setText(article.getDisplayTime());
+    
+        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+        String targetDateString = null;
+        try {
+            Date date = sourceDateFormat.parse(article.getDisplayTime());
+            targetDateString = targetDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    
+        mDateTv.setText(targetDateString);
 
         if (article.getAuthors().size() != 0 && article.getAuthors().get(0) != null) {
             mAuthorTv.setText(article.getAuthors().get(0).getName());
@@ -119,5 +134,11 @@ public class ArticleActivity extends BaseActivity {
 
     public void onError(Throwable throwable) {
 
+    }
+    
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.activity_slide_out_bottom);
     }
 }

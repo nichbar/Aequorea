@@ -52,7 +52,7 @@ public class MainPagePresenter extends AbsPresenter {
     private void publish() {
         if (mView != null) {
             if (mPageData != null)
-                mView.onUpdateAdapter(mPageData.getData(), mView.getModel().isRefreshing());
+                mView.onUpdate(mPageData.getData(), mView.getModel().isRefreshing());
             else if (mError != null) {
                 mView.onError(mError);
             }

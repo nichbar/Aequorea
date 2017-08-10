@@ -27,35 +27,35 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
-    private MainPagePresenter presenter;
-    private MainArticleAdapter adapter;
-    private MainPageModel model;
-    private LinearLayoutManager linearLayoutManager;
+    private MainPagePresenter mPresenter;
+    private MainArticleAdapter mAdapter;
+    private MainPageModel mModel;
+    private LinearLayoutManager mLinearLayoutManager;
 
-    private long clickTime;
+    private long mClickTime;
 
-    private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
+        public void onScrolled(RecyclerView mRecyclerView, int dx, int dy) {
+            super.onScrolled(mRecyclerView, dx, dy);
             autoLoad(dy);
         }
     };
 
-    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+    private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            model.setRefreshing(true);
-            presenter.refresh();
+            mModel.setRefreshing(true);
+            mPresenter.refresh();
         }
     };
 
-    @BindView(R.id.rec) RecyclerView recyclerView;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.main_content) CoordinatorLayout coordinatorLayout;
-    @BindView(R.id.appbar) NestedScrollAppBarLayout appBarLayout;
-    @BindView(R.id.status_bar) StatusBarView statusBar;
-    @BindView(R.id.layout_swipe_refresh) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.rec) RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.main_content) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.appbar) NestedScrollAppBarLayout mAppBarLayout;
+    @BindView(R.id.status_bar) StatusBarView mStatusBar;
+    @BindView(R.id.layout_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,63 +68,63 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void initModel() {
-        model = new MainPageModel();
+        mModel = new MainPageModel();
     }
 
     private void initPresenter() {
-        if (presenter == null)
-            presenter = new MainPagePresenter();
-        presenter.attach(this);
+        if (mPresenter == null)
+            mPresenter = new MainPagePresenter();
+        mPresenter.attach(this);
     }
 
     private void initView() {
         ButterKnife.bind(this);
 
         setStatusBarStyle(true);
-        statusBar.setLightMask();
+        mStatusBar.setLightMask();
 
-        toolbar.setTitle(getResources().getString(R.string.app_name));
-        toolbar.setOnClickListener(this);
+        mToolbar.setTitle(getResources().getString(R.string.app_name));
+        mToolbar.setOnClickListener(this);
 
-        adapter = new MainArticleAdapter(this, null);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(scrollListener);
+        mAdapter = new MainArticleAdapter(this, null);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mScrollListener);
 
-        appBarLayout.setOnNestedListener(this);
+        mAppBarLayout.setOnNestedListener(this);
 
-        swipeRefreshLayout.setOnRefreshListener(refreshListener);
+        mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.detach();
+        mPresenter.detach();
     }
-
-    public void onUpdateAdapter(List<Datum> data, boolean isRefresh) {
-        List<Datum> articleList = adapter.getArticleList();
-
+    
+    public void onUpdate(List<Datum> data, boolean isRefresh) {
+        List<Datum> articleList = mAdapter.getArticleList();
+        
         if (articleList == null || isRefresh) {
-            adapter.setArticleList(data);
+            mAdapter.setArticleList(data);
         } else {
             for (Datum d : data) {
                 if (!articleList.contains(d)) {
                     articleList.add(d);
                 }
             }
-            adapter.setArticleList(articleList);
+            mAdapter.setArticleList(articleList);
         }
-        adapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 
     public void onError(Throwable error) {
-        SnackBarUtils.show(recyclerView, getString(R.string.network_error) + error.getMessage());
+        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error) + error.getMessage());
     }
 
     public void setRefreshing(boolean isRefreshing){
-        swipeRefreshLayout.setRefreshing(isRefreshing);
+        mSwipeRefreshLayout.setRefreshing(isRefreshing);
     }
 
     @Override
@@ -138,31 +138,31 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void changeStatusBarStyle() {
-        if (appBarLayout.getY() <= -appBarLayout.getMeasuredHeight()) {
-            if (statusBar.isInitState()) {
+        if (mAppBarLayout.getY() <= -mAppBarLayout.getMeasuredHeight()) {
+            if (mStatusBar.isInitState()) {
                 setStatusBarStyle(false);
-                statusBar.setDarkMask();
+                mStatusBar.setDarkMask();
             }
         } else {
-            if (!statusBar.isInitState()) {
+            if (!mStatusBar.isInitState()) {
                 setStatusBarStyle(true);
-                statusBar.setLightMask();
+                mStatusBar.setLightMask();
             }
         }
     }
 
     public MainPageModel getModel(){
-        return model;
+        return mModel;
     }
 
     private void autoLoad(int dy) {
-        int lastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager())
+        int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
                 .findLastVisibleItemPosition();
 
-        int totalCount = adapter.getItemCount();
-        if (!model.isLoading() && !model.isRefreshing() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 2) {
-            model.setLoading(true);
-            presenter.loadData();
+        int totalCount = mAdapter.getItemCount();
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 2) {
+            mModel.setLoading(true);
+            mPresenter.loadData();
         }
     }
 
@@ -170,19 +170,19 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.toolbar:
-                if (System.currentTimeMillis() - clickTime < 200){
+                if (System.currentTimeMillis() - mClickTime < 200){
                     scrollToTop();
                 }
-                clickTime = System.currentTimeMillis();
+                mClickTime = System.currentTimeMillis();
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            int position = linearLayoutManager.findFirstVisibleItemPosition();
+            int position = mLinearLayoutManager.findFirstVisibleItemPosition();
             if (position != 0) {
-                recyclerView.smoothScrollToPosition(0);
+                mRecyclerView.smoothScrollToPosition(0);
                 return true;
             } else {
                 finish();
@@ -192,6 +192,6 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void scrollToTop() {
-        recyclerView.smoothScrollToPosition(0);
+        mRecyclerView.smoothScrollToPosition(0);
     }
 }

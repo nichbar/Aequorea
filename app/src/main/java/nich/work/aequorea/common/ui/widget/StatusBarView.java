@@ -15,6 +15,7 @@ import nich.work.aequorea.common.utils.DisplayUtils;
 public class StatusBarView extends View {
 
     public static final float LIGHT_INIT_MASK_ALPHA = 0.03f;
+    public static final float LIGHT_MASK_ALPHA = 0.06f;
     public static final float DARK_INIT_MASK_ALPHA = 0.2f;
     public static final float DARKER_MASK_ALPHA = 0.2f;
 

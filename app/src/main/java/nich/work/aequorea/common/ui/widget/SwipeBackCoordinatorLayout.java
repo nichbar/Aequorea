@@ -68,7 +68,7 @@ public class SwipeBackCoordinatorLayout extends CoordinatorLayout {
         int newDyUnconsumed = dyUnconsumed;
         if (swipeDistance == 0) {
             int dir = dyUnconsumed < 0 ? DOWN_DIR : UP_DIR;
-            if (listener.canSwipeBack(dir)) {
+            if (listener != null && listener.canSwipeBack(dir)) {
                 onScroll(dyUnconsumed);
                 newDyConsumed = dyConsumed + dyUnconsumed;
                 newDyUnconsumed = 0;

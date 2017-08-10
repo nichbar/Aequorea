@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_article_cover"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_alignParentEnd="true"
+        android:scaleType="centerCrop"
+        android:layout_centerInParent="true"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/placeholder_cover"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@id/iv_article_cover"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_article_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="世界的逻辑"/>
+
+        <TextView
+            android:id="@+id/tv_article_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="4"
+            android:lineSpacingExtra="1.5dp"
+            android:textColor="@color/colorTextDark3nd"
+            android:textSize="12sp"
+            android:ellipsize="end"
+            tools:text="环境恶化、贫富差距扩大、暴力事件频发等社会问题的根源到底在哪里？大规模城市化进程，究竟是给人类社会带来了什么影响？我们是否想生活在人口规模超过1.3亿的超级城市？"/>
+    </LinearLayout>
+</RelativeLayout>

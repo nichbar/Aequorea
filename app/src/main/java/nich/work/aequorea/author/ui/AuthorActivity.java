@@ -2,12 +2,15 @@ package nich.work.aequorea.author.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,6 +39,10 @@ public class AuthorActivity extends BaseActivity {
     private AuthorAdapter mAdapter;
     
     private boolean mIsFirstPage = true;
+    private boolean mIsAuthorDetailShowing = true;
+    
+    private static final int ANIMATE_SHOW = 1;
+    private static final int ANIMATE_HIDE = 0;
     
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -44,15 +51,27 @@ public class AuthorActivity extends BaseActivity {
             autoLoad(dy);
         }
     };
-
+    
+    private AppBarLayout.OnOffsetChangedListener mOffsetListener = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            if (verticalOffset >= -15) {
+                showAuthorDetail();
+            } else {
+                hideAuthorDetail();
+            }
+        }
+    };
+    
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
     @BindView(R.id.tv_introduction) TextView mIntroductionTv;
-    @BindView(R.id.tv_article_count) TextView mArticleCount;
+    @BindView(R.id.tv_article_count) TextView mArticleCountTv;
     @BindView(R.id.iv_author) ImageView mAuthorIv;
     @BindView(R.id.container_collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.main_content) CoordinatorLayout mCoordinatorLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.rec) RecyclerView mRecyclerView;
+    @BindView(R.id.appbar) AppBarLayout mAppBar;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,11 +97,14 @@ public class AuthorActivity extends BaseActivity {
     
     private void initView() {
         ButterKnife.bind(this);
-        
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+    
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         
         mCollapsingToolbarLayout.setTitle(" ");
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
@@ -94,6 +116,8 @@ public class AuthorActivity extends BaseActivity {
     
         setStatusBarStyle(true);
         mStatusBar.setLightMask();
+        
+        mAppBar.addOnOffsetChangedListener(mOffsetListener);
     }
     
     public AuthorModel getModel() {
@@ -165,8 +189,41 @@ public class AuthorActivity extends BaseActivity {
             mIntroductionTv.setText(R.string.default_introduction);
         }
         
-        mArticleCount.setText(String.format(getString(R.string.article_count), author.getMeta()
+        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
             .getTotalCount()));
+    }
+    
+    private void showAuthorDetail() {
+        if (!mIsAuthorDetailShowing) {
+            animateAuthorInfo(ANIMATE_SHOW);
+            mIsAuthorDetailShowing = true;
+        }
+    }
+    
+    private void hideAuthorDetail() {
+        if (mIsAuthorDetailShowing) {
+            animateAuthorInfo(ANIMATE_HIDE);
+            mIsAuthorDetailShowing = false;
+        }
+    }
+    
+    private void animateAuthorInfo(int style){
+        mAuthorIv.animate()
+            .alpha(style)
+            .scaleX(style)
+            .scaleY(style)
+            .setInterpolator(new FastOutSlowInInterpolator())
+            .start();
+        
+        mIntroductionTv.animate()
+            .alpha(style)
+            .setDuration(100)
+            .start();
+    
+        mArticleCountTv.animate()
+            .alpha(style)
+            .setDuration(100)
+            .start();
     }
     
     @Override

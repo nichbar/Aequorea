@@ -9,7 +9,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/colorPrimary_light"
         tools:context=".main.ui.activities.MainActivity">
 
         <android.support.design.widget.AppBarLayout
@@ -27,7 +27,7 @@
                 app:expandedTitleMarginEnd="60dp"
                 app:expandedTitleMarginStart="100dp"
                 app:expandedTitleTextAppearance="@style/TextAppearanceAuthorTitleExpand"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"

@@ -35,6 +35,7 @@ public class AuthorPresenter extends AbsPresenter {
         mComposite = new CompositeDisposable();
         mPage = 1;
         mPer = 15;
+        mTotalPage = 1;
     }
     
     public void load(int id) {
@@ -84,11 +85,6 @@ public class AuthorPresenter extends AbsPresenter {
                 @Override
                 public void accept(Author author) throws Exception {
                     mView.updateAuthorInfo(author);
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    
                 }
             }));
     }

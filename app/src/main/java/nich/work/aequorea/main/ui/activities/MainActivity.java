@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import nich.work.aequorea.R;
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
@@ -104,6 +105,10 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
     
     public void onUpdate(List<Datum> data, boolean isRefresh) {
+        // filter the content that can not display at this very moment
+        // TODO support this kind of things
+        data = filter(data);
+        
         List<Datum> articleList = mAdapter.getArticleList();
         
         if (articleList == null || isRefresh) {
@@ -118,7 +123,16 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         }
         mAdapter.notifyDataSetChanged();
     }
-
+    
+    private List<Datum> filter(List<Datum> data) {
+        for (Datum d : data){
+            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType().equals(Constants.ARTICLE_TYPE_MAGAZINE)){
+                data.remove(d);
+            }
+        }
+        return data;
+    }
+    
     public void onError(Throwable error) {
         SnackBarUtils.show(mRecyclerView, getString(R.string.network_error) + error.getMessage());
     }

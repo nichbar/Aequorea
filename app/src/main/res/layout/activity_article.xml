@@ -20,6 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="25dp"
                 android:orientation="vertical"
                 android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
@@ -30,40 +31,40 @@
                     android:id="@+id/tv_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorAccent_light"
-                    android:textSize="14sp"
-                    tools:text="# Tech" />
+                    android:textColor="@color/colorAccentLight"
+                    android:textSize="15sp"
+                    tools:text="# Tech"/>
 
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/marginArticleItem"
                     android:lineSpacingExtra="3dp"
                     android:textColor="@color/colorTextDark"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    tools:text="AMD is back!" />
+                    tools:text="AMD is back!"/>
 
                 <TextView
                     android:id="@+id/tv_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorTextGrey"
-                    android:textSize="14sp"
-                    tools:text="Mazzello" />
+                    android:layout_marginTop="@dimen/marginArticleItem"
+                    android:textColor="@color/colorTextDark3nd"
+                    android:textSize="15sp"
+                    tools:text="Mazzello"/>
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorTextGrey"
-                    android:textSize="14sp"
+                    android:layout_marginTop="@dimen/marginArticleItem"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/colorTextDark3nd"
+                    android:textSize="15sp"
                     android:textStyle="italic"
-                    tools:text="06/08/2017" />
+                    tools:text="11 Aug 2017, 16:16"/>
 
                 <TextView
                     android:id="@+id/tv_article_content"
@@ -75,14 +76,17 @@
                     android:textAlignment="textStart"
                     android:textColor="@color/colorTextDark2nd"
                     android:textSize="16sp"
-                    tools:text="@string/appbar_scrolling_view_behavior" />
+                    tools:text="@string/appbar_scrolling_view_behavior"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
+        <include layout="@layout/piece_loading"/>
+
     </nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 </android.support.design.widget.CoordinatorLayout>
 

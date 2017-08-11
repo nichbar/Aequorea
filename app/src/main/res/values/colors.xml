@@ -19,6 +19,7 @@
     <color name="colorLine_dark">#292929</color>
 
     <color name="colorAccentRed">#f15151</color>
+    <color name="colorAccentLight">#FF7158</color>
 
     <!-- text color -->
     <color name="colorTextTitle_light">@color/colorTextDark</color>

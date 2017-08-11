@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.zzhoujay.richtext.RichText;
@@ -15,11 +16,13 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
+import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.main.model.ArticleModel;
 import nich.work.aequorea.main.model.article.Data;
 import nich.work.aequorea.main.presenter.ArticlePresenter;
@@ -33,10 +36,23 @@ public class ArticleActivity extends BaseActivity {
     @BindView(R.id.tv_date) TextView mDateTv;
     @BindView(R.id.tv_title) TextView mTitleTv;
     @BindView(R.id.tv_tag) TextView mTagTv;
+    @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
+    @BindView(R.id.container_refresh) View mRefreshView;
     @BindView(R.id.layout_swipe_back_article) SwipeBackCoordinatorLayout mSwipeBackLayout;
     @BindView(R.id.layout_container_article) CoordinatorLayout mContainer;
     @BindView(R.id.scrollview) NestedScrollView mScrollView;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
+    
+    @OnClick(R.id.tv_author)
+    void gotoAuthorPage() {
+        IntentUtils.startAuthorActivity(this, mModel.getData().getAuthors().get(0).getId());
+    }
+    
+    @OnClick(R.id.container_refresh) void refresh() {
+        mPresenter.load(mModel.getId());
+        mRefreshView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
 
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
         @Override
@@ -102,7 +118,11 @@ public class ArticleActivity extends BaseActivity {
     }
 
     public void onUpdate(Data article) {
-
+        mModel.setData(article);
+        
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.GONE);
+        
         mTitleTv.setText(article.getTitle());
     
         SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -133,7 +153,8 @@ public class ArticleActivity extends BaseActivity {
     }
 
     public void onError(Throwable throwable) {
-
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.VISIBLE);
     }
     
     @Override

@@ -6,4 +6,5 @@
     <string name="not_supported">暂不支持</string>
     <string name="default_introduction">第一财经周刊编辑</string>
     <string name="article_count">%d篇文章</string>
+    <string name="click_to_refresh">点击刷新</string>
 </resources>

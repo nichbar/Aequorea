@@ -84,6 +84,8 @@
             android:paddingTop="20dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+        <include layout="@layout/piece_loading"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView

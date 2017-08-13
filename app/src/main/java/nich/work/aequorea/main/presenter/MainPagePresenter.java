@@ -7,7 +7,7 @@ import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.AbsPresenter;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.main.model.mainpage.Page;
 import nich.work.aequorea.main.ui.activities.MainActivity;
 
@@ -19,8 +19,12 @@ public class MainPagePresenter extends AbsPresenter {
     private CompositeDisposable mComposite;
     private Throwable mError;
     private int mPage = 1;
-
-    @Override
+    
+    public MainPagePresenter(MainActivity mainActivity) {
+        mView = mainActivity;
+        initialize();
+    }
+    
     public void initialize() {
         mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mComposite = new CompositeDisposable();
@@ -28,6 +32,11 @@ public class MainPagePresenter extends AbsPresenter {
     }
 
     public void loadData() {
+        if (!NetworkUtils.isNetworkAvailable()){
+            mView.onError(null);
+            return;
+        }
+        
         mComposite.add(mNetworkService
                 .getMainPageInfo(mPage)
                 .subscribeOn(Schedulers.newThread())
@@ -62,12 +71,6 @@ public class MainPagePresenter extends AbsPresenter {
             mView.getModel().setRefreshing(false);
             mView.getModel().setLoading(false);
         }
-    }
-
-    @Override
-    public void attach(BaseActivity activity) {
-        mView = (MainActivity) activity;
-        publish();
     }
 
     @Override

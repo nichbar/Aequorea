@@ -16,7 +16,7 @@ import nich.work.aequorea.author.ui.AuthorActivity;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.AbsPresenter;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.utils.NetworkUtils;
 
 public class AuthorPresenter extends AbsPresenter {
     private NetworkService mService;
@@ -28,7 +28,11 @@ public class AuthorPresenter extends AbsPresenter {
     private int mPer;
     private long mTotalPage;
     
-    @Override
+    public AuthorPresenter(AuthorActivity authorActivity) {
+        mView = authorActivity;
+        initialize();
+    }
+    
     public void initialize() {
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         
@@ -39,6 +43,11 @@ public class AuthorPresenter extends AbsPresenter {
     }
     
     public void load(int id) {
+        if (!NetworkUtils.isNetworkAvailable()){
+            mView.onError(null);
+            return;
+        }
+        
         if (mPage > mTotalPage) {
             return;
         }
@@ -100,11 +109,6 @@ public class AuthorPresenter extends AbsPresenter {
         mAuthor = null;
         mThrowable = null;
         mView.getModel().setLoading(false);
-    }
-    
-    @Override
-    public void attach(BaseActivity activity) {
-        mView = (AuthorActivity) activity;
     }
     
     @Override

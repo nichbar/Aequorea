@@ -6,13 +6,16 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
@@ -57,6 +60,15 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     @BindView(R.id.appbar) NestedScrollAppBarLayout mAppBarLayout;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
     @BindView(R.id.layout_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
+    @BindView(R.id.container_refresh) View mRefreshView;
+    
+    @OnClick(R.id.container_refresh) void refresh() {
+        mRefreshView.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mPresenter.loadData();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +86,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
 
     private void initPresenter() {
         if (mPresenter == null)
-            mPresenter = new MainPagePresenter();
-        mPresenter.attach(this);
+            mPresenter = new MainPagePresenter(this);
     }
 
     private void initView() {
@@ -105,6 +116,9 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
     
     public void onUpdate(List<Datum> data, boolean isRefresh) {
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.GONE);
+        
         // filter the content that can not display at this very moment
         // TODO support this kind of things
         data = filter(data);
@@ -134,7 +148,12 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
     
     public void onError(Throwable error) {
-        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error) + error.getMessage());
+        mRefreshView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        if (error != null) {
+            Log.d(TAG, error.getMessage());
+        }
+        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
 
     public void setRefreshing(boolean isRefreshing){
@@ -195,8 +214,8 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             int position = mLinearLayoutManager.findFirstVisibleItemPosition();
-            if (position != 0) {
-                mRecyclerView.smoothScrollToPosition(0);
+            if (position > 0) {
+                scrollToTop();
                 return true;
             } else {
                 finish();

@@ -10,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.AuthorModel;
 import nich.work.aequorea.author.model.entities.Author;
@@ -33,6 +36,8 @@ import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.SnackBarUtils;
 
 public class AuthorActivity extends BaseActivity {
+    
+    private final static String TAG = AuthorActivity.class.getSimpleName();
     
     private AuthorModel mModel;
     private AuthorPresenter mPresenter;
@@ -72,6 +77,15 @@ public class AuthorActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.rec) RecyclerView mRecyclerView;
     @BindView(R.id.appbar) AppBarLayout mAppBar;
+    @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
+    @BindView(R.id.container_refresh) View mRefreshView;
+    
+    @OnClick(R.id.container_refresh) void refresh() {
+        mRefreshView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mPresenter.load(mModel.getAuthorId());
+    }
+    
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +112,7 @@ public class AuthorActivity extends BaseActivity {
     private void initView() {
         ButterKnife.bind(this);
     
-        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
+        mToolbar.setNavigationIcon(R.drawable.icon_ab_back_material);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,13 +139,14 @@ public class AuthorActivity extends BaseActivity {
     }
     
     private void initPresenter() {
-        mPresenter = new AuthorPresenter();
-        mPresenter.attach(this);
-        
+        mPresenter = new AuthorPresenter(this);
         mPresenter.load(mModel.getAuthorId());
     }
     
     public void onUpdate(Author a) {
+        mRefreshView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        
         List<Datum> articleList = mAdapter.getArticleDataList();
         
         if (mIsFirstPage) {
@@ -153,8 +168,13 @@ public class AuthorActivity extends BaseActivity {
         mAdapter.notifyDataSetChanged();
     }
     
-    public void onError(Throwable mThrowable) {
-        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error) + mThrowable.getMessage());
+    public void onError(Throwable error) {
+        mRefreshView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
+        if (error != null) {
+            Log.d(TAG, error.getMessage());
+        }
+        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
     
     public void autoLoad(int dy) {

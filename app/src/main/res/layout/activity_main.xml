@@ -48,6 +48,8 @@
                 android:background="?attr/root_color" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
+        <include layout="@layout/piece_loading"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView

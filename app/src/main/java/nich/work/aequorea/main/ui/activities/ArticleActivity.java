@@ -49,9 +49,9 @@ public class ArticleActivity extends BaseActivity {
     }
     
     @OnClick(R.id.container_refresh) void refresh() {
-        mPresenter.load(mModel.getId());
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
+        mPresenter.load(mModel.getId());
     }
 
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
@@ -105,9 +105,8 @@ public class ArticleActivity extends BaseActivity {
 
     private void initPresenter() {
         if (mPresenter == null){
-            mPresenter = new ArticlePresenter();
+            mPresenter = new ArticlePresenter(this);
         }
-        mPresenter.attach(this);
         mPresenter.load(mModel.getId());
     }
 

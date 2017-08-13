@@ -7,7 +7,6 @@ import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.AbsPresenter;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.main.model.article.Article;
 import nich.work.aequorea.main.ui.activities.ArticleActivity;
 
@@ -16,12 +15,12 @@ public class ArticlePresenter extends AbsPresenter {
     private ArticleActivity mView;
     private Article mArticle;
     private Throwable mThrowable;
-
-    public ArticlePresenter() {
-        super();
+    
+    public ArticlePresenter(ArticleActivity articleActivity) {
+        mView = articleActivity;
+        initialize();
     }
-
-    @Override
+    
     public void initialize() {
         mComposite = new CompositeDisposable();
     }
@@ -54,11 +53,6 @@ public class ArticlePresenter extends AbsPresenter {
         } else if (mThrowable != null) {
             mView.onError(mThrowable);
         }
-    }
-
-    @Override
-    public void attach(BaseActivity activity) {
-        mView = (ArticleActivity) activity;
     }
 
     @Override

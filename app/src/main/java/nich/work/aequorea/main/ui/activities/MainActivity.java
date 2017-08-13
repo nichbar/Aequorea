@@ -199,7 +199,6 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
 
         int totalCount = mAdapter.getItemCount();
         if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 2) {
-            mModel.setLoading(true);
             mPresenter.loadData();
         }
     }

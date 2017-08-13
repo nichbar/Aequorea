@@ -48,9 +48,10 @@ public class AuthorPresenter extends AbsPresenter {
             return;
         }
         
-        if (mPage > mTotalPage) {
+        if (mPage > mTotalPage || mView.getModel().isLoading()) {
             return;
         }
+        mView.getModel().setLoading(true);
         
         mComposite.add(mService.getArticleList(id, mPage, mPer)
             .subscribeOn(Schedulers.newThread())
@@ -99,16 +100,16 @@ public class AuthorPresenter extends AbsPresenter {
     }
     
     private void publish() {
+        mView.getModel().setLoading(false);
         if (mAuthor != null) {
-            mView.onUpdate(mAuthor);
             mPage++;
             mTotalPage = mAuthor.getMeta().getTotalPages();
+            mView.onUpdate(mAuthor);
         } else if (mThrowable != null) {
             mView.onError(mThrowable);
         }
         mAuthor = null;
         mThrowable = null;
-        mView.getModel().setLoading(false);
     }
     
     @Override

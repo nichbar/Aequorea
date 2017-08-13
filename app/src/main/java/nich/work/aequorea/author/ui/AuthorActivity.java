@@ -150,6 +150,11 @@ public class AuthorActivity extends BaseActivity {
         // TODO support this kind of things
         a.setData(filter(a.getData()));
         
+        // when filter method above do filter most of the item, make a load call here
+        if (a.getData().size() < 4) {
+            mPresenter.load(mModel.getAuthorId());
+        }
+        
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         
@@ -202,7 +207,6 @@ public class AuthorActivity extends BaseActivity {
         
         int totalCount = mAdapter.getItemCount();
         if (!mModel.isLoading() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 3) {
-            mModel.setLoading(true);
             mPresenter.load(mModel.getAuthorId());
         }
     }

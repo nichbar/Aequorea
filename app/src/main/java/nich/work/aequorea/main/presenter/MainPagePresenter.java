@@ -37,6 +37,12 @@ public class MainPagePresenter extends AbsPresenter {
             return;
         }
         
+        if (mView.getModel().isLoading()){
+            return;
+        }
+    
+        mView.getModel().setLoading(true);
+    
         mComposite.add(mNetworkService
                 .getMainPageInfo(mPage)
                 .subscribeOn(Schedulers.newThread())
@@ -60,6 +66,10 @@ public class MainPagePresenter extends AbsPresenter {
 
     private void publish() {
         if (mView != null) {
+            mView.setRefreshing(false);
+            mView.getModel().setRefreshing(false);
+            mView.getModel().setLoading(false);
+            
             if (mPageData != null)
                 mView.onUpdate(mPageData.getData(), mView.getModel().isRefreshing());
             else if (mError != null) {
@@ -67,9 +77,6 @@ public class MainPagePresenter extends AbsPresenter {
             }
             mPageData = null;
             mError = null;
-            mView.setRefreshing(false);
-            mView.getModel().setRefreshing(false);
-            mView.getModel().setLoading(false);
         }
     }
 

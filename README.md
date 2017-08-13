@@ -15,9 +15,7 @@
 
 ### Preview
 
-<img src="preview/preview_home_page.png" width="380">
-<img src="preview/preview_article.png" width="380">
-<img src="preview/preview_author.png" width="380">
+![preview_1](preview/preview_1.png)
 
 ### Thanks
 

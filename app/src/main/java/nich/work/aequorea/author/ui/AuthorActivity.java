@@ -144,6 +144,11 @@ public class AuthorActivity extends BaseActivity {
     }
     
     public void onUpdate(Author a) {
+    
+        // filter the content that can not display at this very moment
+        // TODO support this kind of things
+        a.setData(filter(a.getData()));
+        
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         
@@ -166,6 +171,15 @@ public class AuthorActivity extends BaseActivity {
             mAdapter.setArticleDataList(articleList);
         }
         mAdapter.notifyDataSetChanged();
+    }
+    
+    private List<Datum> filter(List<Datum> data) {
+            for (Datum d : data){
+                if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType().equals(Constants.ARTICLE_TYPE_MAGAZINE)){
+                    data.remove(d);
+                }
+            }
+            return data;
     }
     
     public void onError(Throwable error) {

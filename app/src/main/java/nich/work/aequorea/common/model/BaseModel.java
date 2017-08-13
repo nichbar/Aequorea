@@ -1,8 +1,5 @@
 package nich.work.aequorea.common.model;
 
-/**
- * Created by nich on 2017/8/9.
- */
 public class BaseModel {
     private boolean mIsLoading;
     private boolean mIsRefreshing;

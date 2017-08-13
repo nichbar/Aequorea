@@ -54,6 +54,16 @@ public class Datum {
     private List<Topic> mTopics;
     @SerializedName("visit_times")
     private Long mVisitTimes;
+    @SerializedName("type")
+    private String mType;
+    
+    public String getType() {
+        return mType;
+    }
+    
+    public void setType(String type) {
+        mType = type;
+    }
 
     public Long getAnonymousPurchaseTotalCount() {
         return mAnonymousPurchaseTotalCount;

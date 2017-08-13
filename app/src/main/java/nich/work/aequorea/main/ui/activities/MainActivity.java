@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -139,9 +140,13 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
     
     private List<Datum> filter(List<Datum> data) {
-        for (Datum d : data){
-            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType().equals(Constants.ARTICLE_TYPE_MAGAZINE)){
-                data.remove(d);
+        Iterator<Datum> iterator = data.iterator();
+        
+        while (iterator.hasNext()) {
+            Datum d = iterator.next();
+            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE)) {
+                iterator.remove();
             }
         }
         return data;

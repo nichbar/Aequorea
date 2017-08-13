@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -174,12 +175,17 @@ public class AuthorActivity extends BaseActivity {
     }
     
     private List<Datum> filter(List<Datum> data) {
-            for (Datum d : data){
-                if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType().equals(Constants.ARTICLE_TYPE_MAGAZINE)){
-                    data.remove(d);
-                }
+        Iterator<Datum> iterator = data.iterator();
+        
+        while (iterator.hasNext()) {
+            Datum d = iterator.next();
+            if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE) || d.getArticleType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE_V2)) {
+                iterator.remove();
             }
-            return data;
+        }
+        return data;
     }
     
     public void onError(Throwable error) {

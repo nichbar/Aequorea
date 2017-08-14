@@ -21,4 +21,8 @@ public class BaseActivity extends AppCompatActivity {
     public void setStatusBarStyle(boolean isLightStatusBar) {
         DisplayUtils.setStatusBarStyle(this, isLightStatusBar);
     }
+    
+    public void setStatusBarInLowProfileMode() {
+        DisplayUtils.setStatusInLowProfileMode(this);
+    }
 }

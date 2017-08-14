@@ -80,6 +80,12 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         initView();
         initPresenter();
     }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.detach();
+    }
 
     private void initModel() {
         mModel = new MainPageModel();
@@ -108,12 +114,6 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         mAppBarLayout.setOnNestedListener(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.detach();
     }
     
     public void onUpdate(List<Datum> data, boolean isRefresh) {
@@ -230,7 +230,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
     
     private void scrollToTop(int currentPosition) {
-        if (currentPosition >= 10){
+        if (currentPosition >= 10) {
             mRecyclerView.scrollToPosition(6);
         }
         mRecyclerView.smoothScrollToPosition(0);

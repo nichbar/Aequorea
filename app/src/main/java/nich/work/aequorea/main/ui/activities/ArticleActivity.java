@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ import nich.work.aequorea.main.presenter.ArticlePresenter;
 public class ArticleActivity extends BaseActivity {
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
+    
+    private boolean mIsStatusBarInLowProfileMode = false;
 
     @BindView(R.id.tv_article_content) TextView mContentTv;
     @BindView(R.id.tv_author) TextView mAuthorTv;
@@ -79,6 +82,44 @@ public class ArticleActivity extends BaseActivity {
             }
         }
     };
+    
+    private NestedScrollView.OnScrollChangeListener mScrollChangeListener = new NestedScrollView.OnScrollChangeListener() {
+        @Override
+        public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+            if (scrollY - oldScrollY > 20) {
+                showLowProfileStatusBar();
+            } else if (scrollY - oldScrollY < -20) {
+                showOriginalStatusBar();
+            }
+        }
+    };
+    
+    private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
+        boolean actionTap = false;
+        float oldY;
+        
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    oldY = event.getY();
+                    actionTap = true;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (event.getY() - oldY > 10) {
+                        actionTap = false;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    if (actionTap){
+                        toggleShowStatus();
+                    }
+                    break;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +141,12 @@ public class ArticleActivity extends BaseActivity {
 
         setStatusBarStyle(true);
         mStatusBar.setLightMask();
+        
         mSwipeBackLayout.setOnSwipeListener(mSwipeBackListener);
+        
+        mContentTv.setOnTouchListener(mTouchListener);
+        
+        mScrollView.setOnScrollChangeListener(mScrollChangeListener);
     }
 
     private void initPresenter() {
@@ -160,5 +206,29 @@ public class ArticleActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, R.anim.activity_slide_out_bottom);
+    }
+    
+    public void showOriginalStatusBar() {
+        if (mIsStatusBarInLowProfileMode) {
+            setStatusBarStyle(true);
+            mStatusBar.animate().scaleY(1).setDuration(200);
+            mIsStatusBarInLowProfileMode = false;
+        }
+    }
+    
+    public void showLowProfileStatusBar() {
+        if (!mIsStatusBarInLowProfileMode) {
+            setStatusBarInLowProfileMode();
+            mStatusBar.animate().scaleY(0).setDuration(200);
+            mIsStatusBarInLowProfileMode = true;
+        }
+    }
+    
+    private void toggleShowStatus() {
+        if (mIsStatusBarInLowProfileMode) {
+            showOriginalStatusBar();
+        } else {
+            showLowProfileStatusBar();
+        }
     }
 }

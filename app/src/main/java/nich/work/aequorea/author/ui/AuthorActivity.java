@@ -166,7 +166,7 @@ public class AuthorActivity extends BaseActivity {
         }
         
         if (mAdapter.getArticleDataList() == null) {
-            // TODO filter article that only substituted can read
+            // TODO filter article that only subscriber can read
             mAdapter.setArticleDataList(a.getData());
         } else {
             for (Datum d : a.getData()) {

@@ -207,8 +207,9 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.toolbar:
-                if (System.currentTimeMillis() - mClickTime < 200){
-                    scrollToTop();
+                if (System.currentTimeMillis() - mClickTime < 200) {
+                    int position = mLinearLayoutManager.findFirstVisibleItemPosition();
+                    scrollToTop(position);
                 }
                 mClickTime = System.currentTimeMillis();
         }
@@ -219,7 +220,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             int position = mLinearLayoutManager.findFirstVisibleItemPosition();
             if (position > 0) {
-                scrollToTop();
+                scrollToTop(position);
                 return true;
             } else {
                 finish();
@@ -227,8 +228,11 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    private void scrollToTop() {
+    
+    private void scrollToTop(int currentPosition) {
+        if (currentPosition >= 10){
+            mRecyclerView.scrollToPosition(6);
+        }
         mRecyclerView.smoothScrollToPosition(0);
     }
 }

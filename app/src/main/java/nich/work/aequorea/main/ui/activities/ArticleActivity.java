@@ -1,11 +1,15 @@
 package nich.work.aequorea.main.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,6 +18,7 @@ import com.zzhoujay.richtext.RichText;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,11 +31,14 @@ import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.main.model.ArticleModel;
 import nich.work.aequorea.main.model.article.Data;
+import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.ArticlePresenter;
 
 public class ArticleActivity extends BaseActivity {
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
+    private LayoutInflater mInflater;
+    private static final String TAG = ArticleActivity.class.getSimpleName();
     
     private boolean mIsStatusBarInLowProfileMode = false;
 
@@ -45,6 +53,7 @@ public class ArticleActivity extends BaseActivity {
     @BindView(R.id.layout_container_article) CoordinatorLayout mContainer;
     @BindView(R.id.scrollview) NestedScrollView mScrollView;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
+    @BindView(R.id.container_recommendation) LinearLayout mRecommendationContainer;
     
     @OnClick(R.id.tv_author)
     void gotoAuthorPage() {
@@ -125,7 +134,9 @@ public class ArticleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-
+    
+        mInflater = LayoutInflater.from(this);
+        
         initModel();
         initView();
         initPresenter();
@@ -195,6 +206,9 @@ public class ArticleActivity extends BaseActivity {
         }
 
         RichText.from(article.getContent()).into(mContentTv);
+        
+        // load recommendation after rendering the context
+        mPresenter.loadRecommendedArticles(mModel.getId());
     }
 
     public void onError(Throwable throwable) {
@@ -230,5 +244,32 @@ public class ArticleActivity extends BaseActivity {
         } else {
             showLowProfileStatusBar();
         }
+    }
+    
+    public void onRecommendationLoaded(List<Datum> data) {
+        mRecommendationContainer.setVisibility(View.VISIBLE);
+        for (Datum d : data) {
+            mRecommendationContainer.addView(createRecommendArticle(d));
+        }
+    }
+    
+    @SuppressLint("InflateParams")
+    private View createRecommendArticle(final Datum datum) {
+        View view = mInflater.inflate(R.layout.piece_recommend_article, null);
+        
+        TextView title = (TextView) view.findViewById(R.id.tv_article_recommend_title);
+        title.setText(datum.getTitle());
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.startArticleActivity(ArticleActivity.this, datum.getId());
+            }
+        });
+        
+        return view;
+    }
+    
+    public void onRecommendationError(Throwable throwable) {
+        Log.e(TAG, throwable.getMessage());
     }
 }

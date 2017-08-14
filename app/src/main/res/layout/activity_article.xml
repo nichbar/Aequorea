@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_container_article"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:id="@+id/layout_container_article"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent">
 
     <nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout
         android:id="@+id/layout_swipe_back_article"
@@ -20,12 +20,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="50dp"
                 android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="35dp">
+                android:paddingBottom="@dimen/padding_article_content"
+                android:paddingLeft="@dimen/padding_article_content"
+                android:paddingRight="@dimen/padding_article_content"
+                android:paddingTop="@dimen/padding_article_content">
 
                 <TextView
                     android:id="@+id/tv_tag"
@@ -75,8 +75,35 @@
                     android:lineSpacingExtra="5dp"
                     android:textAlignment="textStart"
                     android:textColor="@color/colorTextDark2nd"
-                    android:textSize="16sp"
-                    tools:text="@string/appbar_scrolling_view_behavior"/>
+                    android:textSize="@dimen/size_article_content"
+                    tools:text="@string/cover_story_not_supported"/>
+
+                <LinearLayout
+                    android:id="@+id/container_recommendation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="60dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1.5dp"
+                        android:background="@color/colorTextGrey2nd"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/colorTextDark"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:text="@string/related_article"/>
+
+                </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

@@ -8,13 +8,13 @@ import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.AbsPresenter;
 import nich.work.aequorea.common.utils.NetworkUtils;
-import nich.work.aequorea.main.model.mainpage.Page;
+import nich.work.aequorea.main.model.mainpage.Data;
 import nich.work.aequorea.main.ui.activities.MainActivity;
 
 public class MainPagePresenter extends AbsPresenter {
     private NetworkService mNetworkService;
     private MainActivity mView;
-    private Page mPageData;
+    private Data mDataData;
 
     private CompositeDisposable mComposite;
     private Throwable mError;
@@ -47,10 +47,10 @@ public class MainPagePresenter extends AbsPresenter {
                 .getMainPageInfo(mPage)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Page>() {
+                .subscribe(new Consumer<Data>() {
                     @Override
-                    public void accept(Page page) throws Exception {
-                        mPageData = page;
+                    public void accept(Data data) throws Exception {
+                        mDataData = data;
                         mPage++;
                         publish();
                     }
@@ -69,13 +69,13 @@ public class MainPagePresenter extends AbsPresenter {
             mView.setRefreshing(false);
             mView.getModel().setLoading(false);
             
-            if (mPageData != null) {
-                mView.onUpdate(mPageData.getData(), mView.getModel().isRefreshing());
+            if (mDataData != null) {
+                mView.onUpdate(mDataData.getData(), mView.getModel().isRefreshing());
                 mView.getModel().setRefreshing(false);
             } else if (mError != null) {
                 mView.onError(mError);
             }
-            mPageData = null;
+            mDataData = null;
             mError = null;
         }
     }

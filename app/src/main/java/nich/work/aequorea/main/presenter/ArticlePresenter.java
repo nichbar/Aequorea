@@ -8,6 +8,7 @@ import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.AbsPresenter;
 import nich.work.aequorea.main.model.article.Article;
+import nich.work.aequorea.main.model.mainpage.Data;
 import nich.work.aequorea.main.ui.activities.ArticleActivity;
 
 public class ArticlePresenter extends AbsPresenter {
@@ -15,6 +16,7 @@ public class ArticlePresenter extends AbsPresenter {
     private ArticleActivity mView;
     private Article mArticle;
     private Throwable mThrowable;
+    private NetworkService mService;
     
     public ArticlePresenter(ArticleActivity articleActivity) {
         mView = articleActivity;
@@ -23,12 +25,12 @@ public class ArticlePresenter extends AbsPresenter {
     
     public void initialize() {
         mComposite = new CompositeDisposable();
+        mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
     }
 
     public void load(long id) {
-        NetworkService service = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
 
-        mComposite.add(service.getArticleDetailInfo(id)
+        mComposite.add(mService.getArticleDetailInfo(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Article>() {
@@ -45,6 +47,23 @@ public class ArticlePresenter extends AbsPresenter {
                     }
                 })
         );
+    }
+    
+    public void loadRecommendedArticles(long id){
+        mComposite.add(mService.getRecommendedArticle(id)
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<Data>() {
+            @Override
+            public void accept(Data data) throws Exception {
+                mView.onRecommendationLoaded(data.getData());
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                mView.onRecommendationError(throwable);
+            }
+        }));
     }
 
     private void publish() {

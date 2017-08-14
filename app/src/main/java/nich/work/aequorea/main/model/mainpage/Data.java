@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Page {
+public class Data {
 
     @SerializedName("data")
     private List<Datum> mData;

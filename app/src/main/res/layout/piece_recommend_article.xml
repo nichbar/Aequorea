@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="6dp"
+                android:paddingStart="20dp"
+                android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/placeholder_dot"
+        android:layout_width="5dp"
+        android:layout_height="20dp"
+        android:src="@drawable/shape_circle"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/tv_article_recommend_title"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/placeholder_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorAccentLight"
+        android:lineSpacingExtra="6dp"
+        android:textSize="@dimen/size_article_content"
+        tools:text="Photoshop CS6 beta 免费下载"/>
+</RelativeLayout>

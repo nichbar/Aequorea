@@ -35,10 +35,16 @@ import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.ArticlePresenter;
 
 public class ArticleActivity extends BaseActivity {
+    private static final String TAG = ArticleActivity.class.getSimpleName();
+    
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
     private LayoutInflater mInflater;
-    private static final String TAG = ArticleActivity.class.getSimpleName();
+    
+    private static final int ANIMATION_DURATION = 200;
+    
+    private int mScrollUpEdge;
+    private int mScrollDownEdge;
     
     private boolean mIsStatusBarInLowProfileMode = false;
 
@@ -95,16 +101,15 @@ public class ArticleActivity extends BaseActivity {
     private NestedScrollView.OnScrollChangeListener mScrollChangeListener = new NestedScrollView.OnScrollChangeListener() {
         @Override
         public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-            if (scrollY - oldScrollY > 20) {
+            if (scrollY - oldScrollY > mScrollDownEdge) {
                 showLowProfileStatusBar();
-            } else if (scrollY - oldScrollY < -20) {
+            } else if (scrollY - oldScrollY < -mScrollUpEdge) {
                 showOriginalStatusBar();
             }
         }
     };
     
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-        boolean actionTap = false;
         float oldY;
         
         @Override
@@ -112,16 +117,10 @@ public class ArticleActivity extends BaseActivity {
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     oldY = event.getY();
-                    actionTap = true;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    if (event.getY() - oldY > 10) {
-                        actionTap = false;
-                    }
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (actionTap){
+                    if (event.getY() - oldY  == 0) {
                         toggleShowStatus();
                     }
                     break;
@@ -134,8 +133,6 @@ public class ArticleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-    
-        mInflater = LayoutInflater.from(this);
         
         initModel();
         initView();
@@ -149,7 +146,9 @@ public class ArticleActivity extends BaseActivity {
 
     private void initView() {
         ButterKnife.bind(this);
-
+    
+        mInflater = LayoutInflater.from(this);
+    
         setStatusBarStyle(true);
         mStatusBar.setLightMask();
         
@@ -158,6 +157,9 @@ public class ArticleActivity extends BaseActivity {
         mContentTv.setOnTouchListener(mTouchListener);
         
         mScrollView.setOnScrollChangeListener(mScrollChangeListener);
+        
+        mScrollDownEdge = dp2px(5);
+        mScrollUpEdge = dp2px(10);
     }
 
     private void initPresenter() {
@@ -225,7 +227,7 @@ public class ArticleActivity extends BaseActivity {
     public void showOriginalStatusBar() {
         if (mIsStatusBarInLowProfileMode) {
             setStatusBarStyle(true);
-            mStatusBar.animate().scaleY(1).setDuration(200);
+            mStatusBar.animate().scaleY(1).setDuration(ANIMATION_DURATION);
             mIsStatusBarInLowProfileMode = false;
         }
     }
@@ -233,7 +235,7 @@ public class ArticleActivity extends BaseActivity {
     public void showLowProfileStatusBar() {
         if (!mIsStatusBarInLowProfileMode) {
             setStatusBarInLowProfileMode();
-            mStatusBar.animate().scaleY(0).setDuration(200);
+            mStatusBar.animate().scaleY(0).setDuration(ANIMATION_DURATION);
             mIsStatusBarInLowProfileMode = true;
         }
     }

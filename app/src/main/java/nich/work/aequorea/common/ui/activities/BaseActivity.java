@@ -25,4 +25,8 @@ public class BaseActivity extends AppCompatActivity {
     public void setStatusBarInLowProfileMode() {
         DisplayUtils.setStatusInLowProfileMode(this);
     }
+    
+    public int dp2px(int dp){
+        return DisplayUtils.dp2px(this, dp);
+    }
 }

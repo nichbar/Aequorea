@@ -18,11 +18,9 @@
         <activity
             android:name=".main.ui.activities.MainActivity"
             android:theme="@style/AppTheme.Light.Main"
-            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -8,7 +8,8 @@
         <item name="root_color">@color/colorRoot_light</item>
         <item name="line_color">@color/colorLine_light</item>
         <item name="title_color">@color/colorTextTitle_light</item>
-        <item name="subtitle_color">@color/colorTextSubtitle_light</item>
+        <item name="subtitle_color">@color/colorTextSubtitleDesc_light</item>
+        <item name="subtitle_desc_color">@color/colorTextSubtitleDesc_light</item>
         <item name="content_color">@color/colorTextContent_light</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:windowBackground">@color/colorPrimary_light</item>
@@ -17,7 +18,24 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.Light.Main" parent="AppTheme.Light">
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+        <item name="colorAccent">@color/colorAccent_dark</item>
+        <item name="root_color">@color/colorRoot_dark</item>
+        <item name="line_color">@color/colorLine_dark</item>
+        <item name="title_color">@color/colorTextTitle_dark</item>
+        <item name="subtitle_color">@color/colorTextSubtitle_dark</item>
+        <item name="subtitle_desc_color">@color/colorTextSubtitleDesc_dark</item>
+        <item name="content_color">@color/colorTextContent_dark</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:windowBackground">@color/colorPrimary_dark</item>
+        <item name="android:textColorPrimary">?attr/content_color</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.Light.Main" parent="AppTheme.Dark">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
@@ -37,11 +55,20 @@
 
     <style name="TextAppearanceAuthorTitleExpand">
         <item name="android:textSize">26sp</item>
-        <item name="android:textColor">@color/colorTextDark2nd</item>
+        <item name="android:textColor">?attr/content_color</item>
     </style>
 
     <style name="TextAppearanceAuthorTitleCollapsed">
-        <item name="android:textColor">@color/colorTextDark2nd</item>
+        <item name="android:textColor">?attr/content_color</item>
+    </style>
+
+    <style name="option_item_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:alpha">0.7</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
 </resources>

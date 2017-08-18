@@ -9,7 +9,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary_light"
+        android:background="?attr/colorPrimary"
         tools:context=".main.ui.activities.MainActivity">
 
         <android.support.design.widget.AppBarLayout
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 app:collapsedTitleTextAppearance="@style/TextAppearanceAuthorTitleCollapsed"
-                app:contentScrim="@color/colorPrimary_light"
+                app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginBottom="64dp"
                 app:expandedTitleMarginEnd="60dp"
                 app:expandedTitleMarginStart="100dp"
@@ -33,7 +33,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary_light"
+                    android:background="?attr/colorPrimary"
                     app:layout_collapseMode="pin"/>
 
                 <ImageView
@@ -57,7 +57,7 @@
                     android:layout_marginStart="100dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/colorTextGrey"
+                    android:textColor="?attr/subtitle_desc_color"
                     android:textSize="14sp"
                     tools:text="报道消费，以及它的创造和消费者。"/>
 
@@ -69,7 +69,7 @@
                     android:layout_marginBottom="35dp"
                     android:layout_marginStart="100dp"
                     android:maxLines="1"
-                    android:textColor="@color/colorTextGrey"
+                    android:textColor="?attr/subtitle_desc_color"
                     android:textSize="14sp"
                     tools:text="151 篇文章"/>
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -79,9 +79,9 @@
             android:id="@+id/rec"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
             android:clipToPadding="false"
             android:paddingTop="20dp"
+            android:background="?attr/root_color"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <include layout="@layout/piece_loading"/>

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,12 +25,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.IntentUtils;
+import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.main.model.ArticleModel;
 import nich.work.aequorea.main.model.article.Data;
 import nich.work.aequorea.main.model.mainpage.Datum;
@@ -60,10 +64,56 @@ public class ArticleActivity extends BaseActivity {
     @BindView(R.id.scrollview) NestedScrollView mScrollView;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
     @BindView(R.id.container_recommendation) LinearLayout mRecommendationContainer;
+    @BindView(R.id.container_option) ViewGroup mOptionContainer;
+    @BindView(R.id.iv_theme) ImageView mThemeIv;
+    @BindView(R.id.iv_font) ImageView mFontIv;
+    @BindView(R.id.iv_browser) ImageView mBrowserIv;
+    @BindView(R.id.iv_share) ImageView mShareIv;
     
     @OnClick(R.id.tv_author)
     void gotoAuthorPage() {
         IntentUtils.startAuthorActivity(this, mModel.getData().getAuthors().get(0).getId());
+    }
+    
+    @OnLongClick(R.id.iv_theme)
+    boolean showThemeHint() {
+        ToastUtils.showShortToast(getString(R.string.switch_to_dark_theme));
+        return true;
+    }
+    
+    @OnLongClick(R.id.iv_font)
+    boolean showFontHint() {
+        ToastUtils.showShortToast(getString(R.string.modify_font));
+        return true;
+    }
+    
+    @OnLongClick(R.id.iv_browser)
+    boolean showBrowserHint() {
+        ToastUtils.showShortToast(getString(R.string.open_in_browser));
+        return true;
+    }
+    
+    @OnLongClick(R.id.iv_share)
+    boolean showShareHint() {
+        ToastUtils.showShortToast(getString(R.string.share));
+        return true;
+    }
+    
+    @OnClick(R.id.iv_share)
+    void shareArticle() {
+        if (mModel.getData() != null) {
+            String title = mModel.getData().getTitle();
+            String url = mModel.getData().getShareUrl();
+            
+            IntentUtils.shareText(this, title, "[" + title + "]" + url, getString(R.string.share_to));
+        }
+    }
+    
+    @OnClick(R.id.iv_browser)
+    void openInBrowser(){
+        if (mModel.getData() != null) {
+            IntentUtils.openInBrowser(this, mModel.getData().getShareUrl());
+        }
     }
     
     @OnClick(R.id.container_refresh) void refresh() {
@@ -71,7 +121,7 @@ public class ArticleActivity extends BaseActivity {
         mProgressBar.setVisibility(View.VISIBLE);
         mPresenter.load(mModel.getId());
     }
-
+    
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
         @Override
         public boolean canSwipeBack(int dir) {
@@ -102,9 +152,9 @@ public class ArticleActivity extends BaseActivity {
         @Override
         public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             if (scrollY - oldScrollY > mScrollDownEdge) {
-                showLowProfileStatusBar();
+                setLowProfileMode();
             } else if (scrollY - oldScrollY < -mScrollUpEdge) {
-                showOriginalStatusBar();
+                setStandardMode();
             }
         }
     };
@@ -224,27 +274,33 @@ public class ArticleActivity extends BaseActivity {
         overridePendingTransition(0, R.anim.activity_slide_out_bottom);
     }
     
-    public void showOriginalStatusBar() {
+    public void setStandardMode() {
         if (mIsStatusBarInLowProfileMode) {
             setStatusBarStyle(true);
             mStatusBar.animate().scaleY(1).setDuration(ANIMATION_DURATION);
             mIsStatusBarInLowProfileMode = false;
+            
+            mOptionContainer.animate()
+                .alpha(1);
         }
     }
     
-    public void showLowProfileStatusBar() {
+    public void setLowProfileMode() {
         if (!mIsStatusBarInLowProfileMode) {
             setStatusBarInLowProfileMode();
             mStatusBar.animate().scaleY(0).setDuration(ANIMATION_DURATION);
             mIsStatusBarInLowProfileMode = true;
+    
+            mOptionContainer.animate()
+                .alpha(0);
         }
     }
     
     private void toggleShowStatus() {
         if (mIsStatusBarInLowProfileMode) {
-            showOriginalStatusBar();
+            setStandardMode();
         } else {
-            showLowProfileStatusBar();
+            setLowProfileMode();
         }
     }
     

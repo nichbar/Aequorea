@@ -31,7 +31,7 @@
                     android:id="@+id/tv_tag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorAccentLight"
+                    android:textColor="?attr/colorAccent"
                     android:textSize="15sp"
                     tools:text="# Tech"/>
 
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginArticleItem"
                     android:lineSpacingExtra="3dp"
-                    android:textColor="@color/colorTextDark"
+                    android:textColor="?attr/title_color"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     tools:text="AMD is back!"/>
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginArticleItem"
-                    android:textColor="@color/colorTextDark3nd"
+                    android:textColor="?attr/subtitle_color"
                     android:textSize="15sp"
                     tools:text="Mazzello"/>
 
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginArticleItem"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/colorTextDark3nd"
+                    android:textColor="?attr/subtitle_color"
                     android:textSize="15sp"
                     android:textStyle="italic"
                     tools:text="11 Aug 2017, 16:16"/>
@@ -74,7 +74,7 @@
                     android:letterSpacing="0.06"
                     android:lineSpacingExtra="5dp"
                     android:textAlignment="textStart"
-                    android:textColor="@color/colorTextDark2nd"
+                    android:textColor="?attr/content_color"
                     android:textSize="@dimen/size_article_content"
                     tools:text="@string/cover_story_not_supported"/>
 
@@ -91,14 +91,14 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1.5dp"
-                        android:background="@color/colorTextGrey2nd"/>
+                        android:background="?attr/line_color"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="15dp"
-                        android:textColor="@color/colorTextDark"
+                        android:textColor="?attr/title_color"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         android:text="@string/related_article"/>
@@ -108,6 +108,8 @@
         </android.support.v4.widget.NestedScrollView>
 
         <include layout="@layout/piece_loading"/>
+
+        <include layout="@layout/piece_option"/>
 
     </nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout>
 

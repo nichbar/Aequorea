@@ -9,4 +9,9 @@
     <string name="click_to_refresh">点击刷新</string>
     <string name="related_article">相关阅读</string>
     <string name="dot">•</string>
+    <string name="switch_to_dark_theme">切换至深色主题</string>
+    <string name="modify_font">调整字体</string>
+    <string name="open_in_browser">在浏览器打开</string>
+    <string name="share">分享</string>
+    <string name="share_to">分享至</string>
 </resources>

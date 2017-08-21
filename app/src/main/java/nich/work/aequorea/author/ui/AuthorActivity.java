@@ -36,7 +36,7 @@ import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.SnackBarUtils;
 
-public class AuthorActivity extends BaseActivity {
+public class AuthorActivity extends BaseActivity implements AuthorView {
     
     private final static String TAG = AuthorActivity.class.getSimpleName();
     
@@ -140,31 +140,32 @@ public class AuthorActivity extends BaseActivity {
     }
     
     private void initPresenter() {
-        mPresenter = new AuthorPresenter(this);
+        mPresenter = new AuthorPresenter();
+        mPresenter.attach(this);
         mPresenter.load(mModel.getAuthorId());
     }
     
-    public void onUpdate(Author a) {
-    
+    @Override
+    public void onDataLoaded(Author a) {
         // filter the content that can not display at this very moment
         // TODO support this kind of things
         a.setData(filter(a.getData()));
-        
+    
         // when filter method above do filter most of the item, make a load call here
         if (a.getData().size() < 4) {
             mPresenter.load(mModel.getAuthorId());
         }
-        
+    
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
-        
+    
         List<Datum> articleList = mAdapter.getArticleDataList();
-        
+    
         if (mIsFirstPage) {
             mPresenter.findAuthorInfo(a);
             mIsFirstPage = false;
         }
-        
+    
         if (mAdapter.getArticleDataList() == null) {
             // TODO filter article that only subscriber can read
             mAdapter.setArticleDataList(a.getData());
@@ -193,6 +194,7 @@ public class AuthorActivity extends BaseActivity {
         return data;
     }
     
+    @Override
     public void onError(Throwable error) {
         mRefreshView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -202,6 +204,33 @@ public class AuthorActivity extends BaseActivity {
         SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
     
+    @Override
+    public void onUpdateAuthorInfo(Author author) {
+        mCollapsingToolbarLayout.setTitle(author.getName());
+    
+        Glide.with(this)
+            .load(author.getAvatar())
+            .transform(new CircleTransformation(this))
+            .into(mAuthorIv);
+    
+        String intro = author.getIntroduction();
+        if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {
+        
+            if (intro.contains("。")) {
+                int position = intro.indexOf("。");
+                intro = intro.substring(0, position);
+            }
+        
+            mIntroductionTv.setText(intro);
+        
+        } else {
+            mIntroductionTv.setText(R.string.default_introduction);
+        }
+    
+        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
+            .getTotalCount()));
+    }
+    
     public void autoLoad(int dy) {
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
@@ -209,32 +238,6 @@ public class AuthorActivity extends BaseActivity {
         if (!mModel.isLoading() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 3) {
             mPresenter.load(mModel.getAuthorId());
         }
-    }
-    
-    public void updateAuthorInfo(Author author) {
-        mCollapsingToolbarLayout.setTitle(author.getName());
-        
-        Glide.with(this)
-            .load(author.getAvatar())
-            .transform(new CircleTransformation(this))
-            .into(mAuthorIv);
-        
-        String intro = author.getIntroduction();
-        if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {
-            
-            if (intro.contains("。")) {
-                int position = intro.indexOf("。");
-                intro = intro.substring(0, position);
-            }
-            
-            mIntroductionTv.setText(intro);
-            
-        } else {
-            mIntroductionTv.setText(R.string.default_introduction);
-        }
-        
-        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
-            .getTotalCount()));
     }
     
     private void showAuthorDetail() {

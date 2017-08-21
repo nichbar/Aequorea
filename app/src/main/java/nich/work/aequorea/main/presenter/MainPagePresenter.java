@@ -1,47 +1,39 @@
 package nich.work.aequorea.main.presenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
-import nich.work.aequorea.common.presenter.AbsPresenter;
+import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.main.model.mainpage.Data;
-import nich.work.aequorea.main.ui.activities.MainActivity;
+import nich.work.aequorea.main.ui.view.HomeView;
 
-public class MainPagePresenter extends AbsPresenter {
+public class MainPagePresenter extends BasePresenter<HomeView> {
     private NetworkService mNetworkService;
-    private MainActivity mView;
     private Data mDataData;
 
-    private CompositeDisposable mComposite;
     private Throwable mError;
     private int mPage = 1;
     
-    public MainPagePresenter(MainActivity mainActivity) {
-        mView = mainActivity;
-        initialize();
-    }
-    
-    public void initialize() {
+    @Override
+    protected void onAttach() {
         mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
-        mComposite = new CompositeDisposable();
         loadData();
     }
-
+    
     public void loadData() {
         if (!NetworkUtils.isNetworkAvailable()){
-            mView.onError(null);
+            mBaseView.onError(null);
             return;
         }
         
-        if (mView.getModel().isLoading()){
+        if (mBaseView.getModel().isLoading()){
             return;
         }
     
-        mView.getModel().setLoading(true);
+        mBaseView.getModel().setLoading(true);
     
         mComposite.add(mNetworkService
                 .getMainPageInfo(mPage)
@@ -65,25 +57,19 @@ public class MainPagePresenter extends AbsPresenter {
     }
 
     private void publish() {
-        if (mView != null) {
-            mView.setRefreshing(false);
-            mView.getModel().setLoading(false);
+        if (mBaseView != null) {
+            mBaseView.setRefreshing(false);
+            mBaseView.getModel().setLoading(false);
             
             if (mDataData != null) {
-                mView.onUpdate(mDataData.getData(), mView.getModel().isRefreshing());
-                mView.getModel().setRefreshing(false);
+                mBaseView.onDataLoaded(mDataData.getData(), mBaseView.getModel().isRefreshing());
+                mBaseView.getModel().setRefreshing(false);
             } else if (mError != null) {
-                mView.onError(mError);
+                mBaseView.onError(mError);
             }
             mDataData = null;
             mError = null;
         }
-    }
-
-    @Override
-    public void detach() {
-        mComposite.clear();
-        mView = null;
     }
 
     public void refresh() {

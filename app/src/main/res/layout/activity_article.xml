@@ -82,26 +82,34 @@
                     android:id="@+id/container_recommendation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="60dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
 
                     <View
+                        android:id="@+id/view_divider"
                         android:layout_width="match_parent"
                         android:layout_height="1.5dp"
                         android:background="?attr/line_color"/>
 
                     <TextView
+                        android:id="@+id/tv_article_recommend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:layout_marginTop="15dp"
+                        android:text="@string/related_article"
                         android:textColor="?attr/title_color"
                         android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:text="@string/related_article"/>
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:id="@+id/container_recommendation_sub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
 
                 </LinearLayout>
             </LinearLayout>

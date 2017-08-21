@@ -1,35 +1,26 @@
 package nich.work.aequorea.main.presenter;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
-import nich.work.aequorea.common.presenter.AbsPresenter;
+import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.main.model.article.Article;
 import nich.work.aequorea.main.model.mainpage.Data;
-import nich.work.aequorea.main.ui.activities.ArticleActivity;
+import nich.work.aequorea.main.ui.view.ArticleView;
 
-public class ArticlePresenter extends AbsPresenter {
-    private CompositeDisposable mComposite;
-    private ArticleActivity mView;
+public class ArticlePresenter extends BasePresenter<ArticleView> {
     private Article mArticle;
     private Throwable mThrowable;
     private NetworkService mService;
     
-    public ArticlePresenter(ArticleActivity articleActivity) {
-        mView = articleActivity;
-        initialize();
-    }
-    
-    public void initialize() {
-        mComposite = new CompositeDisposable();
+    @Override
+    protected void onAttach() {
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
     }
-
+    
     public void load(long id) {
-
         mComposite.add(mService.getArticleDetailInfo(id)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -56,28 +47,21 @@ public class ArticlePresenter extends AbsPresenter {
         .subscribe(new Consumer<Data>() {
             @Override
             public void accept(Data data) throws Exception {
-                mView.onRecommendationLoaded(data.getData());
+                mBaseView.onRecommendationLoaded(data.getData());
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                mView.onRecommendationError(throwable);
+                mBaseView.onRecommendationError(throwable);
             }
         }));
     }
 
     private void publish() {
         if (mArticle != null) {
-            mView.onUpdate(mArticle.getData());
+            mBaseView.onArticleLoaded(mArticle.getData());
         } else if (mThrowable != null) {
-            mView.onError(mThrowable);
+            mBaseView.onArticleError(mThrowable);
         }
     }
-
-    @Override
-    public void detach() {
-        mComposite.clear();
-        mView = null;
-    }
-
 }

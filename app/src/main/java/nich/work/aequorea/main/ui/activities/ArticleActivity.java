@@ -28,17 +28,21 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
+import nich.work.aequorea.common.rx.RxBus;
+import nich.work.aequorea.common.rx.RxEvent;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.IntentUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.main.model.ArticleModel;
 import nich.work.aequorea.main.model.article.Data;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.ArticlePresenter;
+import nich.work.aequorea.main.ui.view.ArticleView;
 
-public class ArticleActivity extends BaseActivity {
+public class ArticleActivity extends BaseActivity implements ArticleView{
     private static final String TAG = ArticleActivity.class.getSimpleName();
     
     private ArticlePresenter mPresenter;
@@ -57,6 +61,8 @@ public class ArticleActivity extends BaseActivity {
     @BindView(R.id.tv_date) TextView mDateTv;
     @BindView(R.id.tv_title) TextView mTitleTv;
     @BindView(R.id.tv_tag) TextView mTagTv;
+    @BindView(R.id.tv_article_recommend) TextView mRecommendTitleTv;
+    @BindView(R.id.view_divider) View mDividerView;
     @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
     @BindView(R.id.container_refresh) View mRefreshView;
     @BindView(R.id.layout_swipe_back_article) SwipeBackCoordinatorLayout mSwipeBackLayout;
@@ -64,6 +70,7 @@ public class ArticleActivity extends BaseActivity {
     @BindView(R.id.scrollview) NestedScrollView mScrollView;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
     @BindView(R.id.container_recommendation) LinearLayout mRecommendationContainer;
+    @BindView(R.id.container_recommendation_sub) LinearLayout mRecommendationSubContainer;
     @BindView(R.id.container_option) ViewGroup mOptionContainer;
     @BindView(R.id.iv_theme) ImageView mThemeIv;
     @BindView(R.id.iv_font) ImageView mFontIv;
@@ -114,6 +121,21 @@ public class ArticleActivity extends BaseActivity {
         if (mModel.getData() != null) {
             IntentUtils.openInBrowser(this, mModel.getData().getShareUrl());
         }
+    }
+    
+    @OnClick(R.id.iv_theme)
+    void switchTheme() {
+        if (mTheme.equals(Constants.THEME_LIGHT)) {
+            mTheme = Constants.THEME_DARK;
+        } else {
+            mTheme = Constants.THEME_LIGHT;
+        }
+        ThemeHelper.setTheme(mTheme);
+        setTheme(ThemeHelper.getThemeStyle(mTheme));
+    
+        RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
+    
+        switchColor();
     }
     
     @OnClick(R.id.container_refresh) void refresh() {
@@ -213,9 +235,8 @@ public class ArticleActivity extends BaseActivity {
     }
 
     private void initPresenter() {
-        if (mPresenter == null){
-            mPresenter = new ArticlePresenter(this);
-        }
+        mPresenter = new ArticlePresenter();
+        mPresenter.attach(this);
         mPresenter.load(mModel.getId());
     }
 
@@ -223,49 +244,6 @@ public class ArticleActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detach();
-    }
-
-    public void onUpdate(Data article) {
-        mModel.setData(article);
-        
-        mProgressBar.setVisibility(View.GONE);
-        mRefreshView.setVisibility(View.GONE);
-        
-        mTitleTv.setText(article.getTitle());
-    
-        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm");
-        String targetDateString = null;
-        try {
-            Date date = sourceDateFormat.parse(article.getDisplayTime());
-            targetDateString = targetDateFormat.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    
-        mDateTv.setText(targetDateString);
-
-        if (article.getAuthors().size() != 0 && article.getAuthors().get(0) != null) {
-            mAuthorTv.setText(article.getAuthors().get(0).getName());
-        } else {
-            mAuthorTv.setText(R.string.default_author);
-        }
-
-        if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics().get(0) != null) {
-            mTagTv.setText(String.format("# %s", article.getTopics().get(0).getName()));
-        } else {
-            mTagTv.setVisibility(View.GONE);
-        }
-
-        RichText.from(article.getContent()).into(mContentTv);
-        
-        // load recommendation after rendering the context
-        mPresenter.loadRecommendedArticles(mModel.getId());
-    }
-
-    public void onError(Throwable throwable) {
-        mProgressBar.setVisibility(View.GONE);
-        mRefreshView.setVisibility(View.VISIBLE);
     }
     
     @Override
@@ -304,10 +282,56 @@ public class ArticleActivity extends BaseActivity {
         }
     }
     
+    @Override
+    public void onArticleLoaded(Data article) {
+        mModel.setData(article);
+    
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.GONE);
+    
+        mTitleTv.setText(article.getTitle());
+    
+        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+        String targetDateString = null;
+        try {
+            Date date = sourceDateFormat.parse(article.getDisplayTime());
+            targetDateString = targetDateFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    
+        mDateTv.setText(targetDateString);
+    
+        if (article.getAuthors().size() != 0 && article.getAuthors().get(0) != null) {
+            mAuthorTv.setText(article.getAuthors().get(0).getName());
+        } else {
+            mAuthorTv.setText(R.string.default_author);
+        }
+    
+        if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics().get(0) != null) {
+            mTagTv.setText(String.format("# %s", article.getTopics().get(0).getName()));
+        } else {
+            mTagTv.setVisibility(View.GONE);
+        }
+    
+        RichText.from(article.getContent()).into(mContentTv);
+    
+        // load recommendation after rendering the context
+        mPresenter.loadRecommendedArticles(mModel.getId());
+    }
+    
+    @Override
+    public void onArticleError(Throwable t) {
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.VISIBLE);
+    }
+    
     public void onRecommendationLoaded(List<Datum> data) {
+        mModel.setRecommendDataList(data);
         mRecommendationContainer.setVisibility(View.VISIBLE);
         for (Datum d : data) {
-            mRecommendationContainer.addView(createRecommendArticle(d));
+            mRecommendationSubContainer.addView(createRecommendArticle(d));
         }
     }
     
@@ -329,5 +353,29 @@ public class ArticleActivity extends BaseActivity {
     
     public void onRecommendationError(Throwable throwable) {
         Log.e(TAG, throwable.getMessage());
+    }
+    
+    public void switchColor() {
+        int lineColor = ThemeHelper.getResourceColor(this, R.attr.line_color);
+        int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
+        int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+        int accentColor = ThemeHelper.getResourceColor(this, R.attr.colorAccent);
+        int subtitleColor = ThemeHelper.getResourceColor(this, R.attr.subtitle_color);
+        int contentColor = ThemeHelper.getResourceColor(this, R.attr.content_color);
+        
+        mSwipeBackLayout.setBackgroundColor(rootColor);
+        mTagTv.setTextColor(accentColor);
+        mTitleTv.setTextColor(titleColor);
+        mAuthorTv.setTextColor(subtitleColor);
+        mDateTv.setTextColor(subtitleColor);
+        mContentTv.setTextColor(contentColor);
+        mDividerView.setBackgroundColor(lineColor);
+        mRecommendTitleTv.setTextColor(titleColor);
+        
+        // recreate related articles
+        mRecommendationSubContainer.removeAllViews();
+        if (mModel.getRecommendDataList() != null) {
+            onRecommendationLoaded(mModel.getRecommendDataList());
+        }
     }
 }

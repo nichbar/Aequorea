@@ -27,8 +27,9 @@ import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.MainPagePresenter;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
+import nich.work.aequorea.main.ui.view.HomeView;
 
-public class MainActivity extends BaseActivity implements NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -92,8 +93,8 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void initPresenter() {
-        if (mPresenter == null)
-            mPresenter = new MainPagePresenter(this);
+        mPresenter = new MainPagePresenter();
+        mPresenter.attach(this);
     }
 
     private void initView() {
@@ -116,29 +117,6 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
     
-    public void onUpdate(List<Datum> data, boolean isRefresh) {
-        mProgressBar.setVisibility(View.GONE);
-        mRefreshView.setVisibility(View.GONE);
-        
-        // filter the content that can not display at this very moment
-        // TODO support this kind of things
-        data = filter(data);
-        
-        List<Datum> articleList = mAdapter.getArticleList();
-        
-        if (articleList == null || isRefresh) {
-            mAdapter.setArticleList(data);
-        } else {
-            for (Datum d : data) {
-                if (!articleList.contains(d)) {
-                    articleList.add(d);
-                }
-            }
-            mAdapter.setArticleList(articleList);
-        }
-        mAdapter.notifyDataSetChanged();
-    }
-    
     private List<Datum> filter(List<Datum> data) {
         Iterator<Datum> iterator = data.iterator();
         
@@ -152,6 +130,31 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         return data;
     }
     
+    @Override
+    public void onDataLoaded(List<Datum> data, boolean isRefresh) {
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.GONE);
+    
+        // filter the content that can not display at this very moment
+        // TODO support this kind of things
+        data = filter(data);
+    
+        List<Datum> articleList = mAdapter.getArticleList();
+    
+        if (articleList == null || isRefresh) {
+            mAdapter.setArticleList(data);
+        } else {
+            for (Datum d : data) {
+                if (!articleList.contains(d)) {
+                    articleList.add(d);
+                }
+            }
+            mAdapter.setArticleList(articleList);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    @Override
     public void onError(Throwable error) {
         mRefreshView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -161,6 +164,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
 
+    @Override
     public void setRefreshing(boolean isRefreshing){
         mSwipeRefreshLayout.setRefreshing(isRefreshing);
     }
@@ -189,6 +193,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         }
     }
 
+    @Override
     public MainPageModel getModel(){
         return mModel;
     }
@@ -227,6 +232,11 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+    
+    @Override
+    public void onThemeSwitch() {
+        
     }
     
     private void scrollToTop(int currentPosition) {

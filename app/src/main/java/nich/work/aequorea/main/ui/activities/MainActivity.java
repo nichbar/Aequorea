@@ -1,8 +1,6 @@
 package nich.work.aequorea.main.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -44,6 +41,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
+    private MenuItem mThemeMenuItem;
 
     private long mClickTime;
 
@@ -255,7 +253,18 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        recreate();
+        mTheme = Aequorea.getCurrentTheme();
+        
+        setStatusBarStyle();
+        setStatusBarMask();
+        
+        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+        int themeDrawable = ThemeHelper.getResourceId(this, R.attr.icon_theme);
+        
+        mAppBarLayout.setBackgroundColor(primaryColor);
+        mToolbar.setTitleTextColor(titleColor);
+        mThemeMenuItem.setIcon(themeDrawable);
     }
     
     private void scrollToTop(int currentPosition) {
@@ -268,6 +277,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        mThemeMenuItem = menu.findItem(R.id.action_switch_theme);
         return true;
     }
     
@@ -279,11 +289,25 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                 setTheme(ThemeHelper.getThemeStyle(themeToSwitch));
                 ThemeHelper.setTheme(themeToSwitch);
     
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                onThemeSwitch();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void setStatusBarStyle() {
+        if (isInLightTheme()) {
+            setStatusBarStyle(true);
+        } else {
+            setStatusBarStyle(false);
+        }
+    }
+    
+    private void setStatusBarMask() {
+        if (isInLightTheme()) {
+            mStatusBar.setLightMask();
+        } else {
+            mStatusBar.setDarkMask();
+        }
     }
 }

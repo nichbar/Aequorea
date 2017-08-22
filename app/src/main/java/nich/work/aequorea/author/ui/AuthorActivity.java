@@ -89,7 +89,6 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         mPresenter.load(mModel.getAuthorId());
     }
     
-    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +129,12 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addOnScrollListener(mScrollListener);
+        mAppBar.addOnOffsetChangedListener(mOffsetListener);
+        
+        setStatusBarStyle();
+    }
     
+    private void setStatusBarStyle() {
         if (mTheme.equals(Constants.THEME_LIGHT)) {
             setStatusBarStyle(true);
             mStatusBar.setLightMask();
@@ -138,8 +142,6 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
             setStatusBarStyle(false);
             mStatusBar.setDarkMask();
         }
-        
-        mAppBar.addOnOffsetChangedListener(mOffsetListener);
     }
     
     public AuthorModel getModel() {
@@ -159,7 +161,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         a.setData(filter(a.getData()));
     
         // when filter method above do filter most of the item, make a load call here
-        if (a.getData().size() < 4) {
+        if (a.getData().size() <= 5) {
             mPresenter.load(mModel.getAuthorId());
         }
     
@@ -289,6 +291,25 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        recreate();
+        mTheme = Aequorea.getCurrentTheme();
+    
+        setStatusBarStyle();
+        
+        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
+        int subTitleColor = ThemeHelper.getResourceColor(this, R.attr.subtitle_color);
+        int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+            
+        mCoordinatorLayout.setBackgroundColor(primaryColor);
+        mIntroductionTv.setTextColor(subTitleColor);
+        mArticleCountTv.setTextColor(subTitleColor);
+        mCollapsingToolbarLayout.setExpandedTitleColor(titleColor);
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(titleColor);
+        mCollapsingToolbarLayout.setBackgroundColor(primaryColor);
+        mRecyclerView.setBackgroundColor(rootColor);
+        
+        // reload the
+        mAdapter = new AuthorAdapter(this, mAdapter.getArticleDataList());
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

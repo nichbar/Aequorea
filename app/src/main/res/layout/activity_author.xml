@@ -22,10 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 app:collapsedTitleTextAppearance="@style/TextAppearanceAuthorTitleCollapsed"
-                app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginBottom="64dp"
                 app:expandedTitleMarginEnd="60dp"
                 app:expandedTitleMarginStart="100dp"
+                android:elevation="4dp"
                 app:expandedTitleTextAppearance="@style/TextAppearanceAuthorTitleExpand"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -33,7 +33,6 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
                     app:layout_collapseMode="pin"/>
 
                 <ImageView

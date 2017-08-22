@@ -2,8 +2,7 @@ package nich.work.aequorea;
 
 import android.app.Application;
 
-import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.common.utils.SPUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 
 public class Aequorea extends Application {
     private static Aequorea mApp;
@@ -14,10 +13,10 @@ public class Aequorea extends Application {
         super.onCreate();
         
         mApp = this;
-        mCurrentTheme = SPUtils.getString(Constants.THEME);
+        mCurrentTheme = ThemeHelper.getTheme();
     }
     
-    public static Application getApp(){
+    public static Application getApp() {
         return mApp;
     }
     

@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.AuthorModel;
 import nich.work.aequorea.author.model.entities.Author;
@@ -35,6 +36,7 @@ import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 
 public class AuthorActivity extends BaseActivity implements AuthorView {
     
@@ -129,8 +131,13 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addOnScrollListener(mScrollListener);
     
-        setStatusBarStyle(true);
-        mStatusBar.setLightMask();
+        if (mTheme.equals(Constants.THEME_LIGHT)) {
+            setStatusBarStyle(true);
+            mStatusBar.setLightMask();
+        } else {
+            setStatusBarStyle(false);
+            mStatusBar.setDarkMask();
+        }
         
         mAppBar.addOnOffsetChangedListener(mOffsetListener);
     }
@@ -277,5 +284,11 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, R.anim.activity_slide_out_bottom);
+    }
+    
+    @Override
+    public void onThemeSwitch() {
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
+        recreate();
     }
 }

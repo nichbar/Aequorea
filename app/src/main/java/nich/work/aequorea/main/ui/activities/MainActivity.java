@@ -1,6 +1,8 @@
 package nich.work.aequorea.main.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,12 +22,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.MainPagePresenter;
@@ -93,18 +100,26 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     }
 
     private void initPresenter() {
-        mPresenter = new MainPagePresenter();
+        if (mPresenter == null) {
+            mPresenter = new MainPagePresenter();
+        }
         mPresenter.attach(this);
     }
 
     private void initView() {
         ButterKnife.bind(this);
-
-        setStatusBarStyle(true);
-        mStatusBar.setLightMask();
+        
+        if (isInLightTheme()) {
+            setStatusBarStyle(true);
+            mStatusBar.setLightMask();
+        } else {
+            setStatusBarStyle(false);
+            mStatusBar.setDarkMask();
+        }
 
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setOnClickListener(this);
+        setSupportActionBar(mToolbar);
 
         mAdapter = new MainArticleAdapter(this, null);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -180,15 +195,18 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     }
 
     private void changeStatusBarStyle() {
-        if (mAppBarLayout.getY() <= -mAppBarLayout.getMeasuredHeight()) {
-            if (mStatusBar.isInitState()) {
-                setStatusBarStyle(false);
-                mStatusBar.setDarkMask();
-            }
-        } else {
-            if (!mStatusBar.isInitState()) {
-                setStatusBarStyle(true);
-                mStatusBar.setLightMask();
+        // light status bar only show in light theme
+        if (isInLightTheme()) {
+            if (mAppBarLayout.getY() <= -mAppBarLayout.getMeasuredHeight()) {
+                if (mStatusBar.isInitState()) {
+                    setStatusBarStyle(false);
+                    mStatusBar.setDarkMask();
+                }
+            } else {
+                if (!mStatusBar.isInitState()) {
+                    setStatusBarStyle(true);
+                    mStatusBar.setLightMask();
+                }
             }
         }
     }
@@ -236,7 +254,8 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     
     @Override
     public void onThemeSwitch() {
-        
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
+        recreate();
     }
     
     private void scrollToTop(int currentPosition) {
@@ -244,5 +263,27 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             mRecyclerView.scrollToPosition(6);
         }
         mRecyclerView.smoothScrollToPosition(0);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_switch_theme:
+                String themeToSwitch = isInLightTheme() ? Constants.THEME_DARK : Constants.THEME_LIGHT;
+                setTheme(ThemeHelper.getThemeStyle(themeToSwitch));
+                ThemeHelper.setTheme(themeToSwitch);
+    
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

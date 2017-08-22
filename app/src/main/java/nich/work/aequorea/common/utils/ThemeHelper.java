@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 
@@ -15,6 +16,7 @@ public class ThemeHelper {
     
     public static void setTheme(String theme) {
         SPUtils.setString(Constants.THEME, theme);
+        Aequorea.setCurrentTheme(theme);
     }
     
     public static int getThemeStyle(String theme) {

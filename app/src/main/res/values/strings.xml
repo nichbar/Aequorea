@@ -14,4 +14,6 @@
     <string name="open_in_browser">在浏览器打开</string>
     <string name="share">分享</string>
     <string name="share_to">分享至</string>
+    <string name="switch_to_light_theme">切换至浅色主题</string>
+    <string name="theme">主题</string>
 </resources>

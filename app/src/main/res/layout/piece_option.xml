@@ -11,20 +11,20 @@
     <ImageView
         android:id="@+id/iv_browser"
         style="@style/option_item_style"
-        android:src="@drawable/icon_browser_dark"/>
+        android:src="?attr/icon_browser"/>
 
     <ImageView
         android:id="@+id/iv_font"
         style="@style/option_item_style"
-        android:src="@drawable/icon_font_dark"/>
+        android:src="?attr/icon_font"/>
 
     <ImageView
         android:id="@+id/iv_theme"
         style="@style/option_item_style"
-        android:src="@drawable/icon_theme_dark"/>
+        android:src="?attr/icon_theme"/>
 
     <ImageView
         android:id="@+id/iv_share"
         style="@style/option_item_style"
-        android:src="@drawable/icon_share_dark"/>
+        android:src="?attr/icon_share"/>
 </LinearLayout>

@@ -1,6 +1,8 @@
 ## Aequorea
 
-> Aequorea /ɪ`kɔ:riə/ 是一类多管水母。
+> Aequorea  /ɪ`kɔ:riə/
+>
+> 一类多管水母。
 
 一直以来都很喜欢一财的文章，但是一财的APP不太好用，所以就自己写了一个。
 
@@ -8,10 +10,11 @@
 
 ### Feature 
 
-* 轻量级的第三方一财客户端
+* 无推送无广告
+* 浅色与深色主题
 * 遵循Material Design设计
 * 数据来源于第一财经周刊
-* 无推送无广告
+* 轻量级的第三方一财客户端
 
 ### Preview
 
@@ -27,3 +30,4 @@
 - [ButterKnife](https://github.com/JakeWharton/butterknife)
 - [RichText](https://github.com/zzhoujay/RichText)
 - [MySplash](https://github.com/WangDaYeeeeee/Mysplash)
+- [Newsfold](https://play.google.com/store/apps/details?id=it.mvilla.android.quote&hl=en)

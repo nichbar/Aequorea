@@ -6,7 +6,22 @@
         <attr name="line_color" format="reference|color" />
         <attr name="title_color" format="reference|color" />
         <attr name="subtitle_color" format="reference|color" />
+        <attr name="subtitle_desc_color" format="reference|color" />
         <attr name="content_color" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="ThemeIcon">
+        <attr name="icon_browser" format="reference"/>
+        <attr name="icon_font" format="reference"/>
+        <attr name="icon_theme" format="reference"/>
+        <attr name="icon_share" format="reference"/>
+
+        <attr name="icon_font_family" format="reference"/>
+        <attr name="icon_font_spacing" format="reference"/>
+        <attr name="icon_font_size" format="reference"/>
+        <attr name="icon_font_increase" format="reference"/>
+        <attr name="icon_font_decrease" format="reference"/>
+        <attr name="icon_font_drop_down_arrow" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="StatusBarView">

@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="@color/colorAccentLight"
+        android:textColor="?attr/colorAccent"
         android:lineSpacingExtra="6dp"
         android:textSize="@dimen/size_article_content"
         tools:text="Photoshop CS6 beta 免费下载"/>

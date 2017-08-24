@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/root_color"
+              android:orientation="vertical"
+              android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_font_family"
+            style="@style/font_round_square"
+            android:src="?attr/icon_font_family"/>
+
+        <TextView
+            android:id="@+id/tv_font_family"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/iv_font_family"
+            android:gravity="center_vertical"
+            android:textColor="?attr/content_color"
+            android:textSize="18sp"
+            tools:text="sans-serif"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:src="?attr/icon_font_drop_down_arrow"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/iv_font_size"
+            style="@style/font_round_square"
+            android:layout_centerHorizontal="true"
+            android:src="?attr/icon_font_size"/>
+
+        <ImageView
+            android:id="@+id/iv_decrease_font_size"
+            style="@style/font_action"
+            android:layout_width="18dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toStartOf="@id/iv_font_size"
+            android:src="?attr/icon_font_decrease"/>
+
+        <ImageView
+            android:id="@+id/iv_increase_font_size"
+            style="@style/font_action"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/iv_font_size"
+            android:src="?attr/icon_font_increase"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:id="@+id/iv_font_spacing"
+            style="@style/font_round_square"
+            android:layout_centerHorizontal="true"
+            android:src="?attr/icon_font_spacing"/>
+
+        <ImageView
+            android:id="@+id/iv_decrease_font_spacing"
+            style="@style/font_action"
+            android:layout_width="18dp"
+            android:layout_marginEnd="40dp"
+            android:layout_toStartOf="@id/iv_font_spacing"
+            android:src="?attr/icon_font_decrease"/>
+
+        <ImageView
+            android:id="@+id/iv_increase_font_spacing"
+            style="@style/font_action"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/iv_font_spacing"
+            android:src="?attr/icon_font_increase"/>
+    </RelativeLayout>
+</LinearLayout>

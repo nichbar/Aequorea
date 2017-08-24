@@ -29,7 +29,7 @@
             android:id="@+id/tv_article_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextDark"
+            android:textColor="?attr/title_color"
             android:textSize="15sp"
             android:textStyle="bold"
             tools:text="世界的逻辑"/>
@@ -42,7 +42,7 @@
             android:ellipsize="end"
             android:lineSpacingExtra="1.5dp"
             android:maxLines="4"
-            android:textColor="@color/colorTextDark3nd"
+            android:textColor="?attr/subtitle_color"
             android:textSize="12sp"
             tools:text="环境恶化、贫富差距扩大、暴力事件频发等社会问题的根源到底在哪里？大规模城市化进程，究竟是给人类社会带来了什么影响？我们是否想生活在人口规模超过1.3亿的超级城市？"/>
     </LinearLayout>

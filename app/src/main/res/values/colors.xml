@@ -3,40 +3,31 @@
 
     <!-- theme -->
     <color name="colorPrimary_light">#fafafa</color>
-    <color name="colorPrimary_dark">#212121</color>
+    <color name="colorPrimary_dark">#424450</color>
 
     <color name="colorPrimaryDark_light">#f1f1f1</color>
-    <color name="colorPrimaryDark_dark">#1a1a1a</color>
+    <color name="colorPrimaryDark_dark">#393b47</color>
 
-    <color name="colorAccent_light">@color/colorTextTitle_light</color>
-    <color name="colorAccent_dark">@color/colorTextTitle_dark</color>
+    <color name="colorAccent_light">#e7584a</color>
+    <color name="colorAccent_dark">#79cc88</color>
 
     <!-- UI. -->
-    <color name="colorRoot_light">@color/colorPrimary_light</color>
-    <color name="colorLine_light">#f1f1f1</color>
+    <color name="colorRoot_light">@color/white</color>
+    <color name="colorLine_light">#bdbdbd</color>
 
-    <color name="colorRoot_dark">@color/colorPrimary_dark</color>
-    <color name="colorLine_dark">#292929</color>
-
-    <color name="colorAccentRed">#f15151</color>
-    <color name="colorAccentLight">#e7584a</color>
+    <color name="colorRoot_dark">#464854</color>
+    <color name="colorLine_dark">#dadadc</color>
 
     <!-- text color -->
-    <color name="colorTextTitle_light">@color/colorTextDark</color>
-    <color name="colorTextSubtitle_light">@color/colorTextGrey</color>
-    <color name="colorTextContent_light">@color/colorTextDark2nd</color>
+    <color name="colorTextTitle_light">#333333</color>
+    <color name="colorTextSubtitle_light">#666666</color>
+    <color name="colorTextSubtitleDesc_light">#999999</color>
+    <color name="colorTextContent_light">#555555</color>
 
-    <color name="colorTextTitle_dark">@color/colorTextLight</color>
-    <color name="colorTextSubtitle_dark">@color/colorTextGrey2nd</color>
-    <color name="colorTextContent_dark">@color/colorTextLight2nd</color>
-
-    <color name="colorTextDark">#333333</color>
-    <color name="colorTextDark2nd">#555555</color>
-    <color name="colorTextDark3nd">#666666</color>
-    <color name="colorTextGrey">#999999</color>
-    <color name="colorTextGrey2nd">#bdbdbd</color>
-    <color name="colorTextLight">#fafafa</color>
-    <color name="colorTextLight2nd">#f5f5f5</color>
+    <color name="colorTextTitle_dark">@color/white</color>
+    <color name="colorTextSubtitle_dark">#bdbdbd</color>
+    <color name="colorTextSubtitleDesc_dark">#999999</color>
+    <color name="colorTextContent_dark">#f5f5f5</color>
 
     <color name="white">#ffffff</color>
     <!-- color with alpha value -->

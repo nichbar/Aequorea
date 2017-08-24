@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/container_option"
+              android:layout_width="match_parent"
+              android:layout_height="150dp"
+              android:layout_gravity="bottom"
+              android:background="@drawable/shape_scrim"
+              android:orientation="horizontal"
+              android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/iv_browser"
+        style="@style/option_item_style"
+        android:src="?attr/icon_browser"/>
+
+    <ImageView
+        android:id="@+id/iv_font"
+        style="@style/option_item_style"
+        android:src="?attr/icon_font"/>
+
+    <ImageView
+        android:id="@+id/iv_theme"
+        style="@style/option_item_style"
+        android:src="?attr/icon_theme"/>
+
+    <ImageView
+        android:id="@+id/iv_share"
+        style="@style/option_item_style"
+        android:src="?attr/icon_share"/>
+</LinearLayout>

@@ -4,7 +4,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:alpha="0.5"
     android:orientation="vertical">
 
     <ProgressBar
@@ -17,6 +16,7 @@
         android:id="@+id/container_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.5"
         android:orientation="vertical"
         android:visibility="gone">
 
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/click_to_refresh"
-            android:textColor="@color/colorTextDark"
+            android:textColor="?attr/title_color"
             android:textSize="16sp"/>
     </LinearLayout>
 </LinearLayout>

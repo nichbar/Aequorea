@@ -19,4 +19,9 @@ public class Constants {
     public static final int TYPE_THEME = 3;
     public static final int TYPE_TOP_ARTICLE = 4;
     public static final int TYPE_SUBJECT = 5;
+    
+    // Theme
+    public static final String THEME = "theme";
+    public static final String THEME_LIGHT = "theme_light";
+    public static final String THEME_DARK = "theme_dark";
 }

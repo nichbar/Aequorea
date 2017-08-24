@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,18 +19,21 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.MainPagePresenter;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
+import nich.work.aequorea.main.ui.view.HomeView;
 
-public class MainActivity extends BaseActivity implements NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
+public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -36,6 +41,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
+    private MenuItem mThemeMenuItem;
 
     private long mClickTime;
 
@@ -92,18 +98,26 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void initPresenter() {
-        if (mPresenter == null)
-            mPresenter = new MainPagePresenter(this);
+        if (mPresenter == null) {
+            mPresenter = new MainPagePresenter();
+        }
+        mPresenter.attach(this);
     }
 
     private void initView() {
         ButterKnife.bind(this);
-
-        setStatusBarStyle(true);
-        mStatusBar.setLightMask();
+        
+        if (isInLightTheme()) {
+            setStatusBarStyle(true);
+            mStatusBar.setLightMask();
+        } else {
+            setStatusBarStyle(false);
+            mStatusBar.setDarkMask();
+        }
 
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setOnClickListener(this);
+        setSupportActionBar(mToolbar);
 
         mAdapter = new MainArticleAdapter(this, null);
         mLinearLayoutManager = new LinearLayoutManager(this);
@@ -114,29 +128,6 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         mAppBarLayout.setOnNestedListener(this);
 
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
-    }
-    
-    public void onUpdate(List<Datum> data, boolean isRefresh) {
-        mProgressBar.setVisibility(View.GONE);
-        mRefreshView.setVisibility(View.GONE);
-        
-        // filter the content that can not display at this very moment
-        // TODO support this kind of things
-        data = filter(data);
-        
-        List<Datum> articleList = mAdapter.getArticleList();
-        
-        if (articleList == null || isRefresh) {
-            mAdapter.setArticleList(data);
-        } else {
-            for (Datum d : data) {
-                if (!articleList.contains(d)) {
-                    articleList.add(d);
-                }
-            }
-            mAdapter.setArticleList(articleList);
-        }
-        mAdapter.notifyDataSetChanged();
     }
     
     private List<Datum> filter(List<Datum> data) {
@@ -152,6 +143,31 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         return data;
     }
     
+    @Override
+    public void onDataLoaded(List<Datum> data, boolean isRefresh) {
+        mProgressBar.setVisibility(View.GONE);
+        mRefreshView.setVisibility(View.GONE);
+    
+        // filter the content that can not display at this very moment
+        // TODO support this kind of things
+        data = filter(data);
+    
+        List<Datum> articleList = mAdapter.getArticleList();
+    
+        if (articleList == null || isRefresh) {
+            mAdapter.setArticleList(data);
+        } else {
+            for (Datum d : data) {
+                if (!articleList.contains(d)) {
+                    articleList.add(d);
+                }
+            }
+            mAdapter.setArticleList(articleList);
+        }
+        mAdapter.notifyDataSetChanged();
+    }
+    
+    @Override
     public void onError(Throwable error) {
         mRefreshView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -161,6 +177,7 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
 
+    @Override
     public void setRefreshing(boolean isRefreshing){
         mSwipeRefreshLayout.setRefreshing(isRefreshing);
     }
@@ -176,19 +193,23 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
     }
 
     private void changeStatusBarStyle() {
-        if (mAppBarLayout.getY() <= -mAppBarLayout.getMeasuredHeight()) {
-            if (mStatusBar.isInitState()) {
-                setStatusBarStyle(false);
-                mStatusBar.setDarkMask();
-            }
-        } else {
-            if (!mStatusBar.isInitState()) {
-                setStatusBarStyle(true);
-                mStatusBar.setLightMask();
+        // light status bar only show in light theme
+        if (isInLightTheme()) {
+            if (mAppBarLayout.getY() <= -mAppBarLayout.getMeasuredHeight()) {
+                if (mStatusBar.isInitState()) {
+                    setStatusBarStyle(false);
+                    mStatusBar.setDarkMask();
+                }
+            } else {
+                if (!mStatusBar.isInitState()) {
+                    setStatusBarStyle(true);
+                    mStatusBar.setLightMask();
+                }
             }
         }
     }
 
+    @Override
     public MainPageModel getModel(){
         return mModel;
     }
@@ -229,10 +250,64 @@ public class MainActivity extends BaseActivity implements NestedScrollAppBarLayo
         return super.onKeyDown(keyCode, event);
     }
     
+    @Override
+    public void onThemeSwitch() {
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
+        mTheme = Aequorea.getCurrentTheme();
+        
+        setStatusBarStyle();
+        setStatusBarMask();
+        
+        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+        int themeDrawable = ThemeHelper.getResourceId(this, R.attr.icon_theme);
+        
+        mAppBarLayout.setBackgroundColor(primaryColor);
+        mToolbar.setTitleTextColor(titleColor);
+        mThemeMenuItem.setIcon(themeDrawable);
+    }
+    
     private void scrollToTop(int currentPosition) {
         if (currentPosition >= 10) {
             mRecyclerView.scrollToPosition(6);
         }
         mRecyclerView.smoothScrollToPosition(0);
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        mThemeMenuItem = menu.findItem(R.id.action_switch_theme);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_switch_theme:
+                String themeToSwitch = isInLightTheme() ? Constants.THEME_DARK : Constants.THEME_LIGHT;
+                setTheme(ThemeHelper.getThemeStyle(themeToSwitch));
+                ThemeHelper.setTheme(themeToSwitch);
+    
+                onThemeSwitch();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    private void setStatusBarStyle() {
+        if (isInLightTheme()) {
+            setStatusBarStyle(true);
+        } else {
+            setStatusBarStyle(false);
+        }
+    }
+    
+    private void setStatusBarMask() {
+        if (isInLightTheme()) {
+            mStatusBar.setLightMask();
+        } else {
+            mStatusBar.setDarkMask();
+        }
     }
 }

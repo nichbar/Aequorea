@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.AuthorModel;
 import nich.work.aequorea.author.model.entities.Author;
@@ -35,8 +36,9 @@ import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.ThemeHelper;
 
-public class AuthorActivity extends BaseActivity {
+public class AuthorActivity extends BaseActivity implements AuthorView {
     
     private final static String TAG = AuthorActivity.class.getSimpleName();
     
@@ -87,7 +89,6 @@ public class AuthorActivity extends BaseActivity {
         mPresenter.load(mModel.getAuthorId());
     }
     
-    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,11 +129,19 @@ public class AuthorActivity extends BaseActivity {
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addOnScrollListener(mScrollListener);
-    
-        setStatusBarStyle(true);
-        mStatusBar.setLightMask();
-        
         mAppBar.addOnOffsetChangedListener(mOffsetListener);
+        
+        setStatusBarStyle();
+    }
+    
+    private void setStatusBarStyle() {
+        if (mTheme.equals(Constants.THEME_LIGHT)) {
+            setStatusBarStyle(true);
+            mStatusBar.setLightMask();
+        } else {
+            setStatusBarStyle(false);
+            mStatusBar.setDarkMask();
+        }
     }
     
     public AuthorModel getModel() {
@@ -140,31 +149,32 @@ public class AuthorActivity extends BaseActivity {
     }
     
     private void initPresenter() {
-        mPresenter = new AuthorPresenter(this);
+        mPresenter = new AuthorPresenter();
+        mPresenter.attach(this);
         mPresenter.load(mModel.getAuthorId());
     }
     
-    public void onUpdate(Author a) {
-    
+    @Override
+    public void onDataLoaded(Author a) {
         // filter the content that can not display at this very moment
         // TODO support this kind of things
         a.setData(filter(a.getData()));
-        
+    
         // when filter method above do filter most of the item, make a load call here
-        if (a.getData().size() < 4) {
+        if (a.getData().size() <= 5) {
             mPresenter.load(mModel.getAuthorId());
         }
-        
+    
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
-        
+    
         List<Datum> articleList = mAdapter.getArticleDataList();
-        
+    
         if (mIsFirstPage) {
             mPresenter.findAuthorInfo(a);
             mIsFirstPage = false;
         }
-        
+    
         if (mAdapter.getArticleDataList() == null) {
             // TODO filter article that only subscriber can read
             mAdapter.setArticleDataList(a.getData());
@@ -193,6 +203,7 @@ public class AuthorActivity extends BaseActivity {
         return data;
     }
     
+    @Override
     public void onError(Throwable error) {
         mRefreshView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
@@ -202,6 +213,33 @@ public class AuthorActivity extends BaseActivity {
         SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
     
+    @Override
+    public void onUpdateAuthorInfo(Author author) {
+        mCollapsingToolbarLayout.setTitle(author.getName());
+    
+        Glide.with(this)
+            .load(author.getAvatar())
+            .transform(new CircleTransformation(this))
+            .into(mAuthorIv);
+    
+        String intro = author.getIntroduction();
+        if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {
+        
+            if (intro.contains("。")) {
+                int position = intro.indexOf("。");
+                intro = intro.substring(0, position);
+            }
+        
+            mIntroductionTv.setText(intro);
+        
+        } else {
+            mIntroductionTv.setText(R.string.default_introduction);
+        }
+    
+        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
+            .getTotalCount()));
+    }
+    
     public void autoLoad(int dy) {
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
@@ -209,32 +247,6 @@ public class AuthorActivity extends BaseActivity {
         if (!mModel.isLoading() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 3) {
             mPresenter.load(mModel.getAuthorId());
         }
-    }
-    
-    public void updateAuthorInfo(Author author) {
-        mCollapsingToolbarLayout.setTitle(author.getName());
-        
-        Glide.with(this)
-            .load(author.getAvatar())
-            .transform(new CircleTransformation(this))
-            .into(mAuthorIv);
-        
-        String intro = author.getIntroduction();
-        if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {
-            
-            if (intro.contains("。")) {
-                int position = intro.indexOf("。");
-                intro = intro.substring(0, position);
-            }
-            
-            mIntroductionTv.setText(intro);
-            
-        } else {
-            mIntroductionTv.setText(R.string.default_introduction);
-        }
-        
-        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
-            .getTotalCount()));
     }
     
     private void showAuthorDetail() {
@@ -274,5 +286,30 @@ public class AuthorActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(0, R.anim.activity_slide_out_bottom);
+    }
+    
+    @Override
+    public void onThemeSwitch() {
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
+        mTheme = Aequorea.getCurrentTheme();
+    
+        setStatusBarStyle();
+        
+        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
+        int subTitleColor = ThemeHelper.getResourceColor(this, R.attr.subtitle_color);
+        int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+            
+        mCoordinatorLayout.setBackgroundColor(primaryColor);
+        mIntroductionTv.setTextColor(subTitleColor);
+        mArticleCountTv.setTextColor(subTitleColor);
+        mCollapsingToolbarLayout.setExpandedTitleColor(titleColor);
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(titleColor);
+        mCollapsingToolbarLayout.setBackgroundColor(primaryColor);
+        mRecyclerView.setBackgroundColor(rootColor);
+        
+        // reload the
+        mAdapter = new AuthorAdapter(this, mAdapter.getArticleDataList());
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

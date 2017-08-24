@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_change_to_sans_serif"
+        android:title="@string/sans_serif"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_change_to_serif"
+        android:title="@string/serif"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_change_to_monospace"
+        android:title="@string/monospace"
+        app:showAsAction="ifRoom"/>
+</menu>

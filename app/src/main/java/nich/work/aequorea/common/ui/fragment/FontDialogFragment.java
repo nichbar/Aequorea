@@ -81,7 +81,7 @@ public class FontDialogFragment extends DialogFragment {
                     case R.id.action_change_to_sans_serif:
                         FontHelper.setFontFamily(FontHelper.SANS_SERIF);
                         mView.setContentFontFamily(FontHelper.SANS_SERIF);
-                        mFontFamilyTv.setText(convertFontName(FontHelper.SERIF));
+                        mFontFamilyTv.setText(convertFontName(FontHelper.SANS_SERIF));
                         break;
                 }
                 return true;

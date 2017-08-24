@@ -22,6 +22,12 @@
         <item name="icon_share">@drawable/icon_share_dark</item>
         <item name="icon_font">@drawable/icon_font_dark</item>
         <item name="icon_theme">@drawable/icon_theme_dark</item>
+        <item name="icon_font_family">@drawable/icon_font_family_white</item>
+        <item name="icon_font_spacing">@drawable/icon_line_spacing_white</item>
+        <item name="icon_font_size">@drawable/icon_font_size_white</item>
+        <item name="icon_font_increase">@drawable/icon_plus_dark</item>
+        <item name="icon_font_decrease">@drawable/icon_minus_dark</item>
+        <item name="icon_font_drop_down_arrow">@drawable/icon_arrow_drop_down_dark</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -45,6 +51,12 @@
         <item name="icon_share">@drawable/icon_share_light</item>
         <item name="icon_font">@drawable/icon_font_light</item>
         <item name="icon_theme">@drawable/icon_theme_light</item>
+        <item name="icon_font_family">@drawable/icon_font_family_black</item>
+        <item name="icon_font_spacing">@drawable/icon_line_spacing_black</item>
+        <item name="icon_font_size">@drawable/icon_font_size_black</item>
+        <item name="icon_font_increase">@drawable/icon_plus_light</item>
+        <item name="icon_font_decrease">@drawable/icon_minus_light</item>
+        <item name="icon_font_drop_down_arrow">@drawable/icon_arrow_drop_down_light</item>
     </style>
 
     <style name="TextWithShadow">
@@ -69,6 +81,21 @@
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_weight">1</item>
         <item name="android:alpha">0.7</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <!-- article dialog style -->
+    <style name="font_round_square">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/shape_round_square</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="font_action">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 

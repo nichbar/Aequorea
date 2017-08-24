@@ -3,13 +3,14 @@ package nich.work.aequorea.main.ui.activities;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,10 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.rx.RxBus;
 import nich.work.aequorea.common.rx.RxEvent;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
+import nich.work.aequorea.common.utils.FontHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
@@ -51,7 +54,6 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
-    private LayoutInflater mInflater;
     
     private static final int ANIMATION_DURATION = 200;
     
@@ -129,6 +131,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         if (mModel.getData() != null) {
             IntentUtils.openInBrowser(this, mModel.getData().getShareUrl());
         }
+    }
+    
+    @OnClick(R.id.iv_font)
+    void modifyFont() {
+        FontDialogFragment dialogFragment = new FontDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(), "");
     }
     
     @OnClick(R.id.iv_theme)
@@ -225,8 +233,6 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     private void initView() {
         ButterKnife.bind(this);
     
-        mInflater = LayoutInflater.from(this);
-    
         setStatusBarStyle();
         setStatusBarMask();
 
@@ -245,7 +251,18 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         mPresenter.attach(this);
         mPresenter.load(mModel.getId());
     }
-
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        setStandardMode();
+        // restyle content
+        setContentFontSize(FontHelper.getFontSize());
+        setContentLineSpacing(FontHelper.getFontSpacing());
+        setContentFontFamily(FontHelper.getFontFamily());
+    }
+    
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -367,7 +384,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     
     @SuppressLint("InflateParams")
     private View createRecommendArticle(final Datum datum) {
-        View view = mInflater.inflate(R.layout.piece_recommend_article, null);
+        View view = View.inflate(this, R.layout.piece_recommend_article, null);
         
         TextView title = (TextView) view.findViewById(R.id.tv_article_recommend_title);
         title.setText(datum.getTitle());
@@ -446,4 +463,25 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         }
     }
     
+    public void setContentFontSize(int i) {
+        mContentTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, i);
+    }
+    
+    public void setContentLineSpacing(int i) {
+        mContentTv.setLineSpacing(dp2px(i), 1);
+    }
+    
+    public void setContentFontFamily(String fontFamily) {
+        switch (fontFamily) {
+            case FontHelper.SANS_SERIF:
+                mContentTv.setTypeface(Typeface.SANS_SERIF);
+                break;
+            case FontHelper.SERIF:
+                mContentTv.setTypeface(Typeface.SERIF);
+                break;
+            case FontHelper.MONOSPACE:
+                mContentTv.setTypeface(Typeface.MONOSPACE);
+                break;
+        }
+    }
 }

@@ -23,11 +23,19 @@ public class SPUtils {
         return getSp().getString(key, "");
     }
     
+    public static String getString(String key, String defaultValue) {
+        return getSp().getString(key, defaultValue);
+    }
+    
     public static void setInt(String key, int value) {
         getSp().edit().putInt(key, value).apply();
     }
     
     public static int getInt(String key) {
         return getSp().getInt(key, 0);
+    }
+    
+    public static int getInt(String key, int defaultValue) {
+        return getSp().getInt(key, defaultValue);
     }
 }

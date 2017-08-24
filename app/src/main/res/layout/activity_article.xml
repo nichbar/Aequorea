@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:letterSpacing="0.06"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="@dimen/spacing_article_content"
                     android:textAlignment="textStart"
                     android:textColor="?attr/content_color"
                     android:textSize="@dimen/size_article_content"

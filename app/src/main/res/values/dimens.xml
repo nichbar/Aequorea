@@ -3,4 +3,5 @@
     <dimen name="marginArticleItem">11dp</dimen>
     <dimen name="padding_article_content">18dp</dimen>
     <dimen name="size_article_content">16sp</dimen>
+    <dimen name="spacing_article_content">5dp</dimen>
 </resources>

@@ -77,10 +77,12 @@
 
     <style name="option_item_style">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:alpha">0.7</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 

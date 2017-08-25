@@ -7,13 +7,14 @@ import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -55,12 +56,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
     
-    private static final int ANIMATION_DURATION = 200;
+    private static final int ANIMATION_DURATION_STATUS_BAR = 200;
+    private static final int ANIMATION_DURATION_THEME_SWITCHING = 350;
     
     private int mScrollUpEdge;
     private int mScrollDownEdge;
     
     private boolean mIsStatusBarInLowProfileMode = false;
+    private boolean mThemeSwitchIsRunning = false;
 
     @BindView(R.id.tv_article_content) TextView mContentTv;
     @BindView(R.id.tv_author) TextView mAuthorTv;
@@ -72,7 +75,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
     @BindView(R.id.container_refresh) View mRefreshView;
     @BindView(R.id.layout_swipe_back_article) SwipeBackCoordinatorLayout mSwipeBackLayout;
-    @BindView(R.id.layout_container_article) CoordinatorLayout mContainer;
+    @BindView(R.id.layout_container_article) ViewGroup mContainer;
     @BindView(R.id.scrollview) NestedScrollView mScrollView;
     @BindView(R.id.status_bar) StatusBarView mStatusBar;
     @BindView(R.id.container_recommendation) LinearLayout mRecommendationContainer;
@@ -141,6 +144,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     
     @OnClick(R.id.iv_theme)
     void switchTheme() {
+        if (mThemeSwitchIsRunning) {
+            return;
+        }
+        
         if (isInLightTheme()) {
             mTheme = Constants.THEME_DARK;
         } else {
@@ -148,6 +155,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         }
         ThemeHelper.setTheme(mTheme);
         setTheme(ThemeHelper.getThemeStyle(mTheme));
+        startThemeSwitchingAnimation();
         
         RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
     }
@@ -278,7 +286,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     public void setStandardMode() {
         if (mIsStatusBarInLowProfileMode) {
             setStatusBarStyle();
-            mStatusBar.animate().scaleY(1).setDuration(ANIMATION_DURATION);
+            mStatusBar.animate().scaleY(1).setDuration(ANIMATION_DURATION_STATUS_BAR);
             mIsStatusBarInLowProfileMode = false;
             mOptionContainer.setVisibility(View.VISIBLE);
             
@@ -290,7 +298,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     public void setLowProfileMode() {
         if (!mIsStatusBarInLowProfileMode) {
             setStatusBarInLowProfileMode(isInLightTheme());
-            mStatusBar.animate().scaleY(0).setDuration(ANIMATION_DURATION);
+            mStatusBar.animate().scaleY(0).setDuration(ANIMATION_DURATION_STATUS_BAR);
             mIsStatusBarInLowProfileMode = true;
     
             mOptionContainer.animate()
@@ -402,6 +410,36 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         Log.e(TAG, throwable.getMessage());
     }
     
+    private void startThemeSwitchingAnimation() {
+        int location[] = new int[2];
+        mThemeIv.getLocationOnScreen(location);
+    
+        Animator animator = ViewAnimationUtils.createCircularReveal(mScrollView, location[0] + mThemeIv.getMeasuredWidth() / 2, location[1], 0f, getResources()
+            .getDisplayMetrics().heightPixels);
+    
+        animator.setDuration(ANIMATION_DURATION_THEME_SWITCHING);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                mThemeSwitchIsRunning = true;
+            }
+    
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                mSwipeBackLayout.setBackgroundColor(ThemeHelper.getResourceColor(ArticleActivity.this, R.attr.root_color));
+                mThemeSwitchIsRunning = false;
+            }
+    
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+    
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
+        animator.setInterpolator(new LinearInterpolator());
+        animator.start();
+    }
+    
     @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
@@ -423,7 +461,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         int iconThemeId = ThemeHelper.getResourceId(this, R.attr.icon_theme);
         int iconBrowserId = ThemeHelper.getResourceId(this, R.attr.icon_browser);
     
-        mSwipeBackLayout.setBackgroundColor(rootColor);
+        mScrollView.setBackgroundColor(rootColor);
         mTagTv.setTextColor(accentColor);
         mTitleTv.setTextColor(titleColor);
         mAuthorTv.setTextColor(subtitleColor);

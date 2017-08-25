@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.NestedScrollingChild;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -59,10 +60,10 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
                 mAppBarLayout = (NestedScrollAppBarLayout) appBarLayout;
             }
         }
-
+    
         @Override
-        public boolean onStartNestedScroll(CoordinatorLayout parent, AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes) {
-            if (super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes)) {
+        public boolean onStartNestedScroll(CoordinatorLayout parent, AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes, int type) {
+            if (super.onStartNestedScroll(parent, child, directTargetChild, target, nestedScrollAxes, type)) {
                 bindChild(child);
                 mOriginTop = child.getY();
                 mAppBarLayout.stopScrollAnimation();
@@ -73,13 +74,13 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
         }
 
         @Override
-        public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed) {
-            super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed);
+        public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed, int type) {
+            super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
         }
 
         @Override
-        public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-            super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+        public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+            super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
             bindChild(child);
             if (mAppBarLayout.mListener != null) {
                 mAppBarLayout.mListener.onNestedScrolling();
@@ -87,7 +88,7 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
         }
 
         @Override
-        public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, View target) {
+        public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout abl, View target, int type) {
             bindChild(abl);
 
             float currentTop = abl.getTop();
@@ -102,7 +103,7 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
             if (mAppBarLayout.mListener != null) {
                 mAppBarLayout.mListener.onStopNestedScrolling();
             }
-            super.onStopNestedScroll(coordinatorLayout, abl, target);
+            super.onStopNestedScroll(coordinatorLayout, abl, target, type);
         }
     }
 
@@ -146,9 +147,9 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
                     int currentY = (int) animation.getAnimatedValue();
                     int[] total = new int[]{0, lastY - currentY};
                     int[] consumed = new int[]{0, 0};
-                    behavior.onNestedPreScroll((CoordinatorLayout) getParent(), NestedScrollAppBarLayout.this, null, total[0], total[1], consumed);
-                    behavior.onNestedScroll((CoordinatorLayout) getParent(), NestedScrollAppBarLayout.this, null, consumed[0], consumed[1],
-                            total[0] - consumed[0], total[1] - consumed[1]);
+                    behavior.onNestedPreScroll((CoordinatorLayout) getParent(), NestedScrollAppBarLayout.this, NestedScrollAppBarLayout.this, total[0], total[1], consumed, ViewCompat.TYPE_NON_TOUCH);
+                    behavior.onNestedScroll((CoordinatorLayout) getParent(), NestedScrollAppBarLayout.this, NestedScrollAppBarLayout.this, consumed[0], consumed[1],
+                            total[0] - consumed[0], total[1] - consumed[1], ViewCompat.TYPE_NON_TOUCH);
 
                     lastY = currentY;
                 }

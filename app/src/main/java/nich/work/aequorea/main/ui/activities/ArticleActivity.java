@@ -123,8 +123,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnLongClick(R.id.iv_screenshot)
-    boolean showBrowserHint() {
-        saveArticleToStorageWithPermissionCheck();
+    boolean saveScreenShot() {
+        if (mModel.getData() != null) {
+            saveArticleToStorageWithPermissionCheck();
+        }
         return true;
     }
     
@@ -145,10 +147,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnClick(R.id.iv_screenshot)
-    void openInBrowser() {
-        if (mModel.getData() != null) {
-            ToastUtils.showShortToast(getString(R.string.long_click_to_save_this_article));
-        }
+    void showScreenshotHint() {
+        ToastUtils.showShortToast(getString(R.string.long_click_to_save_this_article));
     }
     
     @OnClick(R.id.iv_font)

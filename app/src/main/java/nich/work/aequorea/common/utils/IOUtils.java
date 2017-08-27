@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class IOUtils {
-    private static final String mPicDir = "/Pictures/Screenshots/";
+    private static final String mPicDir = "/Pictures/Aequorea/";
     
     public static String saveBitmapToExternalStorage(Bitmap bitmap, String name) {
         

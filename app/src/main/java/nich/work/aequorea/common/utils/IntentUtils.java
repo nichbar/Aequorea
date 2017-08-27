@@ -3,7 +3,11 @@ package nich.work.aequorea.common.utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.FileProvider;
 
+import java.io.File;
+
+import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.author.ui.AuthorActivity;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.main.ui.activities.ArticleActivity;
@@ -40,11 +44,18 @@ public class IntentUtils {
         context.startActivity(intent);
     }
     
-    public static void openImageFromStorage(Context context, String path){
+    public static void openImageFromStorage(Context context, String path) {
         Intent intent = new Intent();
+        File file = new File(path);
+        Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, file);
+    
         intent.setAction(android.content.Intent.ACTION_VIEW);
-        Uri uri = Uri.parse("file://" + path);
-        intent.setDataAndType(uri,"image/*");
+        intent.setDataAndType(uri, "image/jpg");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         context.startActivity(intent);
     }
 }

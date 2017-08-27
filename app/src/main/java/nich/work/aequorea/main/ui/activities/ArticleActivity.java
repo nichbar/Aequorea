@@ -1,12 +1,19 @@
 package nich.work.aequorea.main.ui.activities;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -40,8 +47,11 @@ import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
+import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.FontHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
+import nich.work.aequorea.common.utils.PermissionUtils;
+import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.main.model.ArticleModel;
@@ -50,20 +60,25 @@ import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.presenter.ArticlePresenter;
 import nich.work.aequorea.main.ui.view.ArticleView;
 
-public class ArticleActivity extends BaseActivity implements ArticleView{
+public class ArticleActivity extends BaseActivity implements ArticleView {
     private static final String TAG = ArticleActivity.class.getSimpleName();
     
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
     
+    
+    private static final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    
     private static final int ANIMATION_DURATION_STATUS_BAR = 200;
     private static final int ANIMATION_DURATION_THEME_SWITCHING = 350;
+    private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 1;
     
     private int mScrollUpEdge;
     private int mScrollDownEdge;
     
     private boolean mIsStatusBarInLowProfileMode = false;
     private boolean mThemeSwitchIsRunning = false;
+
 
     @BindView(R.id.tv_article_content) TextView mContentTv;
     @BindView(R.id.tv_author) TextView mAuthorTv;
@@ -83,7 +98,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
     @BindView(R.id.container_option) ViewGroup mOptionContainer;
     @BindView(R.id.iv_theme) ImageView mThemeIv;
     @BindView(R.id.iv_font) ImageView mFontIv;
-    @BindView(R.id.iv_browser) ImageView mBrowserIv;
+    @BindView(R.id.iv_screenshot) ImageView mScreenshotIv;
     @BindView(R.id.iv_share) ImageView mShareIv;
     
     @OnClick(R.id.tv_author)
@@ -107,9 +122,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         return true;
     }
     
-    @OnLongClick(R.id.iv_browser)
+    @OnLongClick(R.id.iv_screenshot)
     boolean showBrowserHint() {
-        ToastUtils.showShortToast(getString(R.string.open_in_browser));
+        saveArticleToStorageWithPermissionCheck();
         return true;
     }
     
@@ -129,10 +144,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         }
     }
     
-    @OnClick(R.id.iv_browser)
+    @OnClick(R.id.iv_screenshot)
     void openInBrowser() {
         if (mModel.getData() != null) {
-            IntentUtils.openInBrowser(this, mModel.getData().getShareUrl());
+            ToastUtils.showShortToast(getString(R.string.long_click_to_save_this_article));
         }
     }
     
@@ -288,10 +303,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
             setStatusBarStyle();
             mStatusBar.animate().scaleY(1).setDuration(ANIMATION_DURATION_STATUS_BAR);
             mIsStatusBarInLowProfileMode = false;
-            mOptionContainer.setVisibility(View.VISIBLE);
-            
-            mOptionContainer.animate()
-                .alpha(1);
+            showOptions();
         }
     }
     
@@ -300,33 +312,36 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
             setStatusBarInLowProfileMode(isInLightTheme());
             mStatusBar.animate().scaleY(0).setDuration(ANIMATION_DURATION_STATUS_BAR);
             mIsStatusBarInLowProfileMode = true;
-    
-            mOptionContainer.animate()
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-        
-                    }
-    
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (mIsStatusBarInLowProfileMode) {
-                            mOptionContainer.setVisibility(View.GONE);
-                        }
-                    }
-    
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-        
-                    }
-    
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-        
-                    }
-                })
-                .alpha(0);
+            hideOptions();
         }
+    }
+    
+    private void showOptions() {
+        mOptionContainer.setVisibility(View.VISIBLE);
+        mOptionContainer.animate()
+            .alpha(1);
+    }
+    
+    private void hideOptions(){
+        mOptionContainer.animate()
+            .setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {}
+            
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (mIsStatusBarInLowProfileMode) {
+                        mOptionContainer.setVisibility(View.GONE);
+                    }
+                }
+            
+                @Override
+                public void onAnimationCancel(Animator animation) {}
+            
+                @Override
+                public void onAnimationRepeat(Animator animation) {}
+            })
+            .alpha(0);
     }
     
     private void toggleShowStatus() {
@@ -459,7 +474,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         int iconShareId = ThemeHelper.getResourceId(this, R.attr.icon_share);
         int iconFontId = ThemeHelper.getResourceId(this, R.attr.icon_font);
         int iconThemeId = ThemeHelper.getResourceId(this, R.attr.icon_theme);
-        int iconBrowserId = ThemeHelper.getResourceId(this, R.attr.icon_browser);
+        int iconScreenshotId = ThemeHelper.getResourceId(this, R.attr.icon_screenshot);
     
         mScrollView.setBackgroundColor(rootColor);
         mTagTv.setTextColor(accentColor);
@@ -473,7 +488,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
         mShareIv.setImageResource(iconShareId);
         mFontIv.setImageResource(iconFontId);
         mThemeIv.setImageResource(iconThemeId);
-        mBrowserIv.setImageResource(iconBrowserId);
+        mScreenshotIv.setImageResource(iconScreenshotId);
     
         GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, primaryColor});
         mOptionContainer.setBackground(drawable);
@@ -521,5 +536,54 @@ public class ArticleActivity extends BaseActivity implements ArticleView{
                 mContentTv.setTypeface(Typeface.MONOSPACE);
                 break;
         }
+    }
+    
+    private void saveArticleToStorageWithPermissionCheck() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!PermissionUtils.hasPermissions(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_WRITE_EXTERNAL_STORAGE);
+                return;
+            }
+        }
+        
+        saveArticleToStorage();
+    }
+    
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    saveArticleToStorage();
+                } else {
+                    ToastUtils.showShortToast(getString(R.string.require_write_stroage_permission));
+                }
+        }
+    }
+    
+    private void saveArticleToStorage() {
+        int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
+        Bitmap bitmap = DisplayUtils.shotNestedScrollView(mScrollView, rootColor);
+        mPresenter.startSaveArticleToStorage(bitmap, mModel.getData().getTitle());
+    }
+    
+    @Override
+    public void onArticleSavedAsPictureSucceeded(final String path) {
+        hideOptions();
+        
+        Snackbar snackbar = SnackbarUtils.getSnackbar(mSwipeBackLayout, getString(R.string.screenshot_saved_to_stroage), Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.open_image, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtils.openImageFromStorage(ArticleActivity.this, path);
+            }
+        });
+        snackbar.show();
+    }
+    
+    @Override
+    public void onArticleSavedAsPictureFailed(Throwable t) {
+        ToastUtils.showShortToast(getString(R.string.save_failed) + t.toString());
     }
 }

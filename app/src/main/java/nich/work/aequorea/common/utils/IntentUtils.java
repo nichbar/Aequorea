@@ -39,4 +39,12 @@ public class IntentUtils {
         intent.setData(content_url);
         context.startActivity(intent);
     }
+    
+    public static void openImageFromStorage(Context context, String path){
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_VIEW);
+        Uri uri = Uri.parse("file://" + path);
+        intent.setDataAndType(uri,"image/*");
+        context.startActivity(intent);
+    }
 }

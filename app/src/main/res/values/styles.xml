@@ -18,7 +18,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="icon_browser">@drawable/icon_browser_dark</item>
+        <item name="icon_screenshot">@drawable/icon_screenshot_dark</item>
         <item name="icon_share">@drawable/icon_share_dark</item>
         <item name="icon_font">@drawable/icon_font_dark</item>
         <item name="icon_theme">@drawable/icon_theme_dark</item>
@@ -47,7 +47,7 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
 
-        <item name="icon_browser">@drawable/icon_browser_light</item>
+        <item name="icon_screenshot">@drawable/icon_screenshot_light</item>
         <item name="icon_share">@drawable/icon_share_light</item>
         <item name="icon_font">@drawable/icon_font_light</item>
         <item name="icon_theme">@drawable/icon_theme_light</item>
@@ -77,9 +77,9 @@
 
     <style name="option_item_style">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_height">35dp</item>
         <item name="android:paddingStart">5dp</item>
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingTop">15dp</item>
         <item name="android:paddingEnd">5dp</item>
         <item name="android:layout_gravity">bottom</item>
         <item name="android:layout_weight">1</item>

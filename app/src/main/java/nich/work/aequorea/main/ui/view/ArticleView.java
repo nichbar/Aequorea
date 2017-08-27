@@ -12,4 +12,7 @@ public interface ArticleView extends BaseView {
     
     void onRecommendationLoaded(List<Datum> dataList);
     void onRecommendationError(Throwable t);
+    
+    void onArticleSavedAsPictureSucceeded(String s);
+    void onArticleSavedAsPictureFailed(Throwable t);
 }

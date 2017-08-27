@@ -9,9 +9,9 @@
               android:padding="12dp">
 
     <ImageView
-        android:id="@+id/iv_browser"
+        android:id="@+id/iv_screenshot"
         style="@style/option_item_style"
-        android:src="?attr/icon_browser"/>
+        android:src="?attr/icon_screenshot"/>
 
     <ImageView
         android:id="@+id/iv_font"

@@ -1,11 +1,18 @@
 package nich.work.aequorea.main.presenter;
 
+import android.graphics.Bitmap;
+
+import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
+import nich.work.aequorea.common.utils.IOUtils;
 import nich.work.aequorea.main.model.article.Article;
 import nich.work.aequorea.main.model.mainpage.Data;
 import nich.work.aequorea.main.ui.view.ArticleView;
@@ -56,7 +63,29 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }
         }));
     }
-
+    
+    public void startSaveArticleToStorage(final Bitmap bitmap, final String title){
+        mComposite.add(Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<String> e) throws Exception {
+                String address = IOUtils.saveBitmapToExternalStorage(bitmap, title);
+                e.onSuccess(address);
+            }})
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                mBaseView.onArticleSavedAsPictureSucceeded(s);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                mBaseView.onArticleSavedAsPictureFailed(throwable);
+            }
+        }));
+    }
+    
     private void publish() {
         if (mArticle != null) {
             mBaseView.onArticleLoaded(mArticle.getData());

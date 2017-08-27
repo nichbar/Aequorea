@@ -35,7 +35,7 @@ import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
-import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 
 public class AuthorActivity extends BaseActivity implements AuthorView {
@@ -210,7 +210,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         if (error != null) {
             Log.d(TAG, error.getMessage());
         }
-        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
+        SnackbarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
     
     @Override

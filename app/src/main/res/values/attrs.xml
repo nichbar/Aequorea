@@ -11,7 +11,7 @@
     </declare-styleable>
 
     <declare-styleable name="ThemeIcon">
-        <attr name="icon_browser" format="reference"/>
+        <attr name="icon_screenshot" format="reference"/>
         <attr name="icon_font" format="reference"/>
         <attr name="icon_theme" format="reference"/>
         <attr name="icon_share" format="reference"/>

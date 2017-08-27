@@ -25,7 +25,7 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
-import nich.work.aequorea.common.utils.SnackBarUtils;
+import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         if (error != null) {
             Log.d(TAG, error.getMessage());
         }
-        SnackBarUtils.show(mRecyclerView, getString(R.string.network_error));
+        SnackbarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
 
     @Override

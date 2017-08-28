@@ -24,4 +24,7 @@ public class Constants {
     public static final String THEME = "theme";
     public static final String THEME_LIGHT = "theme_light";
     public static final String THEME_DARK = "theme_dark";
+    
+    // Trigger
+    public static final int AUTO_LOAD_TRIGGER = 30;
 }

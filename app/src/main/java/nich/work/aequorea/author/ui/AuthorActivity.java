@@ -35,6 +35,7 @@ import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
+import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 
@@ -56,7 +57,9 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         @Override
         public void onScrolled(RecyclerView mRecyclerView, int dx, int dy) {
             super.onScrolled(mRecyclerView, dx, dy);
-            autoLoad(dy);
+            if (dy > Constants.AUTO_LOAD_TRIGGER) {
+                autoLoad();
+            }
         }
     };
     
@@ -86,7 +89,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     @OnClick(R.id.container_refresh) void refresh() {
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
-        mPresenter.load(mModel.getAuthorId());
+        mPresenter.load();
     }
     
     @Override
@@ -151,7 +154,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     private void initPresenter() {
         mPresenter = new AuthorPresenter();
         mPresenter.attach(this);
-        mPresenter.load(mModel.getAuthorId());
+        mPresenter.load();
     }
     
     @Override
@@ -162,7 +165,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     
         // when filter method above do filter most of the item, make a load call here
         if (a.getData().size() <= 5) {
-            mPresenter.load(mModel.getAuthorId());
+            mPresenter.load();
         }
     
         mRefreshView.setVisibility(View.GONE);
@@ -205,12 +208,17 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     
     @Override
     public void onError(Throwable error) {
-        mRefreshView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        if (mAdapter.getItemCount() == 0) {
+            mRefreshView.setVisibility(View.VISIBLE);
+            mProgressBar.setVisibility(View.GONE);
+        } else {
+            mRefreshView.setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
+        }
         if (error != null) {
             Log.d(TAG, error.getMessage());
+            SnackbarUtils.show(mRecyclerView, error.getMessage());
         }
-        SnackbarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
     
     @Override
@@ -240,12 +248,12 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
             .getTotalCount()));
     }
     
-    public void autoLoad(int dy) {
+    public void autoLoad() {
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 3) {
-            mPresenter.load(mModel.getAuthorId());
+        if (!mModel.isLoading() && totalCount > 0 && lastVisibleItem >= totalCount - 3 && NetworkUtils.isNetworkAvailable()) {
+            mPresenter.load();
         }
     }
     

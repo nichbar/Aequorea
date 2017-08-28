@@ -1,5 +1,7 @@
 package nich.work.aequorea.common.presenter;
 
+import android.content.Context;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import nich.work.aequorea.common.rx.RxBus;
@@ -40,5 +42,12 @@ public abstract class BasePresenter<T extends BaseView> {
     public void detach() {
         mComposite.clear();
         mBaseView = null;
+    }
+    
+    public String getString(int id) {
+        if (mBaseView instanceof Context) {
+            return ((Context) mBaseView).getString(id);
+        }
+        return "";
     }
 }

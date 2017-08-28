@@ -25,19 +25,20 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
+import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.main.model.MainPageModel;
 import nich.work.aequorea.main.model.mainpage.Datum;
-import nich.work.aequorea.main.presenter.MainPagePresenter;
+import nich.work.aequorea.main.presenter.MainPresenter;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
 import nich.work.aequorea.main.ui.view.HomeView;
 
 public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
 
-    private final static String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
-    private MainPagePresenter mPresenter;
+    private MainPresenter mPresenter;
     private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
@@ -49,7 +50,9 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         @Override
         public void onScrolled(RecyclerView mRecyclerView, int dx, int dy) {
             super.onScrolled(mRecyclerView, dx, dy);
-            autoLoad(dy);
+            if (dy > Constants.AUTO_LOAD_TRIGGER) {
+                autoLoad();
+            }
         }
     };
 
@@ -71,8 +74,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @BindView(R.id.container_refresh) View mRefreshView;
     
     @OnClick(R.id.container_refresh) void refresh() {
-        mRefreshView.setVisibility(View.GONE);
-        mSwipeRefreshLayout.setRefreshing(false);
+        hideRefreshLayout();
         mProgressBar.setVisibility(View.VISIBLE);
         mPresenter.loadData();
     }
@@ -99,7 +101,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
 
     private void initPresenter() {
         if (mPresenter == null) {
-            mPresenter = new MainPagePresenter();
+            mPresenter = new MainPresenter();
         }
         mPresenter.attach(this);
     }
@@ -145,8 +147,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     
     @Override
     public void onDataLoaded(List<Datum> data, boolean isRefresh) {
-        mProgressBar.setVisibility(View.GONE);
-        mRefreshView.setVisibility(View.GONE);
+        hideRefreshLayout();
     
         // filter the content that can not display at this very moment
         // TODO support this kind of things
@@ -169,12 +170,16 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     
     @Override
     public void onError(Throwable error) {
-        mRefreshView.setVisibility(View.VISIBLE);
-        mProgressBar.setVisibility(View.GONE);
+        if (mAdapter.getItemCount() == 0){
+            showRefreshLayout();
+        } else {
+            hideRefreshLayout();
+        }
+    
         if (error != null) {
             Log.d(TAG, error.getMessage());
+            SnackbarUtils.show(mRecyclerView, error.getMessage());
         }
-        SnackbarUtils.show(mRecyclerView, getString(R.string.network_error));
     }
 
     @Override
@@ -213,13 +218,13 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     public MainPageModel getModel(){
         return mModel;
     }
-
-    private void autoLoad(int dy) {
-        int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                .findLastVisibleItemPosition();
-
+    
+    private void autoLoad() {
+        int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
+        
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && dy > 0 && lastVisibleItem >= totalCount - 2) {
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0
+            && lastVisibleItem >= totalCount - 3 && NetworkUtils.isNetworkAvailable()) {
             mPresenter.loadData();
         }
     }
@@ -309,5 +314,17 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         } else {
             mStatusBar.setDarkMask();
         }
+    }
+    
+    private void hideRefreshLayout() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mRefreshView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+    }
+    
+    private void showRefreshLayout() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mRefreshView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.GONE);
     }
 }

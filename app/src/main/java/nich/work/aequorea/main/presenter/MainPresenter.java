@@ -3,6 +3,7 @@ package nich.work.aequorea.main.presenter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import nich.work.aequorea.R;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
@@ -10,11 +11,9 @@ import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.main.model.mainpage.Data;
 import nich.work.aequorea.main.ui.view.HomeView;
 
-public class MainPagePresenter extends BasePresenter<HomeView> {
+public class MainPresenter extends BasePresenter<HomeView> {
     private NetworkService mNetworkService;
-    private Data mDataData;
-
-    private Throwable mError;
+    
     private int mPage = 1;
     
     @Override
@@ -24,13 +23,21 @@ public class MainPagePresenter extends BasePresenter<HomeView> {
     }
     
     public void loadData() {
+        loadData(-1);
+    }
+    
+    public void loadData(int page) {
         if (!NetworkUtils.isNetworkAvailable()){
-            mBaseView.onError(null);
+            onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
             return;
         }
         
         if (mBaseView.getModel().isLoading()){
             return;
+        }
+        
+        if (page != -1){
+            mPage = page;
         }
     
         mBaseView.getModel().setLoading(true);
@@ -42,38 +49,36 @@ public class MainPagePresenter extends BasePresenter<HomeView> {
                 .subscribe(new Consumer<Data>() {
                     @Override
                     public void accept(Data data) throws Exception {
-                        mDataData = data;
-                        mPage++;
-                        publish();
+                        onDataLoaded(data);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        mError = throwable;
-                        publish();
+                        onError(throwable);
                     }
                 })
         );
     }
-
-    private void publish() {
-        if (mBaseView != null) {
-            mBaseView.setRefreshing(false);
-            mBaseView.getModel().setLoading(false);
-            
-            if (mDataData != null) {
-                mBaseView.onDataLoaded(mDataData.getData(), mBaseView.getModel().isRefreshing());
-                mBaseView.getModel().setRefreshing(false);
-            } else if (mError != null) {
-                mBaseView.onError(mError);
-            }
-            mDataData = null;
-            mError = null;
-        }
+    
+    private void onDataLoaded(Data data) {
+        mPage++;
+    
+        setLoadingFinish();
+        mBaseView.onDataLoaded(data.getData(), mBaseView.getModel().isRefreshing());
+    }
+    
+    private void onError(Throwable t) {
+        setLoadingFinish();
+        mBaseView.onError(t);
+    }
+    
+    private void setLoadingFinish() {
+        mBaseView.setRefreshing(false);
+        mBaseView.getModel().setLoading(false);
+        mBaseView.getModel().setRefreshing(false);
     }
 
     public void refresh() {
-        mPage = 1;
-        loadData();
+        loadData(1);
     }
 }

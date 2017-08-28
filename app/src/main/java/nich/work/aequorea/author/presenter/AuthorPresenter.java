@@ -9,6 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.entities.Author;
 import nich.work.aequorea.author.model.entities.Datum;
 import nich.work.aequorea.author.ui.AuthorView;
@@ -19,8 +20,6 @@ import nich.work.aequorea.common.utils.NetworkUtils;
 
 public class AuthorPresenter extends BasePresenter<AuthorView> {
     private NetworkService mService;
-    private Author mAuthor;
-    private Throwable mThrowable;
     private int mPage;
     private int mPer;
     private long mTotalPage;
@@ -30,13 +29,13 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         
         mPage = 1;
-        mPer = 15;
+        mPer = 15; // default value is 10, but due to unpredictable result it's set to 15.
         mTotalPage = 1;
     }
     
-    public void load(int id) {
+    public void load() {
         if (!NetworkUtils.isNetworkAvailable()) {
-            mBaseView.onError(null);
+            onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
             return;
         }
         
@@ -45,22 +44,32 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
         }
         mBaseView.getModel().setLoading(true);
         
-        mComposite.add(mService.getArticleList(id, mPage, mPer)
+        mComposite.add(mService.getArticleList(mBaseView.getModel().getAuthorId(), mPage, mPer)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<Author>() {
                 @Override
                 public void accept(Author author) throws Exception {
-                    mAuthor = author;
-                    publish();
+                    onDataLoaded(author);
                 }
             }, new Consumer<Throwable>() {
                 @Override
                 public void accept(Throwable throwable) throws Exception {
-                    mThrowable = throwable;
-                    publish();
+                    onError(throwable);
                 }
             }));
+    }
+    
+    private void onDataLoaded(Author author) {
+        mPage++;
+        mBaseView.getModel().setLoading(false);
+        mTotalPage = author.getMeta().getTotalPages();
+        mBaseView.onDataLoaded(author);
+    }
+    
+    private void onError(Throwable throwable) {
+        mBaseView.getModel().setLoading(false);
+        mBaseView.onError(throwable);
     }
     
     public void findAuthorInfo(final Author a) {
@@ -89,18 +98,5 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
                     mBaseView.onUpdateAuthorInfo(author);
                 }
             }));
-    }
-    
-    private void publish() {
-        mBaseView.getModel().setLoading(false);
-        if (mAuthor != null) {
-            mPage++;
-            mTotalPage = mAuthor.getMeta().getTotalPages();
-            mBaseView.onDataLoaded(mAuthor);
-        } else if (mThrowable != null) {
-            mBaseView.onError(mThrowable);
-        }
-        mAuthor = null;
-        mThrowable = null;
     }
 }

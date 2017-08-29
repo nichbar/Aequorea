@@ -27,7 +27,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     }
     
     public void loadData(int page) {
-        if (!NetworkUtils.isNetworkAvailable()){
+        if (!NetworkUtils.isNetworkAvailable()) {
             onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
             return;
         }
@@ -63,8 +63,8 @@ public class MainPresenter extends BasePresenter<HomeView> {
     private void onDataLoaded(Data data) {
         mPage++;
     
-        setLoadingFinish();
         mBaseView.onDataLoaded(data.getData(), mBaseView.getModel().isRefreshing());
+        setLoadingFinish();
     }
     
     private void onError(Throwable t) {

@@ -6,7 +6,7 @@
 
 一直以来都很喜欢一财的文章，但是一财的APP不太好用，所以就自己写了一个。
 
-暂未上传至应用市场，可以到 [这里](http://nich.work/assets/Aequorea.apk) 或者 [Release](https://github.com/nichbar/Aequorea/releases) 里下载最新的安装包。
+暂未上传至应用市场，可以到 [网盘](https://pan.baidu.com/s/1miLvVok#list/path=%2FAequorea) 或者 [Release](https://github.com/nichbar/Aequorea/releases) 里下载最新的安装包。
 
 ### Feature 
 

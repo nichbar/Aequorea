@@ -55,7 +55,16 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
     }
     
     public void setArticleDataList(List<Datum> mArticleDataList) {
-        this.mArticleDataList = mArticleDataList;
+        if (this.mArticleDataList == null) {
+            this.mArticleDataList = mArticleDataList;
+        } else {
+            // filter repeat item
+            for (Datum d : mArticleDataList) {
+                if (!this.mArticleDataList.contains(d)) {
+                    this.mArticleDataList.add(d);
+                }
+            }
+        }
     }
     
     public static class ViewHolder extends RecyclerView.ViewHolder {

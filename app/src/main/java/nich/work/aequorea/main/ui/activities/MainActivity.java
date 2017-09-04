@@ -132,39 +132,11 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
     
-    private List<Datum> filter(List<Datum> data) {
-        Iterator<Datum> iterator = data.iterator();
-        
-        while (iterator.hasNext()) {
-            Datum d = iterator.next();
-            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE)) {
-                iterator.remove();
-            }
-        }
-        return data;
-    }
-    
     @Override
     public void onDataLoaded(List<Datum> data, boolean isRefresh) {
         hideRefreshLayout();
     
-        // filter the content that can not display at this very moment
-        // TODO support this kind of things
-        data = filter(data);
-    
-        List<Datum> articleList = mAdapter.getArticleList();
-    
-        if (articleList == null || isRefresh) {
-            mAdapter.setArticleList(data);
-        } else {
-            for (Datum d : data) {
-                if (!articleList.contains(d)) {
-                    articleList.add(d);
-                }
-            }
-            mAdapter.setArticleList(articleList);
-        }
+        mAdapter.setArticleList(data, isRefresh);
         mAdapter.notifyDataSetChanged();
     }
     

@@ -1,14 +1,19 @@
 package nich.work.aequorea.main.presenter;
 
+import java.util.Iterator;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.main.model.mainpage.Data;
+import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.ui.view.HomeView;
 
 public class MainPresenter extends BasePresenter<HomeView> {
@@ -63,7 +68,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     private void onDataLoaded(Data data) {
         mPage++;
     
-        mBaseView.onDataLoaded(data.getData(), mBaseView.getModel().isRefreshing());
+        mBaseView.onDataLoaded(filter(data.getData()), mBaseView.getModel().isRefreshing());
         setLoadingFinish();
     }
     
@@ -80,5 +85,20 @@ public class MainPresenter extends BasePresenter<HomeView> {
 
     public void refresh() {
         loadData(1);
+    }
+    
+    // filter the content that can not display at this very moment
+    // TODO support this kind of contents
+    private List<Datum> filter(List<Datum> data) {
+        Iterator<Datum> iterator = data.iterator();
+        
+        while (iterator.hasNext()) {
+            Datum d = iterator.next();
+            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE)) {
+                iterator.remove();
+            }
+        }
+        return data;
     }
 }

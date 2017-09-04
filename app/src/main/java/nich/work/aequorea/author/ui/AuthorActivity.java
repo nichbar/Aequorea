@@ -16,9 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.Iterator;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,7 +23,6 @@ import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.AuthorModel;
 import nich.work.aequorea.author.model.entities.Author;
-import nich.work.aequorea.author.model.entities.Datum;
 import nich.work.aequorea.author.presenter.AuthorPresenter;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
@@ -157,51 +153,16 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     
     @Override
     public void onDataLoaded(Author a) {
-        // filter the content that can not display at this very moment
-        // TODO support this kind of things
-        a.setData(filter(a.getData()));
-    
-        // when filter method above do filter most of the item, make a load call here
-        if (a.getData().size() <= 5) {
-            mPresenter.load();
-        }
-    
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
-    
-        List<Datum> articleList = mAdapter.getArticleDataList();
     
         if (mIsFirstPage) {
             mPresenter.findAuthorInfo(a);
             mIsFirstPage = false;
         }
     
-        if (mAdapter.getArticleDataList() == null) {
-            // TODO filter article that only subscriber can read
-            mAdapter.setArticleDataList(a.getData());
-        } else {
-            for (Datum d : a.getData()) {
-                if (!articleList.contains(d)) {
-                    articleList.add(d);
-                }
-            }
-            mAdapter.setArticleDataList(articleList);
-        }
+        mAdapter.setArticleDataList(a.getData());
         mAdapter.notifyDataSetChanged();
-    }
-    
-    private List<Datum> filter(List<Datum> data) {
-        Iterator<Datum> iterator = data.iterator();
-        
-        while (iterator.hasNext()) {
-            Datum d = iterator.next();
-            if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE) || d.getArticleType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE_V2)) {
-                iterator.remove();
-            }
-        }
-        return data;
     }
     
     @Override
@@ -311,7 +272,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         mCollapsingToolbarLayout.setBackgroundColor(primaryColor);
         mRecyclerView.setBackgroundColor(rootColor);
         
-        // reload the
+        // reload
         mAdapter = new AuthorAdapter(this, mAdapter.getArticleDataList());
         mRecyclerView.setAdapter(mAdapter);
     }

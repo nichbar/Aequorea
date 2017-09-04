@@ -1,5 +1,6 @@
 package nich.work.aequorea.author.presenter;
 
+import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -13,6 +14,7 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.entities.Author;
 import nich.work.aequorea.author.model.entities.Datum;
 import nich.work.aequorea.author.ui.AuthorView;
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
@@ -64,6 +66,16 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
         mPage++;
         mBaseView.getModel().setLoading(false);
         mTotalPage = author.getMeta().getTotalPages();
+    
+        // filter the content that can not display at this very moment
+        // TODO support this kind of contents
+        author.setData(filter(author.getData()));
+    
+        // when filter method above do filter most of the item, make a load call to load enough data to display.
+        if (author.getData().size() <= 5) {
+            load();
+        }
+        
         mBaseView.onDataLoaded(author);
     }
     
@@ -98,5 +110,19 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
                     mBaseView.onUpdateAuthorInfo(author);
                 }
             }));
+    }
+    
+    private List<Datum> filter(List<Datum> data) {
+        Iterator<Datum> iterator = data.iterator();
+        
+        while (iterator.hasNext()) {
+            Datum d = iterator.next();
+            if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE) || d.getArticleType()
+                .equals(Constants.ARTICLE_TYPE_MAGAZINE_V2)) {
+                iterator.remove();
+            }
+        }
+        return data;
     }
 }

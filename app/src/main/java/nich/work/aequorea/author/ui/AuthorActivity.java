@@ -16,8 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,8 +31,8 @@ import nich.work.aequorea.author.presenter.AuthorPresenter;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
-import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 import nich.work.aequorea.common.utils.DisplayUtils;
+import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
@@ -225,10 +223,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     public void onUpdateAuthorInfo(Author author) {
         mCollapsingToolbarLayout.setTitle(author.getName());
     
-        Glide.with(this)
-            .load(author.getAvatar())
-            .transform(new CircleTransformation(this))
-            .into(mAuthorIv);
+        ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
     
         String intro = author.getIntroduction();
         if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {

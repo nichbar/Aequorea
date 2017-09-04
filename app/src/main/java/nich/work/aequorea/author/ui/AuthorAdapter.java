@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -17,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.entities.Datum;
+import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 
 public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder> {
@@ -43,10 +42,7 @@ public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder
         holder.articleTitleTv.setText(article.getTitle());
         holder.articleSummaryTv.setText(article.getSummary());
     
-        Glide.with(mContext)
-            .load(article.getCoverUrl())
-            .placeholder(R.color.colorPrimary_light)
-            .into(holder.coverIv);
+        ImageHelper.setImage(mContext, article.getCoverUrl(), holder.coverIv, R.color.colorPrimary_light);
     }
     
     @Override

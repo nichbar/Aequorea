@@ -71,8 +71,8 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
         switch (viewType) {
             case Constants.TYPE_NORMAL:
                 return new NormalArticleHolder(inflater.inflate(R.layout.item_article, parent, false));
-            case Constants.TYPE_THEME:
-                return new ThemeArticleHolder(inflater.inflate(R.layout.item_article_theme, parent, false));
+//            case Constants.TYPE_THEME:
+//                return new ThemeArticleHolder(inflater.inflate(R.layout.item_article_theme, parent, false));
             // Todo
             default:
                 return new NormalArticleHolder(inflater.inflate(R.layout.item_article, parent, false));

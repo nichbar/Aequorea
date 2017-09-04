@@ -5,13 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nich.work.aequorea.R;
-import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
+import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
@@ -34,11 +32,11 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
 
     @OnClick(R.id.iv_article)
     void startArticleActivity() {
+        IntentUtils.startArticleActivity(context, articleData.getId());
 //            case ARTICLE_TYPE_MAGAZINE:
 //                SnackBarUtils.show(articleImg, mContext.getString(R.string.cover_story_not_supported));
 //                break;
 //            case ARTICLE_TYPE_NORMAL:
-                IntentUtils.startArticleActivity(context, articleData.getId());
 //            case ARTICLE_TYPE_THEME:
                 // TODO: Add activity to fit type.
 //            default:
@@ -63,25 +61,18 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
         this.context = context;
 
         wrapperData = data;
-        articleData =  wrapperData.getData().get(0);
+        articleData = wrapperData.getData().get(0);
 
 
         // article cover
-        Glide.with(context)
-                .load(articleData.getCoverUrl())
-                .placeholder(R.color.colorPrimary_dark)
-                .into(articleImg);
+        ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, R.color.colorPrimary_dark);
 
         // article title
         titleText.setText(articleData.getTitle());
 
         // author
         if (articleData.getAuthors() != null) {
-            Glide.with(context)
-                    .load(articleData.getAuthors().get(0).getAvatar())
-                    .placeholder(R.drawable.icon_author)
-                    .transform(new CircleTransformation(context))
-                    .into(authorImg);
+            ImageHelper.setImage(context, articleData.getAuthors().get(0).getAvatar(), authorImg, true, R.drawable.icon_author);
             authorText.setText(articleData.getAuthors().get(0).getName());
         }
 

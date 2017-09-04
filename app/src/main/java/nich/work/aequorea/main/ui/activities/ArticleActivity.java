@@ -459,6 +459,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     @Override
     public void onThemeSwitch() {
+        // TODO loads of work are executing right in this method, you have no idea what's gonna happen when the user created quite great amount of activities.
+    
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
         mTheme = Aequorea.getCurrentTheme();
         

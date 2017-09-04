@@ -65,7 +65,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private ArticlePresenter mPresenter;
     private ArticleModel mModel;
-    
+    private RichText mRichText;
     
     private static final String[] PERMISSIONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     
@@ -78,7 +78,6 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private boolean mIsStatusBarInLowProfileMode = false;
     private boolean mThemeSwitchIsRunning = false;
-
 
     @BindView(R.id.tv_article_content) TextView mContentTv;
     @BindView(R.id.tv_author) TextView mAuthorTv;
@@ -386,7 +385,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     
         String content = article.getContent().replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
-        RichText.from(content).into(mContentTv);
+        mRichText = RichText.from(content).into(mContentTv);
     
         // load recommendation after rendering the context
         mPresenter.loadRecommendedArticles(mModel.getId());
@@ -400,9 +399,11 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     public void onRecommendationLoaded(List<Datum> data) {
         mModel.setRecommendDataList(data);
-        mRecommendationContainer.setVisibility(View.VISIBLE);
-        for (Datum d : data) {
-            mRecommendationSubContainer.addView(createRecommendArticle(d));
+        if (data != null && data.size() != 0) {
+            mRecommendationContainer.setVisibility(View.VISIBLE);
+            for (Datum d : data) {
+                mRecommendationSubContainer.addView(createRecommendArticle(d));
+            }
         }
     }
     
@@ -493,6 +494,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
         GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, primaryColor});
         mOptionContainer.setBackground(drawable);
+        
+        mRichText.reload();
         
         // recreate related articles
         mRecommendationSubContainer.removeAllViews();

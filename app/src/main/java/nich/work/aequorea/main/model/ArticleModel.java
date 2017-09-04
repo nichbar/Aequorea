@@ -31,6 +31,8 @@ public class ArticleModel {
     }
     
     public void setRecommendDataList(List<Datum> mRecommendDataList) {
-        this.mRecommendDataList = mRecommendDataList;
+        if (this.mRecommendDataList == null) {
+            this.mRecommendDataList = mRecommendDataList;
+        }
     }
 }

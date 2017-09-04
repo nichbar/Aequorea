@@ -1,6 +1,5 @@
 package com.zzhoujay.richtext;
 
-import android.graphics.Color;
 import android.support.annotation.ColorInt;
 
 /**
@@ -10,17 +9,14 @@ import android.support.annotation.ColorInt;
 @SuppressWarnings("unused")
 public class LinkHolder {
 
-    private static final int link_color = Color.parseColor("#4078C0");
-
     private final String url;
     @ColorInt
     private int color;
     private boolean underLine;
 
-    public LinkHolder(String url) {
+    public LinkHolder(String url, int linkColor) {
         this.url = url;
-        this.color = link_color;
-        underLine = true;
+        this.color = linkColor;
     }
 
     @ColorInt

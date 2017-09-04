@@ -12,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import com.zzhoujay.richtext.callback.ImageLoadNotify;
@@ -21,7 +22,6 @@ import com.zzhoujay.richtext.ig.BitmapPool;
 import com.zzhoujay.richtext.parser.CachedSpannedParser;
 import com.zzhoujay.richtext.parser.Html2SpannedParser;
 import com.zzhoujay.richtext.parser.ImageGetterWrapper;
-import com.zzhoujay.richtext.parser.Markdown2SpannedParser;
 import com.zzhoujay.richtext.parser.SpannedParser;
 
 import java.io.File;
@@ -111,11 +111,7 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
     RichText(RichTextConfig config, TextView textView) {
         this.config = config;
         this.textViewSoftReference = new SoftReference<>(textView);
-        if (config.richType == RichType.MARKDOWN) {
-            spannedParser = new Markdown2SpannedParser(textView);
-        } else {
-            spannedParser = new Html2SpannedParser(new HtmlTagHandler(textView));
-        }
+        this.spannedParser = new Html2SpannedParser(new HtmlTagHandler(textView));
         if (config.clickable > 0) {
             textView.setMovementMethod(new LongClickableLinkMovementMethod());
         } else if (config.clickable == 0) {
@@ -219,6 +215,7 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
         }
         richText = new SoftReference<>(spannableStringBuilder);
         config.imageGetter.registerImageLoadNotify(this);
+        cachedSpannedParser.setAccentColor(getAccentColor(textView.getContext()));
         count = cachedSpannedParser.parse(spannableStringBuilder, this, config);
         return spannableStringBuilder;
     }
@@ -403,6 +400,23 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
                 }
             }
         }
+    }
+    
+    public void reload() {
+        generateAndSet();
+    }
+    
+    private int getAccentColor(Context context) {
+        int colorAttr;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            colorAttr = android.R.attr.colorAccent;
+        } else {
+            //Get colorAccent defined for AppCompat
+            colorAttr = context.getResources().getIdentifier("colorAccent", "attr", context.getPackageName());
+        }
+        TypedValue outValue = new TypedValue();
+        context.getTheme().resolveAttribute(colorAttr, outValue, true);
+        return outValue.data;
     }
 
 }

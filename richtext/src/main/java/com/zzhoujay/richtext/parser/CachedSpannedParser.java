@@ -24,17 +24,19 @@ import java.util.ArrayList;
  */
 
 public class CachedSpannedParser {
+    
+    private int accentColor;
 
     public static class Cached {
     }
 
     public int parse(SpannableStringBuilder ssb, ImageGetterWrapper imageGetter, RichTextConfig config) {
         boolean cached = isCached(ssb);
-        handleClick(ssb, config, cached);
+        handleHyperLink(ssb, config, cached);
         return handleImage(ssb, imageGetter, config, cached);
     }
 
-    private void handleClick(SpannableStringBuilder ssb, RichTextConfig config, boolean cached) {
+    private void handleHyperLink(SpannableStringBuilder ssb, RichTextConfig config, boolean cached) {
         if (cached) {
             LongClickableURLSpan[] lcus = ssb.getSpans(0, ssb.length(), LongClickableURLSpan.class);
             if (lcus != null && lcus.length > 0) {
@@ -63,7 +65,7 @@ public class CachedSpannedParser {
         int start = ssb.getSpanStart(urlSpan);
         int end = ssb.getSpanEnd(urlSpan);
         ssb.removeSpan(urlSpan);
-        LinkHolder linkHolder = new LinkHolder(urlSpan.getURL());
+        LinkHolder linkHolder = new LinkHolder(urlSpan.getURL(), accentColor);
         if (config.linkFixCallback != null) {
             config.linkFixCallback.fix(linkHolder);
         }
@@ -143,5 +145,9 @@ public class CachedSpannedParser {
                 ssb.removeSpan(c);
             }
         }
+    }
+    
+    public void setAccentColor(int color){
+        this.accentColor = color;
     }
 }

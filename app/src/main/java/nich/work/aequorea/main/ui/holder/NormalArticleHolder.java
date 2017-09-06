@@ -1,5 +1,6 @@
 package nich.work.aequorea.main.ui.holder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,7 +16,6 @@ import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.ui.adapters.MainArticleAdapter;
 
 public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
-    private Datum wrapperData;
     private Datum articleData;
     private Context context;
 
@@ -33,15 +33,6 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
     @OnClick(R.id.iv_article)
     void startArticleActivity() {
         IntentUtils.startArticleActivity(context, articleData.getId());
-//            case ARTICLE_TYPE_MAGAZINE:
-//                SnackBarUtils.show(articleImg, mContext.getString(R.string.cover_story_not_supported));
-//                break;
-//            case ARTICLE_TYPE_NORMAL:
-//            case ARTICLE_TYPE_THEME:
-                // TODO: Add activity to fit type.
-//            default:
-//                SnackBarUtils.show(articleImg, mContext.getString(R.string.not_supported) + data.getType());
-//                break;
     }
     
     @OnClick(R.id.iv_author)
@@ -56,16 +47,15 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindView(Context context, Datum data) {
         this.context = context;
-
-        wrapperData = data;
-        articleData = wrapperData.getData().get(0);
-
+    
+        articleData = data.getData().get(0);
 
         // article cover
-        ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, R.color.colorPrimary_dark);
+        ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, ImageHelper.generateRandomPlaceholder());
 
         // article title
         titleText.setText(articleData.getTitle());

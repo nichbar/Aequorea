@@ -83,6 +83,8 @@ public class FontDialogFragment extends DialogFragment {
                         mView.setContentFontFamily(FontHelper.SANS_SERIF);
                         mFontFamilyTv.setText(convertFontName(FontHelper.SANS_SERIF));
                         break;
+                    default:
+                        break;
                 }
                 return true;
             }
@@ -99,9 +101,8 @@ public class FontDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
         
         mFontFamilyTv.setText(convertFontName(FontHelper.getFontFamily()));
-        AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(view).create();
-        
-        return dialog;
+    
+        return new AlertDialog.Builder(getActivity()).setView(view).create();
     }
     
     private String convertFontName(String name) {

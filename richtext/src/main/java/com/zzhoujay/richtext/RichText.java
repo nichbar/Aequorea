@@ -311,7 +311,7 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
 
     private static boolean isGif(String path) {
         int index = path.lastIndexOf('.');
-        return index > 0 && "gif".toUpperCase().equals(path.substring(index + 1).toUpperCase());
+        return index > 0 && "gif".equalsIgnoreCase(path.substring(index + 1));
     }
 
     /**

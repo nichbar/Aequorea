@@ -38,7 +38,7 @@ public class IntentUtils {
     
     public static void openInBrowser(Context context, String url) {
         Intent intent = new Intent();
-        intent.setAction("android.intent.action.VIEW");
+        intent.setAction(Intent.ACTION_VIEW);
         Uri content_url = Uri.parse(url);
         intent.setData(content_url);
         context.startActivity(intent);
@@ -49,7 +49,7 @@ public class IntentUtils {
         File file = new File(path);
         Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, file);
     
-        intent.setAction(android.content.Intent.ACTION_VIEW);
+        intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, "image/jpg");
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

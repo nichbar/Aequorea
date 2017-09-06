@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,6 +22,7 @@ import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.view.ParallaxImageView;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.NetworkUtils;
@@ -125,6 +125,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setTag(ParallaxImageView.RECYCLER_VIEW_TAG);
         mRecyclerView.addOnScrollListener(mScrollListener);
 
         mAppBarLayout.setOnNestedListener(this);

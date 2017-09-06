@@ -1,4 +1,3 @@
-
 package nich.work.aequorea.author.model.entities;
 
 import java.util.List;

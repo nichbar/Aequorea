@@ -38,7 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     
     // For those activity that need to change color when user have changed theme.
     @Override
-    public void onThemeSwitch() {}
+    public void onThemeSwitch() {
+        // do nothing
+    }
     
     public boolean isInLightTheme() {
         return mTheme.equals(Constants.THEME_LIGHT);

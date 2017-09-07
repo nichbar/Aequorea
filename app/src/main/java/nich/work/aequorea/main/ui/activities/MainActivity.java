@@ -211,6 +211,9 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                     scrollToTop(position);
                 }
                 mClickTime = System.currentTimeMillis();
+                break;
+            default:
+                break;
         }
     }
 
@@ -268,6 +271,8 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                 ThemeHelper.setTheme(themeToSwitch);
     
                 onThemeSwitch();
+                break;
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);

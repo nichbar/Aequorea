@@ -11,7 +11,7 @@ import nich.work.aequorea.common.Constants;
 public class ThemeHelper {
     public static String getTheme() {
         String theme = SPUtils.getString(Constants.THEME);
-        return theme.equals("") ? Constants.THEME_LIGHT : theme;
+        return "".equals(theme) ? Constants.THEME_LIGHT : theme;
     }
     
     public static void setTheme(String theme) {

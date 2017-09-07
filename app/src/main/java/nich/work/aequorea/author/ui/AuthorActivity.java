@@ -187,7 +187,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
         ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
     
         String intro = author.getIntroduction();
-        if (!TextUtils.isEmpty(intro) && !intro.equals(" ")) {
+        if (!TextUtils.isEmpty(intro) && " ".equals(intro)) {
         
             if (intro.contains("。")) {
                 int position = intro.indexOf("。");

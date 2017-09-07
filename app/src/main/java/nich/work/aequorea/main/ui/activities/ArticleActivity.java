@@ -202,6 +202,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 case SwipeBackCoordinatorLayout.DOWN_DIR:
                     overridePendingTransition(0, R.anim.activity_slide_out_bottom);
                     break;
+                
+                default:
+                    break;
             }
         }
     };
@@ -231,6 +234,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                     if (event.getY() - oldY  == 0) {
                         toggleShowStatus();
                     }
+                    break;
+                default:
                     break;
             }
             return false;
@@ -325,7 +330,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mOptionContainer.animate()
             .setListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {}
+                public void onAnimationStart(Animator animation) {
+                    // do nothing
+                }
             
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -335,10 +342,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 }
             
                 @Override
-                public void onAnimationCancel(Animator animation) {}
+                public void onAnimationCancel(Animator animation) {
+                    // do nothing
+                }
             
                 @Override
-                public void onAnimationRepeat(Animator animation) {}
+                public void onAnimationRepeat(Animator animation) {
+                    // do nothing
+                }
             })
             .alpha(0);
     }
@@ -448,10 +459,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             }
     
             @Override
-            public void onAnimationCancel(Animator animator) {}
+            public void onAnimationCancel(Animator animator) {
+                // do nothing
+            }
     
             @Override
-            public void onAnimationRepeat(Animator animator) {}
+            public void onAnimationRepeat(Animator animator) {
+                // do nothing
+            }
         });
         animator.setInterpolator(new LinearInterpolator());
         animator.start();
@@ -541,16 +556,16 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             case FontHelper.MONOSPACE:
                 mContentTv.setTypeface(Typeface.MONOSPACE);
                 break;
+            default:
+                break;
         }
     }
     
     private void saveArticleToStorageWithPermissionCheck() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!PermissionUtils.hasPermissions(this, PERMISSIONS)) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !PermissionUtils.hasPermissions(this, PERMISSIONS)) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_WRITE_EXTERNAL_STORAGE);
                 return;
             }
-        }
         
         saveArticleToStorage();
     }
@@ -565,6 +580,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 } else {
                     ToastUtils.showShortToast(getString(R.string.require_write_stroage_permission));
                 }
+                break;
+            default:
+                break;
         }
     }
     

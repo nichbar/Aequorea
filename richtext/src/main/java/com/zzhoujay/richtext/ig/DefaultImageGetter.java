@@ -14,7 +14,6 @@ import com.zzhoujay.richtext.RichTextConfig;
 import com.zzhoujay.richtext.callback.ImageGetter;
 import com.zzhoujay.richtext.callback.ImageLoadNotify;
 import com.zzhoujay.richtext.drawable.DrawableWrapper;
-import com.zzhoujay.richtext.ext.Base64;
 import com.zzhoujay.richtext.ext.TextKit;
 
 import java.security.KeyManagementException;
@@ -111,15 +110,7 @@ public class DefaultImageGetter implements ImageGetter, ImageLoadNotify {
         }
 
         try {
-
-            // 无缓存图片，直接加载
-            if (Base64.isBase64(holder.getSource())) {
-                // Base64格式图片
-                Base64ImageLoader base64ImageLoader = new Base64ImageLoader(holder, config, textView, drawableWrapper, this, sizeCacheHolder);
-                Future<?> future = getExecutorService().submit(base64ImageLoader);
-                cancelable = new FutureCancelableWrapper(future);
-                imageLoader = base64ImageLoader;
-            } else if (TextKit.isAssetPath(holder.getSource())) {
+            if (TextKit.isAssetPath(holder.getSource())) {
                 // Asset文件
                 AssetsImageLoader assetsImageLoader = new AssetsImageLoader(holder, config, textView, drawableWrapper, this, sizeCacheHolder);
                 Future<?> future = getExecutorService().submit(assetsImageLoader);

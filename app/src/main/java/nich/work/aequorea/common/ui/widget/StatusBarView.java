@@ -19,7 +19,6 @@ public class StatusBarView extends View {
     public static final float DARK_INIT_MASK_ALPHA = 0.2f;
     public static final float DARKER_MASK_ALPHA = 0.2f;
     
-    private boolean isPlaceHolder;
     private boolean isInitState;
     private ObjectAnimator objectAnimator;
     
@@ -45,7 +44,7 @@ public class StatusBarView extends View {
     
     private void init(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StatusBarView, defStyleAttr, defStyleRes);
-        this.isPlaceHolder = a.getBoolean(R.styleable.StatusBarView_placeholder, false);
+        boolean isPlaceHolder = a.getBoolean(R.styleable.StatusBarView_placeholder, false);
         a.recycle();
         
         if (!isPlaceHolder) {

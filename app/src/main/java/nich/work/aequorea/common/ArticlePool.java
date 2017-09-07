@@ -12,7 +12,7 @@ public class ArticlePool {
     }
     
     private static class ArticlePoolHolder {
-        static final ArticlePool ARTICLE_CACHE_POOL = new ArticlePool();
+        private static final ArticlePool ARTICLE_CACHE_POOL = new ArticlePool();
     }
     
     public static ArticlePool getCache(){

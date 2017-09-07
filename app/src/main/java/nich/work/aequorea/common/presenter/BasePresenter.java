@@ -26,6 +26,7 @@ public abstract class BasePresenter<T extends BaseView> {
     }
     
     protected void onAttach() {
+        // do nothing
     }
     
     protected void addSubscription(int type, Consumer consumer) {

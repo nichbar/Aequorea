@@ -177,7 +177,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @OnClick(R.id.container_refresh) void refresh() {
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
-        mPresenter.load(mModel.getId());
+        mPresenter.loadArticleFromInternet(mModel.getId());
     }
     
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
@@ -276,7 +276,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private void initPresenter() {
         mPresenter = new ArticlePresenter();
         mPresenter.attach(this);
-        mPresenter.load(mModel.getId());
+        mPresenter.loadArticle(mModel.getId());
     }
     
     @Override
@@ -396,6 +396,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     
         String content = article.getContent().replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
+        RichText.initCacheDir(getCacheDir());
         mRichText = RichText.from(content).into(mContentTv);
     
         // load recommendation after rendering the context
@@ -589,7 +590,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private void saveArticleToStorage() {
         int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
         Bitmap bitmap = DisplayUtils.shotNestedScrollView(mScrollView, rootColor);
-        mPresenter.startSaveArticleToStorage(bitmap, mModel.getData().getTitle());
+        mPresenter.saveArticleToStorage(bitmap, mModel.getData().getTitle());
     }
     
     @Override

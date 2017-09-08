@@ -12,7 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import nich.work.aequorea.common.ArticlePool;
+import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
@@ -29,18 +29,53 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
     }
     
-    public void load(final long id) {
-        String cacheContent = ArticlePool.getCache().loadCache(id);
+    public void loadArticle(long id) {
         
+//        // try to load from memory
+        String cacheContent = ArticleCache.getCache().loadCache(id);
+
         if (!TextUtils.isEmpty(cacheContent)) {
-            Gson gson = new Gson();
-            Article article = gson.fromJson(cacheContent, Article.class);
-            
+
+            Article article = generateObjectFromString(cacheContent);
             if (article != null) {
                 onArticleLoaded(article);
                 return;
             }
         }
+        
+        // then from storage
+        if (ArticleCache.getCache().isCachedInStorage(id)) {
+            loadArticleFromStorage(id);
+        } else {
+            loadArticleFromInternet(id);
+        }
+    }
+    
+    private void loadArticleFromStorage(final long id) {
+        mComposite.add(Single.create(new SingleOnSubscribe<Article>() {
+            @Override
+            public void subscribe(@NonNull SingleEmitter<Article> e) throws Exception {
+                String s = ArticleCache.getCache().loadCacheFromStorage(id);
+                Article article = generateObjectFromString(s);
+                e.onSuccess(article);
+            }
+        })
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<Article>() {
+                @Override
+                public void accept(Article article) throws Exception {
+                    onArticleLoaded(article);
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    onArticleError(throwable);
+                }
+            }));
+    }
+    
+    public void loadArticleFromInternet(final long id) {
         
         mComposite.add(mService.getArticleDetailInfo(id)
             .subscribeOn(Schedulers.newThread())
@@ -76,7 +111,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     }
     
-    public void startSaveArticleToStorage(final Bitmap bitmap, final String title) {
+    public void saveArticleToStorage(final Bitmap bitmap, final String title) {
         mComposite.add(Single.create(new SingleOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<String> e) throws Exception {
@@ -110,6 +145,11 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     private void cacheArticle(long id, Article article) {
         Gson gson = new Gson();
         String json = gson.toJson(article);
-        ArticlePool.getCache().cache(id, json);
+        ArticleCache.getCache().cache(id, json);
+    }
+    
+    private Article generateObjectFromString(String cacheContent) {
+        Gson gson = new Gson();
+        return gson.fromJson(cacheContent, Article.class);
     }
 }

@@ -5,5 +5,5 @@
     <dimen name="size_article_content">16sp</dimen>
     <dimen name="spacing_article_content">5dp</dimen>
     
-    <dimen name="parallax_image_offset">30dp</dimen>
+    <dimen name="parallax_image_offset">20dp</dimen>
 </resources>

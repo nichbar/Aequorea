@@ -396,8 +396,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     
         String content = article.getContent().replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
-        RichText.initCacheDir(getCacheDir());
-        mRichText = RichText.from(content).into(mContentTv);
+        mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
     
         // load recommendation after rendering the context
         mPresenter.loadRecommendedArticles(mModel.getId());

@@ -2,11 +2,12 @@ package nich.work.aequorea;
 
 import android.app.Application;
 
-import java.util.concurrent.Executor;
+import com.zzhoujay.richtext.RichText;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
+import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.utils.ThemeHelper;
 
 public class Aequorea extends Application {
@@ -21,6 +22,13 @@ public class Aequorea extends Application {
         mApp = this;
         mCurrentTheme = ThemeHelper.getTheme();
         mExecutor = Executors.newCachedThreadPool();
+    
+        initCache();
+    }
+    
+    private void initCache() {
+        RichText.initCacheDir(this);
+        ArticleCache.getCache();
     }
     
     public static Application getApp() {

@@ -27,4 +27,7 @@ public class Constants {
     
     // Trigger
     public static final int AUTO_LOAD_TRIGGER = 30;
+    
+    // Key of SharePreference
+    public static final String SP_LATEST_MAIN_PAGE = "sp_latest_main_page";
 }

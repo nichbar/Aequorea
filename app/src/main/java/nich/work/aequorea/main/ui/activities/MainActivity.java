@@ -241,11 +241,13 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         
         int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
         int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
+        int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
         int themeDrawable = ThemeHelper.getResourceId(this, R.attr.icon_theme);
         
         mAppBarLayout.setBackgroundColor(primaryColor);
         mToolbar.setTitleTextColor(titleColor);
         mThemeMenuItem.setIcon(themeDrawable);
+        mRecyclerView.setBackgroundColor(rootColor);
     }
     
     private void scrollToTop(int currentPosition) {

@@ -111,7 +111,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     }
     
-    public void saveArticleToStorage(final Bitmap bitmap, final String title) {
+    public void saveSnapshotToStorage(final Bitmap bitmap, final String title) {
         mComposite.add(Single.create(new SingleOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<String> e) throws Exception {
@@ -124,12 +124,12 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             .subscribe(new Consumer<String>() {
                 @Override
                 public void accept(String s) throws Exception {
-                    mBaseView.onArticleSavedAsPictureSucceeded(s);
+                    mBaseView.onSnapshotSavedSucceeded(s);
                 }
             }, new Consumer<Throwable>() {
                 @Override
                 public void accept(Throwable throwable) throws Exception {
-                    mBaseView.onArticleSavedAsPictureFailed(throwable);
+                    mBaseView.onSnapshotSavedFailed(throwable);
                 }
             }));
     }

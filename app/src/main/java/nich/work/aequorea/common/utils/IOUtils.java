@@ -11,6 +11,7 @@ import java.io.IOException;
 public class IOUtils {
     private static final String mPicDir = "/Pictures/Aequorea/";
     
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String saveBitmapToExternalStorage(Bitmap bitmap, String name) {
         
         File newDir = new File(Environment.getExternalStorageDirectory().getPath() + mPicDir);
@@ -21,7 +22,7 @@ public class IOUtils {
         String fileName = name + ".jpg";
         File file = new File(newDir, fileName);
         
-        if (file.exists()) file.delete();
+//        if (file.exists()) file.delete();
         
         FileOutputStream fos = null;
         try {

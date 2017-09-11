@@ -27,4 +27,5 @@
     <string name="screenshot_saved_to_stroage">已截图存至本机</string>
     <string name="open_image">打开图片</string>
     <string name="save_failed">保存失败</string>
+    <string name="copyright">本文版权归第一财经所有</string>
 </resources>

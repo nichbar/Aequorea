@@ -9,9 +9,11 @@ import android.os.Build;
 import android.support.v4.widget.NestedScrollView;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import nich.work.aequorea.R;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 
 public class DisplayUtils {
@@ -60,16 +62,23 @@ public class DisplayUtils {
     
     // take a screen shot of given nestedScrollView
     public static Bitmap shotNestedScrollView(NestedScrollView nestedScrollView, int backgroundColor) {
-        
+    
+        int recHeight = 0;
         View childView = nestedScrollView.getChildAt(0);
+        View recommendationView = nestedScrollView.findViewById(R.id.container_recommendation);
+        ViewGroup subRecommendationView = nestedScrollView.findViewById(R.id.container_recommendation_sub);
         
+        if (subRecommendationView != null && subRecommendationView.getChildCount() > 0) {
+            recHeight = recommendationView.getHeight();
+        }
+            
         childView.setBackgroundColor(backgroundColor);
     
-        Bitmap bitmap = Bitmap.createBitmap(nestedScrollView.getWidth(), childView.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(nestedScrollView.getWidth(), childView.getHeight() - recHeight, Bitmap.Config.RGB_565);
     
         Canvas canvas = new Canvas(bitmap);
         nestedScrollView.draw(canvas);
-    
+        
         childView.setBackgroundColor(Color.TRANSPARENT);
     
         return bitmap;

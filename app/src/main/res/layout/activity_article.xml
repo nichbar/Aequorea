@@ -76,12 +76,23 @@
                     android:textSize="@dimen/size_article_content"
                     tools:text="@string/cover_story_not_supported"/>
 
+                <TextView
+                    android:id="@+id/tv_copyright"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:textColor="?attr/subtitle_color"
+                    android:layout_gravity="end"
+                    android:textSize="13sp"
+                    android:visibility="gone"
+                    android:text="@string/copyright"/>
+
                 <LinearLayout
                     android:id="@+id/container_recommendation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="25dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="25dp"
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">

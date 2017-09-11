@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -85,6 +87,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @BindView(R.id.tv_title) TextView mTitleTv;
     @BindView(R.id.tv_tag) TextView mTagTv;
     @BindView(R.id.tv_article_recommend) TextView mRecommendTitleTv;
+    @BindView(R.id.tv_copyright) TextView mCopyrightTv;
     @BindView(R.id.view_divider) View mDividerView;
     @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
     @BindView(R.id.container_refresh) View mRefreshView;
@@ -265,7 +268,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
 
         mSwipeBackLayout.setOnSwipeListener(mSwipeBackListener);
         
-        mContentTv.setOnTouchListener(mTouchListener);
+        mScrollView.setOnTouchListener(mTouchListener);
         
         mScrollView.setOnScrollChangeListener(mScrollChangeListener);
         
@@ -397,6 +400,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
         String content = article.getContent().replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
+        
+        mCopyrightTv.setVisibility(View.VISIBLE);
     
         // load recommendation after rendering the context
         mPresenter.loadRecommendedArticles(mModel.getId());
@@ -500,6 +505,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mTitleTv.setTextColor(titleColor);
         mAuthorTv.setTextColor(subtitleColor);
         mDateTv.setTextColor(subtitleColor);
+        mCopyrightTv.setTextColor(subtitleColor);
         mContentTv.setTextColor(contentColor);
         mDividerView.setBackgroundColor(lineColor);
         mRecommendTitleTv.setTextColor(titleColor);
@@ -567,7 +573,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 return;
             }
         
-        saveArticleToStorage();
+        saveSnapshotToStorage();
     }
     
     @Override
@@ -576,7 +582,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         switch (requestCode){
             case PERMISSION_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    saveArticleToStorage();
+                    saveSnapshotToStorage();
                 } else {
                     ToastUtils.showShortToast(getString(R.string.require_write_stroage_permission));
                 }
@@ -586,16 +592,16 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     }
     
-    private void saveArticleToStorage() {
+    private void saveSnapshotToStorage() {
         int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
         Bitmap bitmap = DisplayUtils.shotNestedScrollView(mScrollView, rootColor);
-        mPresenter.saveArticleToStorage(bitmap, mModel.getData().getTitle());
+        mPresenter.saveSnapshotToStorage(bitmap, mModel.getData().getTitle());
     }
     
     @Override
-    public void onArticleSavedAsPictureSucceeded(final String path) {
+    public void onSnapshotSavedSucceeded(final String path) {
         hideOptions();
-        
+    
         Snackbar snackbar = SnackbarUtils.getSnackbar(mSwipeBackLayout, getString(R.string.screenshot_saved_to_stroage), Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.open_image, new View.OnClickListener() {
             @Override
@@ -604,10 +610,19 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             }
         });
         snackbar.show();
+    
+        MediaScannerConnection.scanFile(this,
+            new String[] { path }, null,
+            new MediaScannerConnection.OnScanCompletedListener() {
+                @Override
+                public void onScanCompleted(final String path, Uri uri) {
+                    // do nothing.
+                }
+            });
     }
     
     @Override
-    public void onArticleSavedAsPictureFailed(Throwable t) {
+    public void onSnapshotSavedFailed(Throwable t) {
         ToastUtils.showShortToast(getString(R.string.save_failed) + t.toString());
     }
 }

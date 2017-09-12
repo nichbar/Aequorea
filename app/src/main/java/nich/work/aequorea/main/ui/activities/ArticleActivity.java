@@ -169,12 +169,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
         
         if (isInLightTheme()) {
-            mTheme = Constants.THEME_DARK;
+            currentTheme = Constants.THEME_DARK;
         } else {
-            mTheme = Constants.THEME_LIGHT;
+            currentTheme = Constants.THEME_LIGHT;
         }
-        ThemeHelper.setTheme(mTheme);
-        setTheme(ThemeHelper.getThemeStyle(mTheme));
+        ThemeHelper.setTheme(currentTheme);
+        setTheme(ThemeHelper.getThemeStyle(currentTheme));
         startThemeSwitchingAnimation();
         
         RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
@@ -494,13 +494,13 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     @Override
     public void onThemeSwitch() {
-        // TODO loads of work are executing right in this method, you have no idea what's gonna happen when the user created quite great amount of activities.
-    
-        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        mTheme = Aequorea.getCurrentTheme();
+        needToReTheme = !currentTheme.equals(Aequorea.getCurrentTheme());
+        currentTheme = Aequorea.getCurrentTheme();
+        setTheme(ThemeHelper.getThemeStyle(currentTheme));
         
-        setStatusBarStyle();
-        setStatusBarMask();
+        if (activityInForeground()) {
+            onThemeSwitchPending();
+        }
         
         int lineColor = ThemeHelper.getResourceColor(this, R.attr.line_color);
         int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
@@ -508,13 +508,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         int accentColor = ThemeHelper.getResourceColor(this, R.attr.colorAccent);
         int subtitleColor = ThemeHelper.getResourceColor(this, R.attr.subtitle_color);
         int contentColor = ThemeHelper.getResourceColor(this, R.attr.content_color);
-        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
-    
-        int iconShareId = ThemeHelper.getResourceId(this, R.attr.icon_share);
-        int iconFontId = ThemeHelper.getResourceId(this, R.attr.icon_font);
-        int iconThemeId = ThemeHelper.getResourceId(this, R.attr.icon_theme);
-        int iconScreenshotId = ThemeHelper.getResourceId(this, R.attr.icon_screenshot);
-    
+        
         mScrollView.setBackgroundColor(rootColor);
         mTagTv.setTextColor(accentColor);
         mTitleTv.setTextColor(titleColor);
@@ -524,14 +518,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mContentTv.setTextColor(contentColor);
         mDividerView.setBackgroundColor(lineColor);
         mRecommendTitleTv.setTextColor(titleColor);
+    }
     
-        mShareIv.setImageResource(iconShareId);
-        mFontIv.setImageResource(iconFontId);
-        mThemeIv.setImageResource(iconThemeId);
-        mScreenshotIv.setImageResource(iconScreenshotId);
-    
-        GradientDrawable drawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, primaryColor});
-        mOptionContainer.setBackground(drawable);
+    @Override
+    public void onThemeSwitchPending() {
+        setStatusBarStyle();
+        setStatusBarMask();
         
         mRichText.reload();
         
@@ -540,6 +532,20 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         if (mModel.getRecommendDataList() != null) {
             onRecommendationLoaded(mModel.getRecommendDataList());
         }
+        
+        int iconShareId = ThemeHelper.getResourceId(this, R.attr.icon_share);
+        int iconFontId = ThemeHelper.getResourceId(this, R.attr.icon_font);
+        int iconThemeId = ThemeHelper.getResourceId(this, R.attr.icon_theme);
+        int iconScreenshotId = ThemeHelper.getResourceId(this, R.attr.icon_screenshot);
+        
+        int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        
+        mShareIv.setImageResource(iconShareId);
+        mFontIv.setImageResource(iconFontId);
+        mThemeIv.setImageResource(iconThemeId);
+        mScreenshotIv.setImageResource(iconScreenshotId);
+        
+        mOptionContainer.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.TRANSPARENT, primaryColor}));
     }
     
     private void setStatusBarStyle() {

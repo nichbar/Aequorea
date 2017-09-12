@@ -132,7 +132,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     }
     
     private void setStatusBarStyle() {
-        if (mTheme.equals(Constants.THEME_LIGHT)) {
+        if (isInLightTheme()) {
             setStatusBarStyle(true);
             mStatusBar.setLightMask();
         } else {
@@ -255,7 +255,7 @@ public class AuthorActivity extends BaseActivity implements AuthorView {
     @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        mTheme = Aequorea.getCurrentTheme();
+        currentTheme = Aequorea.getCurrentTheme();
     
         setStatusBarStyle();
         

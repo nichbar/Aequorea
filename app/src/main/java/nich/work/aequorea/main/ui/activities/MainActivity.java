@@ -234,7 +234,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        mTheme = Aequorea.getCurrentTheme();
+        currentTheme = Aequorea.getCurrentTheme();
         
         setStatusBarStyle();
         setStatusBarMask();

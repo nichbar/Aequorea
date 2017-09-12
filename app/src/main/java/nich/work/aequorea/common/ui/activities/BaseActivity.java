@@ -10,13 +10,33 @@ import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
-    public String mTheme;
+    public String currentTheme;
+    public boolean needToReTheme;
+    
+    private boolean isForeground;
     
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTheme = ThemeHelper.getTheme();
-        setTheme(ThemeHelper.getThemeStyle(mTheme));
+        currentTheme = ThemeHelper.getTheme();
+        setTheme(ThemeHelper.getThemeStyle(currentTheme));
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        isForeground = true;
+        if (needToReTheme) {
+            onThemeSwitchPending();
+        }
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        
+        isForeground = false;
     }
     
     @Override
@@ -42,7 +62,16 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         // do nothing
     }
     
+    @Override
+    public void onThemeSwitchPending() {
+        // do nothing
+    }
+    
     public boolean isInLightTheme() {
-        return mTheme.equals(Constants.THEME_LIGHT);
+        return currentTheme.equals(Constants.THEME_LIGHT);
+    }
+    
+    public boolean activityInForeground() {
+        return isForeground;
     }
 }

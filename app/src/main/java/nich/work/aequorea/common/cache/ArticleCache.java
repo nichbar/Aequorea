@@ -40,6 +40,14 @@ public class ArticleCache {
         });
     }
     
+    public void remove(final String key) {
+        try {
+            mDiskCache.remove(key);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private static class ArticlePoolHolder {
         private static final ArticleCache ARTICLE_CACHE_POOL = new ArticleCache();
     }

@@ -31,7 +31,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     
     public void loadArticle(long id) {
         
-//        // try to load from memory
+        // try to load from memory
         String cacheContent = ArticleCache.getCache().loadCache(id);
 
         if (!TextUtils.isEmpty(cacheContent)) {
@@ -47,7 +47,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
         if (ArticleCache.getCache().isCachedInStorage(id)) {
             loadArticleFromStorage(id);
         } else {
-            loadArticleFromInternet(id);
+            loadArticleFromInternet(id, false);
         }
     }
     
@@ -75,7 +75,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     }
     
-    public void loadArticleFromInternet(final long id) {
+    public void loadArticleFromInternet(final long id, boolean isRefresh) {
         
         mComposite.add(mService.getArticleDetailInfo(id)
             .subscribeOn(Schedulers.newThread())
@@ -92,6 +92,10 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
                     onArticleError(throwable);
                 }
             }));
+    
+        if (isRefresh) {
+            ArticleCache.getCache().remove(Long.toString(id));
+        }
     }
     
     public void loadRecommendedArticles(long id) {

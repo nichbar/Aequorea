@@ -74,9 +74,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private static final int ANIMATION_DURATION_STATUS_BAR = 200;
     private static final int ANIMATION_DURATION_THEME_SWITCHING = 350;
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int REFRESH_TRIGGER = 200;
     
     private int mScrollUpEdge;
     private int mScrollDownEdge;
+    
+    private long mTouchTimeMills;
     
     private boolean mIsStatusBarInLowProfileMode = false;
     private boolean mThemeSwitchIsRunning = false;
@@ -178,9 +181,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnClick(R.id.container_refresh) void refresh() {
+        mContentTv.setText("");
+        mRecommendationSubContainer.removeAllViews();
+        
+        mCopyrightTv.setVisibility(View.GONE);
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
-        mPresenter.loadArticleFromInternet(mModel.getId());
+        mRecommendationContainer.setVisibility(View.GONE);
+        mPresenter.loadArticleFromInternet(mModel.getId(), true);
     }
     
     private SwipeBackCoordinatorLayout.OnSwipeListener mSwipeBackListener = new SwipeBackCoordinatorLayout.OnSwipeListener() {
@@ -228,19 +236,25 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
+            long currentTimeMills = System.currentTimeMillis();
+            long timeInterval = currentTimeMills - mTouchTimeMills;
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     oldY = event.getY();
+                    if (timeInterval > 0 && timeInterval < REFRESH_TRIGGER) {
+                        refresh();
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (event.getY() - oldY  == 0) {
+                    if (event.getY() - oldY == 0) {
                         toggleShowStatus();
                     }
                     break;
                 default:
                     break;
             }
+            mTouchTimeMills = System.currentTimeMillis();
             return false;
         }
     };
@@ -268,7 +282,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
 
         mSwipeBackLayout.setOnSwipeListener(mSwipeBackListener);
         
-        mScrollView.setOnTouchListener(mTouchListener);
+        mContentTv.setOnTouchListener(mTouchListener);
         
         mScrollView.setOnScrollChangeListener(mScrollChangeListener);
         
@@ -409,6 +423,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     @Override
     public void onArticleError(Throwable t) {
+        mCopyrightTv.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.GONE);
         mRefreshView.setVisibility(View.VISIBLE);
     }

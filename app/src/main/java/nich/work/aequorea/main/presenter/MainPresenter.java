@@ -15,6 +15,7 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
+import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.main.model.mainpage.Data;
@@ -108,8 +109,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
         
         while (iterator.hasNext()) {
             Datum d = iterator.next();
-            if (d.getType().equals(Constants.ARTICLE_TYPE_THEME) || d.getType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE)) {
+            if (!FilterUtils.underSupport(d.getType())) {
                 iterator.remove();
             }
         }

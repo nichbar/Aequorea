@@ -5,6 +5,9 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
+import java.util.Iterator;
+import java.util.List;
+
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
@@ -16,9 +19,11 @@ import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
+import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.IOUtils;
 import nich.work.aequorea.main.model.article.Article;
 import nich.work.aequorea.main.model.mainpage.Data;
+import nich.work.aequorea.main.model.mainpage.Datum;
 import nich.work.aequorea.main.ui.view.ArticleView;
 
 public class ArticlePresenter extends BasePresenter<ArticleView> {
@@ -105,7 +110,8 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             .subscribe(new Consumer<Data>() {
                 @Override
                 public void accept(Data data) throws Exception {
-                    mBaseView.onRecommendationLoaded(data.getData());
+                    
+                    mBaseView.onRecommendationLoaded(filterData(data.getData()));
                 }
             }, new Consumer<Throwable>() {
                 @Override
@@ -113,6 +119,18 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
                     mBaseView.onRecommendationError(throwable);
                 }
             }));
+    }
+    
+    private List<Datum> filterData(List<Datum> data) {
+        Iterator<Datum> iterator = data.iterator();
+        
+        while (iterator.hasNext()) {
+            Datum d = iterator.next();
+            if (!FilterUtils.underSupport(d.getArticleType())) {
+                iterator.remove();
+            }
+        }
+        return data;
     }
     
     public void saveSnapshotToStorage(final Bitmap bitmap, final String title) {

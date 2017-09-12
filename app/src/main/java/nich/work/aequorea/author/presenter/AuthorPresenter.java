@@ -14,10 +14,10 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.author.model.entities.Author;
 import nich.work.aequorea.author.model.entities.Datum;
 import nich.work.aequorea.author.ui.AuthorView;
-import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
+import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 
 public class AuthorPresenter extends BasePresenter<AuthorView> {
@@ -117,9 +117,7 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
         
         while (iterator.hasNext()) {
             Datum d = iterator.next();
-            if (d.getArticleType().equals(Constants.ARTICLE_TYPE_THEME) || d.getArticleType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE) || d.getArticleType()
-                .equals(Constants.ARTICLE_TYPE_MAGAZINE_V2)) {
+            if (FilterUtils.underSupport(d.getArticleType())) {
                 iterator.remove();
             }
         }

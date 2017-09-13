@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="270dp">
 
-    <nich.work.aequorea.common.ui.view.ParallaxImageView
+    <ImageView
         android:id="@+id/iv_article"
         android:layout_width="match_parent"
         android:layout_height="270dp"

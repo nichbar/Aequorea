@@ -9,7 +9,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".main.ui.activities.MainActivity">
+        tools:context=".ui.activities.MainActivity">
 
         <nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout
             android:id="@+id/appbar"

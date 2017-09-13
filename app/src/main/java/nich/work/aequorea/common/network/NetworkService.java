@@ -1,9 +1,9 @@
 package nich.work.aequorea.common.network;
 
 import io.reactivex.Observable;
-import nich.work.aequorea.author.model.entities.Author;
-import nich.work.aequorea.main.model.article.Article;
-import nich.work.aequorea.main.model.mainpage.Data;
+import nich.work.aequorea.model.entity.Author;
+import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.model.entity.DataWrapper;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -16,7 +16,7 @@ public interface NetworkService {
 
     // article details
     @GET("/v2/articles/{article_id}/")
-    Observable<Article> getArticleDetailInfo(@Path("article_id") long articleId);
+    Observable<DataWrapper> getArticleDetailInfo(@Path("article_id") long articleId);
 
     // article that belonging to specific author
     @GET("/v2/authors/{author_id}/articles")

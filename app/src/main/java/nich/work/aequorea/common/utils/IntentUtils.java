@@ -8,9 +8,9 @@ import android.support.v4.content.FileProvider;
 import java.io.File;
 
 import nich.work.aequorea.BuildConfig;
-import nich.work.aequorea.author.ui.AuthorActivity;
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.main.ui.activities.ArticleActivity;
+import nich.work.aequorea.ui.activities.ArticleActivity;
+import nich.work.aequorea.ui.activities.AuthorActivity;
 
 
 public class IntentUtils {

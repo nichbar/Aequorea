@@ -18,7 +18,7 @@
         android:largeHeap="true"
         android:theme="@style/AppTheme.Light" >
         <activity
-            android:name=".main.ui.activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.Light"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.ui.activities.ArticleActivity"
+            android:name=".ui.activities.ArticleActivity"
             android:theme="@style/AppTheme.Light"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".author.ui.AuthorActivity"
+            android:name=".ui.activities.AuthorActivity"
             android:theme="@style/AppTheme.Light"
             android:screenOrientation="portrait">
         </activity>

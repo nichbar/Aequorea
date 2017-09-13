@@ -25,6 +25,8 @@ import nich.work.aequorea.ui.view.HomeView;
 public class MainPresenter extends BasePresenter<HomeView> {
     private NetworkService mNetworkService;
     
+    private static final int ITEM_PER_PAGE = 15;
+    
     private int mPage = 1;
     
     @Override
@@ -61,7 +63,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
         mBaseView.getModel().setLoading(true);
     
         mComposite.add(mNetworkService
-                .getMainPageInfo(mPage)
+                .getMainPageInfo(mPage, ITEM_PER_PAGE)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Data>() {

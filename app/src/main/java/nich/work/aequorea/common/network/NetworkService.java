@@ -11,7 +11,7 @@ public interface NetworkService {
 
     // main page
     @GET("/v2/first_page_infos")
-    Observable<Data> getMainPageInfo(@Query("page") int page);
+    Observable<Data> getMainPageInfo(@Query("page") int page, @Query("per") int per);
 
     // article details
     @GET("/v2/articles/{article_id}/")

@@ -18,12 +18,12 @@ import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.model.entity.Datum;
 
-public class AuthorAdapter extends RecyclerView.Adapter<AuthorAdapter.ViewHolder> {
+public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticleListAdapter.ViewHolder> {
     private List<Datum> mArticleDataList;
     private Context mContext;
     private LayoutInflater mInflater;
     
-    public AuthorAdapter(Context context, List<Datum> dataList) {
+    public SimpleArticleListAdapter(Context context, List<Datum> dataList) {
         mContext = context;
         mArticleDataList = dataList;
         mInflater = LayoutInflater.from(context);

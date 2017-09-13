@@ -1,6 +1,5 @@
 package nich.work.aequorea.presenter;
 
-import java.util.Iterator;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -11,30 +10,14 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
-import nich.work.aequorea.common.network.NetworkService;
-import nich.work.aequorea.common.network.RequestManager;
-import nich.work.aequorea.common.presenter.BasePresenter;
-import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.model.entity.Author;
+import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.Datum;
-import nich.work.aequorea.ui.view.AuthorView;
 
-public class AuthorPresenter extends BasePresenter<AuthorView> {
-    private NetworkService mService;
-    private int mPage;
-    private int mPer;
-    private long mTotalPage;
+public class AuthorPresenter extends SimpleArticleListPresenter {
     
     @Override
-    protected void onAttach() {
-        mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
-        
-        mPage = 1;
-        mPer = 15; // default value is 10, but due to unpredictable result it's set to 15.
-        mTotalPage = 1;
-    }
-    
     public void load() {
         if (!NetworkUtils.isNetworkAvailable()) {
             onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
@@ -46,12 +29,12 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
         }
         mBaseView.getModel().setLoading(true);
         
-        mComposite.add(mService.getArticleList(mBaseView.getModel().getAuthorId(), mPage, mPer)
+        mComposite.add(mService.getArticleList(mBaseView.getModel().getId(), mPage, mPer)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<Author>() {
+            .subscribe(new Consumer<Data>() {
                 @Override
-                public void accept(Author author) throws Exception {
+                public void accept(Data author) throws Exception {
                     onDataLoaded(author);
                 }
             }, new Consumer<Throwable>() {
@@ -62,29 +45,7 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
             }));
     }
     
-    private void onDataLoaded(Author author) {
-        mPage++;
-        mBaseView.getModel().setLoading(false);
-        mTotalPage = author.getMeta().getTotalPages();
-    
-        // filter the content that can not display at this very moment
-        // TODO support this kind of contents
-        author.setData(filter(author.getData()));
-    
-        // when filter method above do filter most of the item, make a load call to load enough data to display.
-        if (author.getData().size() <= 5) {
-            load();
-        }
-        
-        mBaseView.onDataLoaded(author);
-    }
-    
-    private void onError(Throwable throwable) {
-        mBaseView.getModel().setLoading(false);
-        mBaseView.onError(throwable);
-    }
-    
-    public void findAuthorInfo(final Author a) {
+    public void findAuthorInfo(final Data a) {
         final List<Datum> data = a.getData();
         
         mComposite.add(Single.create(new SingleOnSubscribe<Author>() {
@@ -93,7 +54,7 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
                 if (data.size() != 0) {
                     for (Author author : data.get(0).getAuthors()) {
                         // sometimes the leader may mark as the first author, so we need to make sure it's the right author
-                        if (author.getId() == mBaseView.getModel().getAuthorId()) {
+                        if (author.getId() == mBaseView.getModel().getId()) {
                             author.setMeta(a.getMeta());
                             e.onSuccess(author);
                             return;
@@ -110,17 +71,5 @@ public class AuthorPresenter extends BasePresenter<AuthorView> {
                     mBaseView.onUpdateAuthorInfo(author);
                 }
             }));
-    }
-    
-    private List<Datum> filter(List<Datum> data) {
-        Iterator<Datum> iterator = data.iterator();
-        
-        while (iterator.hasNext()) {
-            Datum d = iterator.next();
-            if (FilterUtils.underSupport(d.getArticleType())) {
-                iterator.remove();
-            }
-        }
-        return data;
     }
 }

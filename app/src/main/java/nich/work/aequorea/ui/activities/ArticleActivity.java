@@ -110,6 +110,11 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         IntentUtils.startAuthorActivity(this, mModel.getData().getAuthors().get(0).getId());
     }
     
+    @OnClick(R.id.tv_tag)
+    public void gotoTagPage() {
+        IntentUtils.startTagActivity(this, mModel.getData().getTopics().get(0).getId());
+    }
+    
     @OnLongClick(R.id.iv_theme)
     boolean showThemeHint() {
         if (isInLightTheme()) {

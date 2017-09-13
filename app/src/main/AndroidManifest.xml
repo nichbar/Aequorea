@@ -36,6 +36,11 @@
             android:theme="@style/AppTheme.Light"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.activities.TagActivity"
+            android:theme="@style/AppTheme.Light"
+            android:screenOrientation="portrait">
+        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -11,6 +11,7 @@ import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.ui.activities.ArticleActivity;
 import nich.work.aequorea.ui.activities.AuthorActivity;
+import nich.work.aequorea.ui.activities.TagActivity;
 
 
 public class IntentUtils {
@@ -23,6 +24,12 @@ public class IntentUtils {
     public static void startAuthorActivity(Context context, long id){
         Intent i = new Intent(context, AuthorActivity.class);
         i.putExtra(Constants.AUTHOR_ID, id);
+        context.startActivity(i);
+    }
+    
+    public static void startTagActivity(Context context, long id){
+        Intent i = new Intent(context, TagActivity.class);
+        i.putExtra(Constants.TAG_ID, id);
         context.startActivity(i);
     }
     

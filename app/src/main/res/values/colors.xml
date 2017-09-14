@@ -32,4 +32,5 @@
     <color name="white">#ffffff</color>
     <!-- color with alpha value -->
     <color name="alphaDark">#20424242</color>
+    <color name="transparent">#00000000</color>
 </resources>

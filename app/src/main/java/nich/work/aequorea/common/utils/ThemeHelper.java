@@ -29,6 +29,16 @@ public class ThemeHelper {
         }
     }
     
+    public static int getArticleThemeStyle(String theme) {
+        switch (theme) {
+            default:
+            case Constants.THEME_LIGHT:
+                return R.style.AppTheme_Article_Light;
+            case Constants.THEME_DARK:
+                return R.style.AppTheme_Article_Dark;
+        }
+    }
+    
     public static int getResourceId(Context context, int attr) {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);

@@ -18,13 +18,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentTheme = ThemeHelper.getTheme();
-        setTheme(ThemeHelper.getThemeStyle(currentTheme));
+        initTheme();
         
         setContentView(getContentViewId());
         initModel();
         initView();
         initPresenter();
+    }
+    
+    protected void initTheme() {
+        currentTheme = ThemeHelper.getTheme();
+        setTheme(ThemeHelper.getThemeStyle(currentTheme));
     }
     
     @Override

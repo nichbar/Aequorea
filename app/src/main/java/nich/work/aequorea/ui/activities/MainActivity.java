@@ -1,5 +1,6 @@
 package nich.work.aequorea.ui.activities;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -249,6 +250,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         setStatusBarMask();
         
         int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
+        int primaryDarkColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimaryDark);
         int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
         int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
         int themeDrawable = ThemeHelper.getResourceId(this, R.attr.icon_theme);
@@ -257,6 +259,9 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         mToolbar.setTitleTextColor(titleColor);
         mThemeMenuItem.setIcon(themeDrawable);
         mRecyclerView.setBackgroundColor(rootColor);
+        
+        // change color in recent apps
+        getWindow().setBackgroundDrawable(new ColorDrawable(primaryDarkColor));
     }
     
     private void scrollToTop(int currentPosition) {

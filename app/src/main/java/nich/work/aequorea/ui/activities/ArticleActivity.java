@@ -199,7 +199,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             currentTheme = Constants.THEME_LIGHT;
         }
         ThemeHelper.setTheme(currentTheme);
-        setTheme(ThemeHelper.getThemeStyle(currentTheme));
+        setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
         startThemeSwitchingAnimation();
         
         RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
@@ -287,6 +287,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+    
+    @Override
+    protected void initTheme() {
+        currentTheme = ThemeHelper.getTheme();
+        setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
     }
     
     @Override
@@ -524,7 +530,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     public void onThemeSwitch() {
         needToReTheme = !currentTheme.equals(Aequorea.getCurrentTheme());
         currentTheme = Aequorea.getCurrentTheme();
-        setTheme(ThemeHelper.getThemeStyle(currentTheme));
+        setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
         
         if (activityInForeground()) {
             onThemeSwitchPending();

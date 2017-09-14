@@ -15,7 +15,7 @@ import nich.work.aequorea.ui.adapters.SimpleArticleListAdapter;
 
 public class TagActivity extends SimpleArticleListActivity {
     @Override
-    protected int getContentView() {
+    protected int getContentViewId() {
         return R.layout.activity_tag;
     }
     

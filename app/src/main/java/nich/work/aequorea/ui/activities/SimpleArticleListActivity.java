@@ -79,24 +79,13 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentView());
-        
-        initModel();
-        initView();
-        initPresenter();
     }
-    
-    protected abstract int getContentView();
     
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detach();
     }
-    
-    protected abstract void initModel();
-    
-    protected abstract void initView();
     
     protected void setStatusBarStyle() {
         if (isInLightTheme()) {
@@ -111,8 +100,6 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     public SimpleArticleListModel getModel() {
         return mModel;
     }
-    
-    protected abstract void initPresenter();
     
     @Override
     public void onDataLoaded(Data a) {

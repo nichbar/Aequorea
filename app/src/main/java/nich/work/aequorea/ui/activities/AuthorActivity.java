@@ -52,7 +52,7 @@ public class AuthorActivity extends SimpleArticleListActivity {
     };
     
     @Override
-    protected int getContentView() {
+    protected int getContentViewId() {
         return R.layout.activity_author;
     }
     

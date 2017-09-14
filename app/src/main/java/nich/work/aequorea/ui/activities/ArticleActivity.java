@@ -82,28 +82,49 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private boolean mIsStatusBarInLowProfileMode = false;
     private boolean mThemeSwitchIsRunning = false;
-
-    @BindView(R.id.tv_article_content) TextView mContentTv;
-    @BindView(R.id.tv_author) TextView mAuthorTv;
-    @BindView(R.id.tv_date) TextView mDateTv;
-    @BindView(R.id.tv_title) TextView mTitleTv;
-    @BindView(R.id.tv_tag) TextView mTagTv;
-    @BindView(R.id.tv_article_recommend) TextView mRecommendTitleTv;
-    @BindView(R.id.tv_copyright) TextView mCopyrightTv;
-    @BindView(R.id.view_divider) View mDividerView;
-    @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
-    @BindView(R.id.container_refresh) View mRefreshView;
-    @BindView(R.id.layout_swipe_back_article) SwipeBackCoordinatorLayout mSwipeBackLayout;
-    @BindView(R.id.layout_container_article) ViewGroup mContainer;
-    @BindView(R.id.scrollview) NestedScrollView mScrollView;
-    @BindView(R.id.status_bar) StatusBarView mStatusBar;
-    @BindView(R.id.container_recommendation) LinearLayout mRecommendationContainer;
-    @BindView(R.id.container_recommendation_sub) LinearLayout mRecommendationSubContainer;
-    @BindView(R.id.container_option) ViewGroup mOptionContainer;
-    @BindView(R.id.iv_theme) ImageView mThemeIv;
-    @BindView(R.id.iv_font) ImageView mFontIv;
-    @BindView(R.id.iv_screenshot) ImageView mScreenshotIv;
-    @BindView(R.id.iv_share) ImageView mShareIv;
+    
+    @BindView(R.id.tv_article_content)
+    protected TextView mContentTv;
+    @BindView(R.id.tv_author)
+    protected TextView mAuthorTv;
+    @BindView(R.id.tv_date)
+    protected TextView mDateTv;
+    @BindView(R.id.tv_title)
+    protected TextView mTitleTv;
+    @BindView(R.id.tv_tag)
+    protected TextView mTagTv;
+    @BindView(R.id.tv_article_recommend)
+    protected TextView mRecommendTitleTv;
+    @BindView(R.id.tv_copyright)
+    protected TextView mCopyrightTv;
+    @BindView(R.id.view_divider)
+    protected View mDividerView;
+    @BindView(R.id.loading_progressbar)
+    protected ProgressBar mProgressBar;
+    @BindView(R.id.container_refresh)
+    protected View mRefreshView;
+    @BindView(R.id.layout_swipe_back_article)
+    protected SwipeBackCoordinatorLayout mSwipeBackLayout;
+    @BindView(R.id.layout_container_article)
+    protected ViewGroup mContainer;
+    @BindView(R.id.scrollview)
+    protected NestedScrollView mScrollView;
+    @BindView(R.id.status_bar)
+    protected StatusBarView mStatusBar;
+    @BindView(R.id.container_recommendation)
+    protected LinearLayout mRecommendationContainer;
+    @BindView(R.id.container_recommendation_sub)
+    protected LinearLayout mRecommendationSubContainer;
+    @BindView(R.id.container_option)
+    protected ViewGroup mOptionContainer;
+    @BindView(R.id.iv_theme)
+    protected ImageView mThemeIv;
+    @BindView(R.id.iv_font)
+    protected ImageView mFontIv;
+    @BindView(R.id.iv_screenshot)
+    protected ImageView mScreenshotIv;
+    @BindView(R.id.iv_share)
+    protected ImageView mShareIv;
     
     @OnClick(R.id.tv_author)
     void gotoAuthorPage() {
@@ -266,19 +287,21 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_article);
-        
-        initModel();
-        initView();
-        initPresenter();
     }
-
-    private void initModel() {
+    
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_article;
+    }
+    
+    @Override
+    protected void initModel() {
         mModel = new ArticleModel();
         mModel.setId(getIntent().getLongExtra(Constants.ARTICLE_ID, 0));
     }
-
-    private void initView() {
+    
+    @Override
+    protected void initView() {
         ButterKnife.bind(this);
     
         setStatusBarStyle();
@@ -294,7 +317,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mScrollUpEdge = dp2px(10);
     }
     
-    private void initPresenter() {
+    @Override
+    protected void initPresenter() {
         mPresenter = new ArticlePresenter();
         mPresenter.attach(this);
         mPresenter.loadArticle(mModel.getId());

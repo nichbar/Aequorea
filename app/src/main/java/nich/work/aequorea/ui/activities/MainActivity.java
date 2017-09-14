@@ -62,15 +62,23 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             mPresenter.refresh();
         }
     };
-
-    @BindView(R.id.rec) RecyclerView mRecyclerView;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.main_content) CoordinatorLayout mCoordinatorLayout;
-    @BindView(R.id.appbar) NestedScrollAppBarLayout mAppBarLayout;
-    @BindView(R.id.status_bar) StatusBarView mStatusBar;
-    @BindView(R.id.layout_swipe_refresh) SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.loading_progressbar) ProgressBar mProgressBar;
-    @BindView(R.id.container_refresh) View mRefreshView;
+    
+    @BindView(R.id.rec)
+    protected RecyclerView mRecyclerView;
+    @BindView(R.id.toolbar)
+    protected Toolbar mToolbar;
+    @BindView(R.id.main_content)
+    protected CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.appbar)
+    protected NestedScrollAppBarLayout mAppBarLayout;
+    @BindView(R.id.status_bar)
+    protected StatusBarView mStatusBar;
+    @BindView(R.id.layout_swipe_refresh)
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.loading_progressbar)
+    protected ProgressBar mProgressBar;
+    @BindView(R.id.container_refresh)
+    protected View mRefreshView;
     
     @OnClick(R.id.container_refresh) void refresh() {
         hideRefreshLayout();
@@ -81,11 +89,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        initModel();
-        initView();
-        initPresenter();
     }
     
     @Override
@@ -93,19 +96,27 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         super.onDestroy();
         mPresenter.detach();
     }
-
-    private void initModel() {
+    
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_main;
+    }
+    
+    @Override
+    protected void initModel() {
         mModel = new MainPageModel();
     }
-
-    private void initPresenter() {
+    
+    @Override
+    protected void initPresenter() {
         if (mPresenter == null) {
             mPresenter = new MainPresenter();
         }
         mPresenter.attach(this);
     }
-
-    private void initView() {
+    
+    @Override
+    protected void initView() {
         ButterKnife.bind(this);
         
         if (isInLightTheme()) {

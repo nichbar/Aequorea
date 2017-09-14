@@ -20,6 +20,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         super.onCreate(savedInstanceState);
         currentTheme = ThemeHelper.getTheme();
         setTheme(ThemeHelper.getThemeStyle(currentTheme));
+        
+        setContentView(getContentViewId());
+        initModel();
+        initView();
+        initPresenter();
     }
     
     @Override
@@ -55,6 +60,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public int dp2px(int dp) {
         return DisplayUtils.dp2px(this, dp);
     }
+    
+    protected abstract void initModel();
+    
+    protected abstract void initView();
+    
+    protected abstract void initPresenter();
+    
+    protected abstract int getContentViewId();
     
     // For those activity that need to change color when user have changed theme.
     @Override

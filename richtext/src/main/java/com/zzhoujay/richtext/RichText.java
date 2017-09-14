@@ -39,6 +39,26 @@ import java.util.regex.Pattern;
 public class RichText implements ImageGetterWrapper, ImageLoadNotify {
 
     public static boolean debugMode = false;
+    
+    private static final String TAG_TARGET = "target";
+    
+    private static Pattern IMAGE_TAG_PATTERN = Pattern.compile("<(img|IMG)(.*?)>");
+    private static Pattern IMAGE_WIDTH_PATTERN = Pattern.compile("(width|WIDTH)=\"(.*?)\"");
+    private static Pattern IMAGE_HEIGHT_PATTERN = Pattern.compile("(height|HEIGHT)=\"(.*?)\"");
+    private static Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
+    
+    private HashMap<String, ImageHolder> imageHolderMap;
+    
+    @RichState
+    private int state = RichState.ready;
+    
+    private final SpannedParser spannedParser;
+    private final CachedSpannedParser cachedSpannedParser;
+    private final SoftReference<TextView> textViewSoftReference;
+    private final RichTextConfig config;
+    private int count;
+    private int loadingCount;
+    private SoftReference<SpannableStringBuilder> richText;
 
 
     static void bind(Object tag, RichText richText) {
@@ -88,26 +108,6 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
         initCacheDir(cacheDir);
     }
 
-    private static final String TAG_TARGET = "target";
-
-    private static Pattern IMAGE_TAG_PATTERN = Pattern.compile("<(img|IMG)(.*?)>");
-    private static Pattern IMAGE_WIDTH_PATTERN = Pattern.compile("(width|WIDTH)=\"(.*?)\"");
-    private static Pattern IMAGE_HEIGHT_PATTERN = Pattern.compile("(height|HEIGHT)=\"(.*?)\"");
-    private static Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
-
-    private HashMap<String, ImageHolder> imageHolderMap;
-
-    @RichState
-    private int state = RichState.ready;
-
-    private final SpannedParser spannedParser;
-    private final CachedSpannedParser cachedSpannedParser;
-    private final SoftReference<TextView> textViewSoftReference;
-    private final RichTextConfig config;
-    private int count;
-    private int loadingCount;
-    private SoftReference<SpannableStringBuilder> richText;
-
     RichText(RichTextConfig config, TextView textView) {
         this.config = config;
         this.textViewSoftReference = new SoftReference<>(textView);
@@ -136,7 +136,7 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
         return new RichTextConfig.RichTextConfigBuild(source, richType);
     }
 
-    void generateAndSet() {
+    protected void generateAndSet() {
         final TextView textView = textViewSoftReference.get();
         if (textView != null) {
             textView.post(new Runnable() {

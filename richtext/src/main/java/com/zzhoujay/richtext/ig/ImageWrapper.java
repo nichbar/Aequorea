@@ -39,29 +39,29 @@ class ImageWrapper implements Recyclable {
             }
         }
     }
-
-    boolean isGif() {
+    
+    public boolean isGif() {
         return gifDrawable != null;
     }
-
-    GifDrawable getAsGif() {
+    
+    public GifDrawable getAsGif() {
         return gifDrawable;
     }
-
-    Bitmap getAsBitmap() {
+    
+    public Bitmap getAsBitmap() {
         return bitmap;
     }
-
-
-    int getHeight() {
+    
+    
+    public int getHeight() {
         return height;
     }
-
-    int getWidth() {
+    
+    public int getWidth() {
         return width;
     }
-
-    Drawable getDrawable(Resources resources) {
+    
+    public Drawable getDrawable(Resources resources) {
         if (gifDrawable == null) {
             BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bitmap);
             bitmapDrawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -77,12 +77,12 @@ class ImageWrapper implements Recyclable {
             gifDrawable.stop();
         }
     }
-
-    static ImageWrapper createAsGif(GifDrawable gifDrawable) {
+    
+    public static ImageWrapper createAsGif(GifDrawable gifDrawable) {
         return new ImageWrapper(gifDrawable, null);
     }
-
-    static ImageWrapper createAsBitmap(Bitmap bitmap) {
+    
+    public static ImageWrapper createAsBitmap(Bitmap bitmap) {
         return new ImageWrapper(null, bitmap);
     }
 

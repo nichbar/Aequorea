@@ -17,11 +17,11 @@ import java.io.InputStream;
  * 图片解析工具
  */
 abstract class SourceDecode<T> {
-
-    static SourceDecode<byte[]> BASE64_SOURCE_DECODE = new SourceDecode<byte[]>() {
+    
+    public static SourceDecode<byte[]> BASE64_SOURCE_DECODE = new SourceDecode<byte[]>() {
 
         @Override
-        void decodeSize(byte[] bytes, BitmapFactory.Options options) {
+        public void decodeSize(byte[] bytes, BitmapFactory.Options options) {
             BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options);
         }
 
@@ -31,20 +31,20 @@ abstract class SourceDecode<T> {
         }
 
         @Override
-        ImageWrapper decodeAsGif(byte[] bytes, BitmapFactory.Options options) {
+        public ImageWrapper decodeAsGif(byte[] bytes, BitmapFactory.Options options) {
             return ImageWrapper.createAsGif(new GifDrawable(Movie.decodeByteArray(bytes, 0, bytes.length), options.outHeight, options.outWidth));
         }
 
         @Override
-        boolean isGif(byte[] bytes, BitmapFactory.Options options) {
+        public boolean isGif(byte[] bytes, BitmapFactory.Options options) {
             return ImageKit.isGif(bytes);
         }
     };
-
-    static SourceDecode<String> LOCAL_FILE_SOURCE_DECODE = new SourceDecode<String>() {
+    
+    public static SourceDecode<String> LOCAL_FILE_SOURCE_DECODE = new SourceDecode<String>() {
 
         @Override
-        void decodeSize(String s, BitmapFactory.Options options) {
+        public void decodeSize(String s, BitmapFactory.Options options) {
             BitmapFactory.decodeFile(s, options);
         }
 
@@ -54,22 +54,22 @@ abstract class SourceDecode<T> {
         }
 
         @Override
-        ImageWrapper decodeAsGif(String s, BitmapFactory.Options options) {
+        public ImageWrapper decodeAsGif(String s, BitmapFactory.Options options) {
             return ImageWrapper.createAsGif(new GifDrawable(Movie.decodeFile(s), options.outHeight, options.outWidth));
         }
 
         @Override
-        boolean isGif(String s, BitmapFactory.Options options) {
+        public boolean isGif(String s, BitmapFactory.Options options) {
             return ImageKit.isGif(s);
         }
     };
-
-    static SourceDecode<InputStream> REMOTE_SOURCE_DECODE = new SourceDecode<InputStream>() {
+    
+    public static SourceDecode<InputStream> REMOTE_SOURCE_DECODE = new SourceDecode<InputStream>() {
 
         private static final int MARK_POSITION = 1024 * 1024;
 
         @Override
-        void decodeSize(InputStream inputStream, BitmapFactory.Options options) {
+        public void decodeSize(InputStream inputStream, BitmapFactory.Options options) {
             BufferedInputStream stream;
             if (inputStream instanceof BufferedInputStream) {
                 stream = (BufferedInputStream) inputStream;
@@ -112,17 +112,17 @@ abstract class SourceDecode<T> {
         }
 
         @Override
-        ImageWrapper decodeAsGif(InputStream inputStream, BitmapFactory.Options options) {
+        public ImageWrapper decodeAsGif(InputStream inputStream, BitmapFactory.Options options) {
             return ImageWrapper.createAsGif(new GifDrawable(Movie.decodeStream(inputStream), options.outHeight, options.outWidth));
         }
 
         @Override
-        boolean isGif(InputStream inputStream, BitmapFactory.Options options) {
+        public boolean isGif(InputStream inputStream, BitmapFactory.Options options) {
             return ImageKit.isGif(inputStream);
         }
     };
-
-    ImageWrapper decode(ImageHolder holder, T t, BitmapFactory.Options options) {
+    
+    public ImageWrapper decode(ImageHolder holder, T t, BitmapFactory.Options options) {
         if (holder.isAutoPlay() && (holder.isGif() || isGif(t, options))) {
             holder.setIsGif(true);
             return decodeAsGif(t, options);
@@ -130,13 +130,13 @@ abstract class SourceDecode<T> {
             return decodeAsBitmap(t, options);
         }
     }
-
-    abstract boolean isGif(T t, BitmapFactory.Options options);
-
-    abstract void decodeSize(T t, BitmapFactory.Options options);
-
-    abstract ImageWrapper decodeAsBitmap(T t, BitmapFactory.Options options);
-
-    abstract ImageWrapper decodeAsGif(T t, BitmapFactory.Options options);
+    
+    public abstract boolean isGif(T t, BitmapFactory.Options options);
+    
+    public abstract void decodeSize(T t, BitmapFactory.Options options);
+    
+    public abstract ImageWrapper decodeAsBitmap(T t, BitmapFactory.Options options);
+    
+    public abstract ImageWrapper decodeAsGif(T t, BitmapFactory.Options options);
 
 }

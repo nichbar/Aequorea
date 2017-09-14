@@ -35,17 +35,17 @@ import nich.work.aequorea.ui.adapters.MainArticleAdapter;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
-
+    
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    
     private MainPresenter mPresenter;
     private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
     private MenuItem mThemeMenuItem;
-
+    
     private long mClickTime;
-
+    
     private RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrolled(RecyclerView mRecyclerView, int dx, int dy) {
@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             }
         }
     };
-
+    
     private SwipeRefreshLayout.OnRefreshListener mRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
@@ -81,12 +81,13 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @BindView(R.id.container_refresh)
     protected View mRefreshView;
     
-    @OnClick(R.id.container_refresh) void refresh() {
+    @OnClick(R.id.container_refresh)
+    protected void refresh() {
         hideRefreshLayout();
         mProgressBar.setVisibility(View.VISIBLE);
         mPresenter.loadData();
     }
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,59 +128,59 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             setStatusBarStyle(false);
             mStatusBar.setDarkMask();
         }
-
+        
         mToolbar.setTitle(getResources().getString(R.string.app_name));
         mToolbar.setOnClickListener(this);
         setSupportActionBar(mToolbar);
-
+        
         mAdapter = new MainArticleAdapter(this, null);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
-
+        
         mAppBarLayout.setOnNestedListener(this);
-
+        
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
     }
     
     @Override
     public void onDataLoaded(List<Datum> data, boolean isRefresh) {
         hideRefreshLayout();
-    
+        
         mAdapter.setArticleList(data, isRefresh);
         mAdapter.notifyDataSetChanged();
     }
     
     @Override
     public void onError(Throwable error) {
-        if (mAdapter.getItemCount() == 0){
+        if (mAdapter.getItemCount() == 0) {
             showRefreshLayout();
         } else {
             hideRefreshLayout();
         }
-    
+        
         if (error != null) {
             Log.d(TAG, error.getMessage());
             SnackbarUtils.show(mRecyclerView, error.getMessage());
         }
     }
-
+    
     @Override
-    public void setRefreshing(boolean isRefreshing){
+    public void setRefreshing(boolean isRefreshing) {
         mSwipeRefreshLayout.setRefreshing(isRefreshing);
     }
-
+    
     @Override
     public void onNestedScrolling() {
         changeStatusBarStyle();
     }
-
+    
     @Override
     public void onStopNestedScrolling() {
         changeStatusBarStyle();
     }
-
+    
     private void changeStatusBarStyle() {
         // light status bar only show in light theme
         if (isInLightTheme()) {
@@ -196,9 +197,9 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             }
         }
     }
-
+    
     @Override
-    public MainPageModel getModel(){
+    public MainPageModel getModel() {
         return mModel;
     }
     
@@ -206,15 +207,15 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0
-            && lastVisibleItem >= totalCount - 3 && NetworkUtils.isNetworkAvailable()) {
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 3 && NetworkUtils
+            .isNetworkAvailable()) {
             mPresenter.loadData();
         }
     }
-
+    
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.toolbar:
                 if (System.currentTimeMillis() - mClickTime < 200) {
                     int position = mLinearLayoutManager.findFirstVisibleItemPosition();
@@ -226,7 +227,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                 break;
         }
     }
-
+    
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -285,7 +286,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                 String themeToSwitch = isInLightTheme() ? Constants.THEME_DARK : Constants.THEME_LIGHT;
                 setTheme(ThemeHelper.getThemeStyle(themeToSwitch));
                 ThemeHelper.setTheme(themeToSwitch);
-    
+                
                 onThemeSwitch();
                 break;
             default:

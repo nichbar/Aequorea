@@ -127,17 +127,17 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     protected ImageView mShareIv;
     
     @OnClick(R.id.tv_author)
-    void gotoAuthorPage() {
+    protected void gotoAuthorPage() {
         IntentUtils.startAuthorActivity(this, mModel.getData().getAuthors().get(0).getId());
     }
     
     @OnClick(R.id.tv_tag)
-    public void gotoTagPage() {
+    protected void gotoTagPage() {
         IntentUtils.startTagActivity(this, mModel.getData().getTopics().get(0).getId());
     }
     
     @OnLongClick(R.id.iv_theme)
-    boolean showThemeHint() {
+    protected boolean showThemeHint() {
         if (isInLightTheme()) {
             ToastUtils.showShortToast(getString(R.string.switch_to_dark_theme));
         } else {
@@ -147,13 +147,13 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnLongClick(R.id.iv_font)
-    boolean showFontHint() {
+    protected boolean showFontHint() {
         ToastUtils.showShortToast(getString(R.string.modify_font));
         return true;
     }
     
     @OnLongClick(R.id.iv_screenshot)
-    boolean saveScreenShot() {
+    protected boolean saveScreenShot() {
         if (mModel.getData() != null) {
             saveArticleToStorageWithPermissionCheck();
         }
@@ -167,7 +167,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnClick(R.id.iv_share)
-    void shareArticle() {
+    protected void shareArticle() {
         if (mModel.getData() != null) {
             String title = mModel.getData().getTitle();
             String url = mModel.getData().getShareUrl();
@@ -177,18 +177,18 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnClick(R.id.iv_screenshot)
-    void showScreenshotHint() {
+    protected void showScreenshotHint() {
         ToastUtils.showShortToast(getString(R.string.long_click_to_save_this_article));
     }
     
     @OnClick(R.id.iv_font)
-    void modifyFont() {
+    protected void modifyFont() {
         FontDialogFragment dialogFragment = new FontDialogFragment();
         dialogFragment.show(getSupportFragmentManager(), "");
     }
     
     @OnClick(R.id.iv_theme)
-    void switchTheme() {
+    protected void switchTheme() {
         if (mThemeSwitchIsRunning) {
             return;
         }
@@ -205,7 +205,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
     }
     
-    @OnClick(R.id.container_refresh) void refresh() {
+    @OnClick(R.id.container_refresh)
+    protected void refresh() {
         mContentTv.setText("");
         mRecommendationSubContainer.removeAllViews();
         
@@ -221,12 +222,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         public boolean canSwipeBack(int dir) {
             return true;
         }
-
+        
         @Override
         public void onSwipeProcess(float percent) {
             mContainer.setBackgroundColor(SwipeBackCoordinatorLayout.getBackgroundColor(percent));
         }
-
+        
         @Override
         public void onSwipeFinish(int dir) {
             finish();
@@ -234,7 +235,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 case SwipeBackCoordinatorLayout.UP_DIR:
                     overridePendingTransition(0, R.anim.activity_slide_out_top);
                     break;
-
+                
                 case SwipeBackCoordinatorLayout.DOWN_DIR:
                     overridePendingTransition(0, R.anim.activity_slide_out_bottom);
                     break;
@@ -283,7 +284,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             return false;
         }
     };
-
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -309,10 +310,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-    
+        
         setStatusBarStyle();
         setStatusBarMask();
-
+        
         mSwipeBackLayout.setOnSwipeListener(mSwipeBackListener);
         
         mContentTv.setOnTouchListener(mTouchListener);
@@ -373,36 +374,33 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private void showOptions() {
         mOptionContainer.setVisibility(View.VISIBLE);
-        mOptionContainer.animate()
-            .alpha(1);
+        mOptionContainer.animate().alpha(1);
     }
     
-    private void hideOptions(){
-        mOptionContainer.animate()
-            .setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    // do nothing
-                }
+    private void hideOptions() {
+        mOptionContainer.animate().setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                // do nothing
+            }
             
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (mIsStatusBarInLowProfileMode) {
-                        mOptionContainer.setVisibility(View.GONE);
-                    }
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mIsStatusBarInLowProfileMode) {
+                    mOptionContainer.setVisibility(View.GONE);
                 }
+            }
             
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    // do nothing
-                }
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                // do nothing
+            }
             
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                    // do nothing
-                }
-            })
-            .alpha(0);
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                // do nothing
+            }
+        }).alpha(0);
     }
     
     private void toggleShowStatus() {
@@ -416,12 +414,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     public void onArticleLoaded(Datum article) {
         mModel.setData(article);
-    
+        
         mProgressBar.setVisibility(View.GONE);
         mRefreshView.setVisibility(View.GONE);
-    
+        
         mTitleTv.setText(article.getTitle());
-    
+        
         SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm");
         String targetDateString = null;
@@ -431,26 +429,28 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    
+        
         mDateTv.setText(targetDateString);
-    
+        
         if (article.getAuthors().size() != 0 && article.getAuthors().get(0) != null) {
             mAuthorTv.setText(article.getAuthors().get(0).getName());
         } else {
             mAuthorTv.setText(R.string.default_author);
         }
-    
-        if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics().get(0) != null) {
+        
+        if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics()
+            .get(0) != null) {
             mTagTv.setText(String.format("# %s", article.getTopics().get(0).getName()));
         } else {
             mTagTv.setVisibility(View.GONE);
         }
-    
-        String content = article.getContent().replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
+        
+        String content = article.getContent()
+            .replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
         
         mCopyrightTv.setVisibility(View.VISIBLE);
-    
+        
         // load recommendation after rendering the context
         mPresenter.loadRecommendedArticles(mModel.getId());
     }
@@ -495,28 +495,28 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private void startThemeSwitchingAnimation() {
         int location[] = new int[2];
         mThemeIv.getLocationOnScreen(location);
-    
-        Animator animator = ViewAnimationUtils.createCircularReveal(mScrollView, location[0] + mThemeIv.getMeasuredWidth() / 2, location[1], 0f, getResources()
-            .getDisplayMetrics().heightPixels);
-    
+        
+        Animator animator = ViewAnimationUtils.createCircularReveal(mScrollView, location[0] + mThemeIv
+            .getMeasuredWidth() / 2, location[1], 0f, getResources().getDisplayMetrics().heightPixels);
+        
         animator.setDuration(ANIMATION_DURATION_THEME_SWITCHING);
         animator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
                 mThemeSwitchIsRunning = true;
             }
-    
+            
             @Override
             public void onAnimationEnd(Animator animator) {
                 mSwipeBackLayout.setBackgroundColor(ThemeHelper.getResourceColor(ArticleActivity.this, R.attr.root_color));
                 mThemeSwitchIsRunning = false;
             }
-    
+            
             @Override
             public void onAnimationCancel(Animator animator) {
                 // do nothing
             }
-    
+            
             @Override
             public void onAnimationRepeat(Animator animator) {
                 // do nothing
@@ -624,9 +624,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private void saveArticleToStorageWithPermissionCheck() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !PermissionUtils.hasPermissions(this, PERMISSIONS)) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_WRITE_EXTERNAL_STORAGE);
-                return;
-            }
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_WRITE_EXTERNAL_STORAGE);
+            return;
+        }
         
         saveSnapshotToStorage();
     }
@@ -634,7 +634,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case PERMISSION_WRITE_EXTERNAL_STORAGE:
                 if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     saveSnapshotToStorage();
@@ -656,7 +656,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     public void onSnapshotSavedSucceeded(final String path) {
         hideOptions();
-    
+        
         Snackbar snackbar = SnackbarUtils.getSnackbar(mSwipeBackLayout, getString(R.string.screenshot_saved_to_stroage), Snackbar.LENGTH_LONG);
         snackbar.setAction(R.string.open_image, new View.OnClickListener() {
             @Override
@@ -665,15 +665,13 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             }
         });
         snackbar.show();
-    
-        MediaScannerConnection.scanFile(this,
-            new String[] { path }, null,
-            new MediaScannerConnection.OnScanCompletedListener() {
-                @Override
-                public void onScanCompleted(final String path, Uri uri) {
-                    // do nothing.
-                }
-            });
+        
+        MediaScannerConnection.scanFile(this, new String[]{path}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            @Override
+            public void onScanCompleted(final String path, Uri uri) {
+                // do nothing.
+            }
+        });
     }
     
     @Override

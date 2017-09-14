@@ -2,37 +2,27 @@ package nich.work.aequorea.ui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
-import nich.work.aequorea.common.utils.DisplayUtils;
-import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.model.SimpleArticleListModel;
 import nich.work.aequorea.model.entity.Author;
 import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.presenter.AuthorPresenter;
 import nich.work.aequorea.presenter.SimpleArticleListPresenter;
 import nich.work.aequorea.ui.adapters.SimpleArticleListAdapter;
 import nich.work.aequorea.ui.view.SimpleArticleListView;
@@ -70,7 +60,8 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
         }
     };
     
-    @OnClick(R.id.container_refresh) void refresh() {
+    @OnClick(R.id.container_refresh)
+    protected void refresh() {
         mRefreshView.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
         mPresenter.load();

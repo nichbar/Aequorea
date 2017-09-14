@@ -19,6 +19,21 @@ public class ImageHolder {
 
     public static final int WRAP_CONTENT = Integer.MIN_VALUE;
     public static final int MATCH_PARENT = Integer.MAX_VALUE;
+    
+    private String source; // 图片URL
+    private String key;
+    private final int position; // 图片在在某个富文本中的位置
+    private int width, height; // 和scale属性共同决定holder宽高，开发者设置，内部获取值然后进行相应的设置
+    @ScaleType
+    private int scaleType;
+    @ImageState
+    private int imageState; // 图片加载的状态
+    private boolean autoFix;
+    private boolean autoPlay;
+    private boolean show;
+    private boolean isGif;
+    private BorderHolder borderHolder;
+    private int configHashCode = 0;
 
     /**
      * ScaleType
@@ -169,21 +184,6 @@ public class ImageHolder {
             return result;
         }
     }
-
-    private String source; // 图片URL
-    private String key;
-    private final int position; // 图片在在某个富文本中的位置
-    private int width, height; // 和scale属性共同决定holder宽高，开发者设置，内部获取值然后进行相应的设置
-    @ScaleType
-    private int scaleType;
-    @ImageState
-    private int imageState; // 图片加载的状态
-    private boolean autoFix;
-    private boolean autoPlay;
-    private boolean show;
-    private boolean isGif;
-    private BorderHolder borderHolder;
-    private int configHashCode = 0;
 
     public ImageHolder(String source, int position, RichTextConfig config) {
         this(source, position);

@@ -18,54 +18,56 @@ import nich.work.aequorea.ui.adapters.MainArticleAdapter;
 public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
     private Datum articleData;
     private Context context;
-
+    
     @BindView(R.id.iv_article)
-    ImageView articleImg;
+    protected ImageView articleImg;
     @BindView(R.id.iv_author)
-    ImageView authorImg;
+    protected ImageView authorImg;
     @BindView(R.id.tv_article_title)
-    TextView titleText;
+    protected TextView titleText;
     @BindView(R.id.tv_author)
-    TextView authorText;
+    protected TextView authorText;
     @BindView(R.id.tv_like)
-    TextView likeText;
-
+    protected TextView likeText;
+    
     @OnClick(R.id.iv_article)
-    void startArticleActivity() {
+    protected void startArticleActivity() {
         IntentUtils.startArticleActivity(context, articleData.getId());
     }
     
     @OnClick(R.id.iv_author)
-    void startAuthorActivity() {
+    protected void startAuthorActivity() {
         if (articleData.getAuthors().get(0).getId() != null) {
             IntentUtils.startAuthorActivity(context, articleData.getAuthors().get(0).getId());
         }
     }
-
+    
     public NormalArticleHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
-
+    
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindView(Context context, Datum data) {
         this.context = context;
-    
+        
         articleData = data.getData().get(0);
-
+        
         // article cover
         ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, ImageHelper.generateRandomPlaceholder());
-
+        
         // article title
         titleText.setText(articleData.getTitle());
-
+        
         // author
         if (articleData.getAuthors() != null) {
-            ImageHelper.setImage(context, articleData.getAuthors().get(0).getAvatar(), authorImg, true, R.drawable.icon_author);
+            ImageHelper.setImage(context, articleData.getAuthors()
+                .get(0)
+                .getAvatar(), authorImg, true, R.drawable.icon_author);
             authorText.setText(articleData.getAuthors().get(0).getName());
         }
-
+        
         // like
         Long likeCount = articleData.getLikeTimes() == null ? 0 : articleData.getLikeTimes();
         likeText.setText(Long.toString(likeCount));

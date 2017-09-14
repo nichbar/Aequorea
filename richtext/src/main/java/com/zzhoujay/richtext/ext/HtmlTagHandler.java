@@ -54,6 +54,8 @@ public class HtmlTagHandler implements Html.TagHandler {
                 break;
             case "pre":
                 break;
+            default:
+                break;
         }
     }
 
@@ -65,20 +67,22 @@ public class HtmlTagHandler implements Html.TagHandler {
                 if (!list.isEmpty())
                     list.pop();
                 break;
-            case "li":
-                boolean isUl = list.peek();
-                int i;
-                if (isUl) {
-                    index = 0;
-                    i = -1;
-                } else {
-                    i = ++index;
-                }
-                out.append('\n');
-                TextView textView = textViewSoftReference.get();
-                if (textView == null) {
-                    return;
-                }
+//            case "li":
+//                boolean isUl = list.peek();
+//                int i;
+//                if (isUl) {
+//                    index = 0;
+//                    i = -1;
+//                } else {
+//                    i = ++index;
+//                }
+//                out.append('\n');
+//                TextView textView = textViewSoftReference.get();
+//                if (textView == null) {
+//                    return;
+//                }
+//                break;
+            default:
                 break;
         }
     }

@@ -41,7 +41,7 @@ public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticle
         holder.bindData(article);
         holder.articleTitleTv.setText(article.getTitle());
         holder.articleSummaryTv.setText(article.getSummary());
-    
+        
         ImageHelper.setImage(mContext, article.getCoverUrl(), holder.coverIv, R.color.colorPrimary_light);
     }
     
@@ -70,11 +70,15 @@ public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticle
     public static class ViewHolder extends RecyclerView.ViewHolder {
         Datum article;
         
-        @BindView(R.id.iv_article_cover) ImageView coverIv;
-        @BindView(R.id.tv_article_title) TextView articleTitleTv;
-        @BindView(R.id.tv_article_summary) TextView articleSummaryTv;
-    
-        @OnClick(R.id.container) void startArticleActivity() {
+        @BindView(R.id.iv_article_cover)
+        protected ImageView coverIv;
+        @BindView(R.id.tv_article_title)
+        protected TextView articleTitleTv;
+        @BindView(R.id.tv_article_summary)
+        protected TextView articleSummaryTv;
+        
+        @OnClick(R.id.container)
+        protected void startArticleActivity() {
             IntentUtils.startArticleActivity(itemView.getContext(), article.getId());
         }
         
@@ -83,7 +87,7 @@ public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticle
             ButterKnife.bind(this, itemView);
         }
         
-        public void bindData(Datum data){
+        public void bindData(Datum data) {
             article = data;
         }
     }

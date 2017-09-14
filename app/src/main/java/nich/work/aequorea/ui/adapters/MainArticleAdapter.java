@@ -13,12 +13,12 @@ import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.ui.holder.NormalArticleHolder;
 
 public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.ViewHolder> {
-
+    
     private LayoutInflater mInflater;
     private Context mContext;
-
+    
     private List<Datum> mArticleList;
-
+    
     public MainArticleAdapter(Context context, List<Datum> articleList) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
@@ -41,22 +41,22 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NormalArticleHolder(mInflater.inflate(R.layout.item_article, parent, false));
     }
-
+    
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.onBindView(mContext, mArticleList.get(position));
     }
-
+    
     @Override
     public int getItemCount() {
         return mArticleList == null ? 0 : mArticleList.size();
     }
-
+    
     public static abstract class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
         }
-
+        
         public abstract void onBindView(Context context, Datum data);
     }
 }

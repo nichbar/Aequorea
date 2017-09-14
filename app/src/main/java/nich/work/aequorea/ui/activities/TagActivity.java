@@ -28,7 +28,7 @@ public class TagActivity extends SimpleArticleListActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-    
+        
         mToolbar.setNavigationIcon(R.drawable.icon_ab_back_material);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,12 +37,12 @@ public class TagActivity extends SimpleArticleListActivity {
             }
         });
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
-    
+        
         mAdapter = new SimpleArticleListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addOnScrollListener(mScrollListener);
-    
+        
         setStatusBarStyle();
     }
     
@@ -64,10 +64,10 @@ public class TagActivity extends SimpleArticleListActivity {
     @Override
     public void onThemeSwitch() {
         super.onThemeSwitch();
-    
+        
         int primaryColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimary);
         int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
-    
+        
         mToolbar.setTitleTextColor(titleColor);
         mToolbar.setBackgroundColor(primaryColor);
     }

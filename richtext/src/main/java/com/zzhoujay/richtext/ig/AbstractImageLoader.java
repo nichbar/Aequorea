@@ -24,12 +24,12 @@ import java.lang.ref.WeakReference;
  * 图片加载器（部分实现版本）
  */
 abstract class AbstractImageLoader<T> implements ImageLoader {
-
-    BitmapWrapper.SizeCacheHolder sizeCacheHolder;
-    final ImageHolder holder;
+    
+    protected BitmapWrapper.SizeCacheHolder sizeCacheHolder;
+    protected final ImageHolder holder;
     private final RichTextConfig config;
     private final WeakReference<DrawableWrapper> drawableWrapperWeakReference;
-    final SourceDecode<T> sourceDecode;
+    protected final SourceDecode<T> sourceDecode;
     private final WeakReference<TextView> textViewWeakReference;
     private final WeakReference<ImageLoadNotify> notifyWeakReference;
 

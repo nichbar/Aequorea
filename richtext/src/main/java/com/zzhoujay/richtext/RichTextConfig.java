@@ -51,7 +51,7 @@ public final class RichTextConfig {
     public final Drawable errorImage; // errorImage
     public final Callback callback; // 解析完成的回调
     public final ImageHolder.BorderHolder borderHolder;
-    final ImageGetter imageGetter; // 图片加载器，默认为GlideImageGetter
+    public final ImageGetter imageGetter; // 图片加载器，默认为GlideImageGetter
     public final boolean singleLoad;
 
 
@@ -143,38 +143,38 @@ public final class RichTextConfig {
     @SuppressWarnings("unused")
     public static final class RichTextConfigBuild {
 
-        final String source;
+        private final String source;
         @RichType
-        int richType;
-        boolean autoFix;
-        boolean resetSize;
+        private int richType;
+        private boolean autoFix;
+        private boolean resetSize;
         @CacheType
-        int cacheType;
-        ImageFixCallback imageFixCallback;
-        LinkFixCallback linkFixCallback;
-        boolean noImage;
-        int clickable;
-        boolean hyperlinkUnderline;
-        OnImageClickListener onImageClickListener;
-        OnUrlClickListener onUrlClickListener;
-        OnImageLongClickListener onImageLongClickListener;
-        OnUrlLongClickListener onUrlLongClickListener;
-        Drawable placeHolder;
-        Drawable errorImage;
+        private int cacheType;
+        private ImageFixCallback imageFixCallback;
+        private LinkFixCallback linkFixCallback;
+        private boolean noImage;
+        private int clickable;
+        private boolean hyperlinkUnderline;
+        private OnImageClickListener onImageClickListener;
+        private OnUrlClickListener onUrlClickListener;
+        private OnImageLongClickListener onImageLongClickListener;
+        private OnUrlLongClickListener onUrlLongClickListener;
+        private Drawable placeHolder;
+        private Drawable errorImage;
         @DrawableRes
-        int placeHolderRes;
+        private int placeHolderRes;
         @DrawableRes
-        int errorImageRes;
-        ImageGetter imageGetter;
-        Callback callback;
-        WeakReference<Object> tag;
-        boolean autoPlay;
+        private int errorImageRes;
+        private ImageGetter imageGetter;
+        private Callback callback;
+        private WeakReference<Object> tag;
+        private boolean autoPlay;
         @ImageHolder.ScaleType
-        int scaleType;
-        int width;
-        int height;
-        ImageHolder.BorderHolder borderHolder;
-        boolean singleLoad;
+        private int scaleType;
+        private int width;
+        private int height;
+        private ImageHolder.BorderHolder borderHolder;
+        private boolean singleLoad;
 
 
         RichTextConfigBuild(String source, int richType) {

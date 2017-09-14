@@ -59,14 +59,14 @@ public class AuthorActivity extends SimpleArticleListActivity {
     @Override
     protected void initModel() {
         mModel = new SimpleArticleListModel();
-    
+        
         mModel.setId((int) getIntent().getLongExtra(Constants.AUTHOR_ID, 0));
     }
     
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-    
+        
         mToolbar.setNavigationIcon(R.drawable.icon_ab_back_material);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +74,16 @@ public class AuthorActivity extends SimpleArticleListActivity {
                 onBackPressed();
             }
         });
-    
+        
         mCollapsingToolbarLayout.setTitle(" ");
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
-    
+        
         mAdapter = new SimpleArticleListAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addOnScrollListener(mScrollListener);
         mAppBar.addOnOffsetChangedListener(mOffsetListener);
-    
+        
         setStatusBarStyle();
     }
     
@@ -107,23 +107,23 @@ public class AuthorActivity extends SimpleArticleListActivity {
     @Override
     public void onUpdateAuthorInfo(Author author) {
         mCollapsingToolbarLayout.setTitle(author.getName());
-    
+        
         ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
-    
+        
         String intro = author.getIntroduction();
         if (!TextUtils.isEmpty(intro) && " ".equals(intro)) {
-        
+            
             if (intro.contains("。")) {
                 int position = intro.indexOf("。");
                 intro = intro.substring(0, position);
             }
-        
+            
             mIntroductionTv.setText(intro);
-        
+            
         } else {
             mIntroductionTv.setText(R.string.default_introduction);
         }
-    
+        
         mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
             .getTotalCount()));
     }
@@ -156,7 +156,7 @@ public class AuthorActivity extends SimpleArticleListActivity {
         }
     }
     
-    private void animateAuthorInfo(int style){
+    private void animateAuthorInfo(int style) {
         mAuthorIv.animate()
             .alpha(style)
             .scaleX(style)
@@ -164,14 +164,8 @@ public class AuthorActivity extends SimpleArticleListActivity {
             .setInterpolator(new FastOutSlowInInterpolator())
             .start();
         
-        mIntroductionTv.animate()
-            .alpha(style)
-            .setDuration(100)
-            .start();
+        mIntroductionTv.animate().alpha(style).setDuration(100).start();
         
-        mArticleCountTv.animate()
-            .alpha(style)
-            .setDuration(100)
-            .start();
+        mArticleCountTv.animate().alpha(style).setDuration(100).start();
     }
 }

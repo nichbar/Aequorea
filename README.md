@@ -1,5 +1,7 @@
 ## Aequorea
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d18e09c5d4b44f749dce50f8db129c20)](https://www.codacy.com/app/nichbar/Aequorea?utm_source=github.com&utm_medium=referral&utm_content=nichbar/Aequorea&utm_campaign=badger)
+
 > Aequorea  /ɪ`kɔ:riə/
 >
 > 一类多管水母。

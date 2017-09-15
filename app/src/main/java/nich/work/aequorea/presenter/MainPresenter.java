@@ -69,7 +69,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
                 .subscribe(new Consumer<Data>() {
                     @Override
                     public void accept(Data data) throws Exception {
-                        if (mPage == 1){
+                        if (mPage == 1) {
                             cacheData(data);
                         }
                         mPage++;

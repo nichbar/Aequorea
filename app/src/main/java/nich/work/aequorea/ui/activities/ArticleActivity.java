@@ -46,7 +46,6 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.rx.RxBus;
 import nich.work.aequorea.common.rx.RxEvent;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
-import nich.work.aequorea.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.DisplayUtils;
@@ -59,6 +58,7 @@ import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.model.ArticleModel;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.presenter.ArticlePresenter;
+import nich.work.aequorea.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.ui.view.ArticleView;
 
 public class ArticleActivity extends BaseActivity implements ArticleView {

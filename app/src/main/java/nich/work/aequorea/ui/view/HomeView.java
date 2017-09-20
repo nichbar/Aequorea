@@ -4,7 +4,6 @@ import java.util.List;
 
 import nich.work.aequorea.common.ui.view.NetworkView;
 import nich.work.aequorea.model.MainPageModel;
-import nich.work.aequorea.model.entity.DataWrapper;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.search.SearchDatum;
 

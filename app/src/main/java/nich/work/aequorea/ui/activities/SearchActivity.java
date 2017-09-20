@@ -14,6 +14,12 @@ public class SearchActivity extends TagActivity {
     }
     
     @Override
+    protected void initView() {
+        super.initView();
+        mToolbar.setTitle(mModel.getKey());
+    }
+    
+    @Override
     protected void initPresenter() {
         mPresenter = new SearchPresenter();
         mPresenter.attach(this);
@@ -27,8 +33,6 @@ public class SearchActivity extends TagActivity {
     
     @Override
     protected void updateToolbarTitle(Data a) {
-        if (mIsFirstPage) {
-            mToolbar.setTitle(mModel.getKey());
-        }
+        // do nothing
     }
 }

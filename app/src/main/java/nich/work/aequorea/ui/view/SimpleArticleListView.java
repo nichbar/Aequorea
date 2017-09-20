@@ -9,6 +9,8 @@ public interface SimpleArticleListView extends NetworkView {
     
     void onDataLoaded(Data data);
     
+    void onNoData();
+    
     void onUpdateAuthorInfo(Author author);
     
     SimpleArticleListModel getModel();

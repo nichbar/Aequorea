@@ -66,6 +66,7 @@ public class AnimationUtil {
                 
                 @Override
                 public void onAnimationCancel(View view) {
+                    // do nothing
                 }
             };
         }
@@ -99,7 +100,7 @@ public class AnimationUtil {
             
             @Override
             public void onAnimationRepeat(Animator animation) {
-                
+                // do nothing
             }
         });
         anim.start();
@@ -132,6 +133,7 @@ public class AnimationUtil {
             
             @Override
             public void onAnimationCancel(View view) {
+                // do nothing
             }
         });
     }

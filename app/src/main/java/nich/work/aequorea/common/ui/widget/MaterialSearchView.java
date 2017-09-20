@@ -61,9 +61,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private ListAdapter mAdapter;
     
     private SavedState mSavedState;
-    private boolean submit = false;
-    
-    private Drawable suggestionIcon;
     
     private Context mContext;
     
@@ -258,10 +255,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mBackBtn.setImageDrawable(drawable);
     }
     
-    public void setSuggestionIcon(Drawable drawable) {
-        suggestionIcon = drawable;
-    }
-    
     public void setSuggestionBackground(Drawable background) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mSuggestionsListView.setBackground(background);
@@ -290,15 +283,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE) {
             mSuggestionsListView.setVisibility(VISIBLE);
         }
-    }
-    
-    /**
-     * Submit the query as soon as the user clicks the item.
-     *
-     * @param submit submit state
-     */
-    public void setSubmitOnClick(boolean submit) {
-        this.submit = submit;
     }
     
     /**

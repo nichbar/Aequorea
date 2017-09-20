@@ -23,6 +23,7 @@
         <attr name="icon_font_increase" format="reference"/>
         <attr name="icon_font_decrease" format="reference"/>
         <attr name="icon_font_drop_down_arrow" format="reference"/>
+        <attr name="icon_sorry" format="reference"/>
     </declare-styleable>
 
     <declare-styleable name="StatusBarView">

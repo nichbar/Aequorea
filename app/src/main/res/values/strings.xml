@@ -30,4 +30,5 @@
     <string name="copyright">本文版权归第一财经周刊所有</string>
     <string name="search">搜索</string>
     <string name="search_article">搜索文章</string>
+    <string name="no_data">这是一片没有数据的荒野</string>
 </resources>

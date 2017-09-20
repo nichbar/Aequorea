@@ -36,6 +36,8 @@
 
         <include layout="@layout/piece_loading"/>
 
+        <include layout="@layout/piece_no_data"/>
+
     </android.support.design.widget.CoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView

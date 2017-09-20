@@ -49,6 +49,8 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     protected ProgressBar mProgressBar;
     @BindView(R.id.container_refresh)
     protected View mRefreshView;
+    @BindView(R.id.container_no_data)
+    protected View mNoDateView;
     
     protected RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -113,12 +115,20 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
         if (error != null) {
             Log.d(TAG, error.getMessage());
             SnackbarUtils.show(mRecyclerView, error.getMessage());
+            error.printStackTrace();
         }
     }
     
     @Override
     public void onUpdateAuthorInfo(Author author) {
         
+    }
+    
+    @Override
+    public void onNoData() {
+        mRefreshView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.GONE);
+        mNoDateView.setVisibility(View.VISIBLE);
     }
     
     public void autoLoad() {

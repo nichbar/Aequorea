@@ -29,18 +29,22 @@ public abstract class SimpleArticleListPresenter extends BasePresenter<SimpleArt
     public abstract void load();
     
     protected void onDataLoaded(Data data) {
-        mPage++;
-        mBaseView.getModel().setLoading(false);
-        mTotalPage = data.getMeta().getTotalPages();
-        
-        data.setData(filter(data.getData()));
-        
-        // when filter method above do filter most of the item, make a load call to load enough data to display.
-        if (data.getData().size() <= 5) {
-            load();
+        if (data.getData() != null && data.getData().size() != 0) {
+            mPage++;
+            mBaseView.getModel().setLoading(false);
+            mTotalPage = data.getMeta().getTotalPages();
+    
+            data.setData(filter(data.getData()));
+    
+            // when filter method above do filter most of the item, make a load call to load enough data to display.
+            if (data.getData().size() <= 5) {
+                load();
+            }
+    
+            mBaseView.onDataLoaded(data);
+        } else {
+            mBaseView.onNoData();
         }
-        
-        mBaseView.onDataLoaded(data);
     }
     
     protected void onError(Throwable throwable) {

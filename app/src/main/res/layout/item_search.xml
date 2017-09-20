@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="60dp"
         android:paddingRight="20dp"
-        android:textColor="?attr/title_color"
+        android:textColor="@color/colorTextTitle_light"
         android:layout_centerVertical="true"
         android:maxLines="1"
         android:focusable="false"

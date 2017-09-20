@@ -28,7 +28,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     
     private static final int ITEM_PER_PAGE = 15;
     
-    private static final int INSTANT_SEARCH_DELAY = 500;
+    private static final int INSTANT_SEARCH_DELAY = 300;
     
     private int mPage = 1;
     
@@ -128,7 +128,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
         
         mTimer.cancel();
         mTimer = new Timer();
-        new Timer().schedule(new TimerTask() {
+        mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 getSearchListAfterDelay(key);
@@ -139,7 +139,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     private void getSearchListAfterDelay(String key) {
     
         mComposite.add(mNetworkService
-            .getArticleListWithKeyword(1, 20, key, false)
+            .getArticleListWithKeyword(1, 10, key, false)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<SearchData>() {

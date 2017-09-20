@@ -2,12 +2,12 @@ package nich.work.aequorea.presenter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
+import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.Datum;
@@ -52,7 +52,7 @@ public class SearchPresenter extends SimpleArticleListPresenter {
         super.onDataLoaded(data);
     }
     
-    // fuck the api designer
+    // fuck this api designer
     private Data transferSearchDataIntoNormalData(SearchData searchData) {
         Data data = new Data();
         List<SearchDatum> searchDataList = searchData.getData();
@@ -61,16 +61,16 @@ public class SearchPresenter extends SimpleArticleListPresenter {
             List<Datum> dataList = new ArrayList<>();
             for (int i = 0; i < size; i++) {
                 Content content = searchDataList.get(i).getContent();
-                
-                Datum datum = new Datum();
-                datum.setId(content.getId());
-                datum.setAuthors(content.getAuthors());
-                datum.setCoverUrl(content.getCoverUrl());
-                datum.setSummary(content.getSummary());
-                datum.setTitle(content.getTitle());
-                datum.setArticleType(content.getArticleType());
-                
-                dataList.add(datum);
+                if (FilterUtils.underSupport(content.getArticleType())) {
+                    Datum datum = new Datum();
+                    datum.setId(content.getId());
+                    datum.setAuthors(content.getAuthors());
+                    datum.setCoverUrl(content.getCoverUrl());
+                    datum.setSummary(content.getSummary());
+                    datum.setTitle(content.getTitle());
+                    datum.setArticleType(content.getArticleType());
+                    dataList.add(datum);
+                }
             }
             data.setMeta(searchData.getMeta());
             data.setData(dataList);

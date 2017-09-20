@@ -11,6 +11,7 @@ import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.ui.activities.ArticleActivity;
 import nich.work.aequorea.ui.activities.AuthorActivity;
+import nich.work.aequorea.ui.activities.SearchActivity;
 import nich.work.aequorea.ui.activities.TagActivity;
 
 
@@ -30,6 +31,12 @@ public class IntentUtils {
     public static void startTagActivity(Context context, long id){
         Intent i = new Intent(context, TagActivity.class);
         i.putExtra(Constants.TAG_ID, id);
+        context.startActivity(i);
+    }
+    
+    public static void startSearchActivity(Context context, String key){
+        Intent i = new Intent(context, SearchActivity.class);
+        i.putExtra(Constants.SEARCH_KEY, key);
         context.startActivity(i);
     }
     

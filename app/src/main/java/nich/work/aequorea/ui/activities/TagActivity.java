@@ -56,6 +56,10 @@ public class TagActivity extends SimpleArticleListActivity {
     @Override
     public void onDataLoaded(Data a) {
         super.onDataLoaded(a);
+        updateToolbarTitle(a);
+    }
+    
+    protected void updateToolbarTitle(Data a) {
         if (mIsFirstPage) {
             mToolbar.setTitle(a.getData().get(0).getTopics().get(0).getName());
         }

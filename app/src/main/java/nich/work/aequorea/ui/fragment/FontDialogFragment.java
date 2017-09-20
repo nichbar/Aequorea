@@ -1,4 +1,4 @@
-package nich.work.aequorea.common.ui.fragment;
+package nich.work.aequorea.ui.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -23,44 +23,44 @@ public class FontDialogFragment extends DialogFragment {
     private ArticleActivity mView;
     
     @BindView(R.id.tv_font_family)
-    TextView mFontFamilyTv;
+    protected TextView mFontFamilyTv;
     
     @OnClick(R.id.iv_increase_font_size)
-    void increaseFontSize() {
+    protected void increaseFontSize() {
         mView.setContentFontSize(FontHelper.increaseFontSize());
     }
     
     @OnClick(R.id.iv_decrease_font_size)
-    void decreaseFontSize() {
+    protected void decreaseFontSize() {
         mView.setContentFontSize(FontHelper.decreaseFontSize());
     }
     
     @OnClick(R.id.iv_increase_font_spacing)
-    void increaseFontSpacing() {
+    protected void increaseFontSpacing() {
         mView.setContentLineSpacing(FontHelper.expandSpacing());
     }
     
     @OnClick(R.id.iv_decrease_font_spacing)
-    void decreaseFontSpacing() {
+    protected void decreaseFontSpacing() {
         mView.setContentLineSpacing(FontHelper.condenseSpacing());
     }
     
     @OnLongClick(R.id.iv_font_size)
-    boolean useDefaultFontSize() {
+    protected boolean useDefaultFontSize() {
         mView.setContentFontSize(FontHelper.setDefaultFontSize());
         ToastUtils.showShortToast(getString(R.string.use_default_font_size));
         return true;
     }
     
     @OnLongClick(R.id.iv_font_spacing)
-    boolean useDefaultFontSpacing() {
+    protected boolean useDefaultFontSpacing() {
         mView.setContentLineSpacing(FontHelper.setDefaultSpacing());
         ToastUtils.showShortToast(getString(R.string.use_default_line_spacing));
         return true;
     }
     
     @OnClick(R.id.tv_font_family)
-    void showFontFamilyPopup() {
+    protected void showFontFamilyPopup() {
         PopupMenu menu = new PopupMenu(mView, mFontFamilyTv);
         menu.getMenuInflater().inflate(R.menu.font_menu, menu.getMenu());
         

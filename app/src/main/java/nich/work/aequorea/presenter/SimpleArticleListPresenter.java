@@ -11,7 +11,7 @@ import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.ui.view.SimpleArticleListView;
 
-public class SimpleArticleListPresenter extends BasePresenter<SimpleArticleListView> {
+public abstract class SimpleArticleListPresenter extends BasePresenter<SimpleArticleListView> {
     protected NetworkService mService;
     protected int mPage;
     protected int mPer;
@@ -22,21 +22,17 @@ public class SimpleArticleListPresenter extends BasePresenter<SimpleArticleListV
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         
         mPage = 1;
-        mPer = 15; // default value is 10, but due to unpredictable result it's set to 15.
+        mPer = 20; // default value is 10, but due to unpredictable result it's set to 20.
         mTotalPage = 1;
     }
     
-    public void load() {
-        // sub class implement
-    }
+    public abstract void load();
     
     protected void onDataLoaded(Data data) {
         mPage++;
         mBaseView.getModel().setLoading(false);
         mTotalPage = data.getMeta().getTotalPages();
         
-        // filter the content that can not display at this very moment
-        // TODO support this kind of contents
         data.setData(filter(data.getData()));
         
         // when filter method above do filter most of the item, make a load call to load enough data to display.

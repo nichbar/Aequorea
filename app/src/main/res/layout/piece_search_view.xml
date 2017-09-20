@@ -1,0 +1,28 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <nich.work.aequorea.common.ui.widget.StatusBarView
+        android:id="@+id/status_bar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:placeholder="true"/>
+
+    <View
+        android:id="@+id/search_mask"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparentBlack"
+        android:visibility="gone"/>
+
+    <nich.work.aequorea.common.ui.widget.MaterialSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_bar_placeholder"
+        android:layout_margin="4dp"/>
+</RelativeLayout>

@@ -33,4 +33,5 @@
     <!-- color with alpha value -->
     <color name="alphaDark">#20424242</color>
     <color name="transparent">#00000000</color>
+    <color name="transparentBlack">#66000000</color>
 </resources>

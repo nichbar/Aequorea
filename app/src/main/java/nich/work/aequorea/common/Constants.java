@@ -4,6 +4,7 @@ public class Constants {
     public static String ARTICLE_ID = "article_id";
     public static String AUTHOR_ID = "author_id";
     public static String TAG_ID = "tag_id";
+    public static String SEARCH_KEY = "search_key";
 
     // Article Type
     public static final String ARTICLE_TYPE_MAGAZINE = "magazine_article"; // 封面故事

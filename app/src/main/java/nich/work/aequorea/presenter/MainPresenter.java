@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -19,19 +19,23 @@ import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.model.entity.search.SearchData;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainPresenter extends BasePresenter<HomeView> {
     private NetworkService mNetworkService;
+    private Timer mTimer;
     
     private static final int ITEM_PER_PAGE = 15;
+    
+    private static final int INSTANT_SEARCH_DELAY = 500;
     
     private int mPage = 1;
     
     @Override
     protected void onAttach() {
         mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+        mTimer = new Timer();
         loadData();
     }
     
@@ -85,7 +89,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     }
     
     private void onDataLoaded(Data data) {
-        mBaseView.onDataLoaded(filter(data.getData()), mBaseView.getModel().isRefreshing());
+        mBaseView.onDataLoaded(FilterUtils.filterData(data.getData()), mBaseView.getModel().isRefreshing());
         setLoadingFinish();
     }
     
@@ -104,20 +108,6 @@ public class MainPresenter extends BasePresenter<HomeView> {
         loadData(1);
     }
     
-    // filter the content that can not display at this very moment
-    // TODO support this kind of contents
-    private List<Datum> filter(List<Datum> data) {
-        Iterator<Datum> iterator = data.iterator();
-        
-        while (iterator.hasNext()) {
-            Datum d = iterator.next();
-            if (!FilterUtils.underSupport(d.getType())) {
-                iterator.remove();
-            }
-        }
-        return data;
-    }
-    
     private void cacheData(Data data) {
         Gson gson = new Gson();
         String cacheString = gson.toJson(data);
@@ -131,5 +121,42 @@ public class MainPresenter extends BasePresenter<HomeView> {
             return gson.fromJson(cacheString, Data.class);
         }
         return null;
+    }
+    
+    public void getSearchList(final String key) {
+        if (TextUtils.isEmpty(key)) return;
+        
+        mTimer.cancel();
+        mTimer = new Timer();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                getSearchListAfterDelay(key);
+            }
+        }, INSTANT_SEARCH_DELAY);
+    }
+    
+    private void getSearchListAfterDelay(String key) {
+    
+        mComposite.add(mNetworkService
+            .getArticleListWithKeyword(1, 20, key, false)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<SearchData>() {
+                @Override
+                public void accept(SearchData data) throws Exception {
+                    onSearchResultLoaded(data);
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) throws Exception {
+                    onError(throwable);
+                }
+            })
+        );
+    }
+    
+    private void onSearchResultLoaded(SearchData data) {
+        mBaseView.onSearchResultLoaded(FilterUtils.filterSearchData(data.getData()));
     }
 }

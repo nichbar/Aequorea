@@ -28,4 +28,6 @@
     <string name="open_image">打开图片</string>
     <string name="save_failed">保存失败</string>
     <string name="copyright">本文版权归第一财经周刊所有</string>
+    <string name="search">搜索</string>
+    <string name="search_article">搜索文章</string>
 </resources>

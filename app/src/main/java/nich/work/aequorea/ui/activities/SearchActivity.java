@@ -1,0 +1,34 @@
+package nich.work.aequorea.ui.activities;
+
+import nich.work.aequorea.common.Constants;
+import nich.work.aequorea.model.SimpleArticleListModel;
+import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.presenter.SearchPresenter;
+
+public class SearchActivity extends TagActivity {
+    
+    @Override
+    protected void initModel() {
+        mModel = new SimpleArticleListModel();
+        mModel.setKey(getIntent().getStringExtra(Constants.SEARCH_KEY));
+    }
+    
+    @Override
+    protected void initPresenter() {
+        mPresenter = new SearchPresenter();
+        mPresenter.attach(this);
+        mPresenter.load();
+    }
+    
+    @Override
+    public void onDataLoaded(Data a) {
+        super.onDataLoaded(a);
+    }
+    
+    @Override
+    protected void updateToolbarTitle(Data a) {
+        if (mIsFirstPage) {
+            mToolbar.setTitle(mModel.getKey());
+        }
+    }
+}

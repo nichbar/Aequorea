@@ -15,6 +15,7 @@
         <attr name="icon_font" format="reference"/>
         <attr name="icon_theme" format="reference"/>
         <attr name="icon_share" format="reference"/>
+        <attr name="icon_search" format="reference"/>
 
         <attr name="icon_font_family" format="reference"/>
         <attr name="icon_font_spacing" format="reference"/>

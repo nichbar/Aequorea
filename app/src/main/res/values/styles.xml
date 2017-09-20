@@ -19,6 +19,7 @@
         <item name="android:windowIsTranslucent">true</item>
 
         <item name="icon_theme">@drawable/icon_theme_dark</item>
+        <item name="icon_search">@drawable/ic_action_search_dark</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -39,6 +40,7 @@
         <item name="android:windowIsTranslucent">true</item>
 
         <item name="icon_theme">@drawable/icon_theme_light</item>
+        <item name="icon_search">@drawable/ic_action_search_light</item>
     </style>
 
     <style name="AppTheme.Article.Light" parent="AppTheme.Light">
@@ -110,6 +112,14 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="MSV_ImageButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
     </style>
 
 </resources>

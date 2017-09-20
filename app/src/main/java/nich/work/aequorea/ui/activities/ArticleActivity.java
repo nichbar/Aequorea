@@ -46,7 +46,7 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.rx.RxBus;
 import nich.work.aequorea.common.rx.RxEvent;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
-import nich.work.aequorea.common.ui.fragment.FontDialogFragment;
+import nich.work.aequorea.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.DisplayUtils;

@@ -3,6 +3,7 @@ package nich.work.aequorea.common.network;
 import io.reactivex.Observable;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.DataWrapper;
+import nich.work.aequorea.model.entity.search.SearchData;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -28,4 +29,8 @@ public interface NetworkService {
     // article with tags
     @GET("v2/topics/{tag_id}/articles")
     Observable<Data> getTagsList(@Path("tag_id") long id, @Query("page") int page, @Query("per") int per);
+    
+    // article with keyword
+    @GET("v2/pg_search_documents")
+    Observable<SearchData> getArticleListWithKeyword(@Query("page") int page, @Query("per") int per, @Query("query") String keyword, @Query("group") boolean group);
 }

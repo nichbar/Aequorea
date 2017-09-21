@@ -41,6 +41,9 @@
             android:name=".ui.activities.SearchActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name=".ui.activities.SettingsActivity"
+                  android:screenOrientation="portrait">
+        </activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

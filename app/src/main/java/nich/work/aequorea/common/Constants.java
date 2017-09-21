@@ -32,4 +32,5 @@ public class Constants {
     
     // Key of SharePreference
     public static final String SP_LATEST_MAIN_PAGE = "sp_latest_main_page";
+    public static final String SP_HD_SCREENSHOT = "sp_hd_screenshot";
 }

@@ -12,7 +12,7 @@ public class IOUtils {
     private static final String mPicDir = "/Pictures/Aequorea/";
     
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static String saveBitmapToExternalStorage(Bitmap bitmap, String name) {
+    public static String saveBitmapToExternalStorage(Bitmap bitmap, String name, int quality) {
         
         File newDir = new File(Environment.getExternalStorageDirectory().getPath() + mPicDir);
         if (!newDir.isDirectory()) {
@@ -27,7 +27,7 @@ public class IOUtils {
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fos);
             fos.flush();
             fos.close();
         } catch (IOException e) {

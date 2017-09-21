@@ -16,6 +16,7 @@
         <attr name="icon_theme" format="reference"/>
         <attr name="icon_share" format="reference"/>
         <attr name="icon_search" format="reference"/>
+        <attr name="icon_more" format="reference"/>
 
         <attr name="icon_font_family" format="reference"/>
         <attr name="icon_font_spacing" format="reference"/>
@@ -28,6 +29,11 @@
 
     <declare-styleable name="StatusBarView">
         <attr name="placeholder" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ACheckBox">
+        <attr name="title" format="string"/>
+        <attr name="summary" format="string"/>
     </declare-styleable>
 
 </resources>

@@ -48,9 +48,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
-    private MenuItem mThemeMenuItem;
     private MenuItem mSearchMenuItem;
-    private InstantSearchAdapter mSearchAdapter;
     
     private long mClickTime;
     
@@ -319,12 +317,14 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         int primaryDarkColor = ThemeHelper.getResourceColor(this, R.attr.colorPrimaryDark);
         int titleColor = ThemeHelper.getResourceColor(this, R.attr.title_color);
         int rootColor = ThemeHelper.getResourceColor(this, R.attr.root_color);
-        int themeDrawable = ThemeHelper.getResourceId(this, R.attr.icon_theme);
+        int searchDrawable = ThemeHelper.getResourceId(this, R.attr.icon_search);
+        int moreDrawable = ThemeHelper.getResourceId(this, R.attr.icon_more);
         
         mAppBarLayout.setBackgroundColor(primaryColor);
         mToolbar.setTitleTextColor(titleColor);
-        mThemeMenuItem.setIcon(themeDrawable);
+        mSearchMenuItem.setIcon(searchDrawable);
         mRecyclerView.setBackgroundColor(rootColor);
+        mToolbar.setOverflowIcon(getDrawable(moreDrawable));
         
         // change color in recent apps
         getWindow().setBackgroundDrawable(new ColorDrawable(primaryDarkColor));
@@ -340,7 +340,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        mThemeMenuItem = menu.findItem(R.id.action_switch_theme);
         mSearchMenuItem = menu.findItem(R.id.action_search);
         
         return true;
@@ -349,12 +348,8 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_switch_theme:
-                String themeToSwitch = isInLightTheme() ? Constants.THEME_DARK : Constants.THEME_LIGHT;
-                setTheme(ThemeHelper.getThemeStyle(themeToSwitch));
-                ThemeHelper.setTheme(themeToSwitch);
-                
-                onThemeSwitch();
+            case R.id.action_settings:
+                IntentUtils.startSettingsActivity(this);
                 break;
             case R.id.action_search:
                 mSearchView.showSearch();
@@ -377,7 +372,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
                     arrayList.add(i, new InstantSearchAdapter.InstantSearchBean(content.getId(), content
                         .getTitle()));
                 }
-                mSearchAdapter = new InstantSearchAdapter(this, arrayList);
+                InstantSearchAdapter mSearchAdapter = new InstantSearchAdapter(this, arrayList);
                 mSearchView.setAdapter(mSearchAdapter);
         
                 mSearchView.showSuggestions();

@@ -24,5 +24,5 @@
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:focusable="false"
-        android:src="?attr/icon_search" />
+        android:src="@drawable/ic_action_search_dark" />
 </RelativeLayout>

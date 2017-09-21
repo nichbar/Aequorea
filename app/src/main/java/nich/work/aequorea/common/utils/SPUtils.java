@@ -38,4 +38,12 @@ public class SPUtils {
     public static int getInt(String key, int defaultValue) {
         return getSp().getInt(key, defaultValue);
     }
+    
+    public static void setBoolean(String key, boolean value) {
+        getSp().edit().putBoolean(key, value).apply();
+    }
+    
+    public static boolean getBoolean(String key) {
+        return getSp().getBoolean(key, false);
+    }
 }

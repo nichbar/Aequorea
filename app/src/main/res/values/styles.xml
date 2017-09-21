@@ -21,6 +21,7 @@
         <item name="icon_theme">@drawable/icon_theme_dark</item>
         <item name="icon_search">@drawable/ic_action_search_dark</item>
         <item name="icon_sorry">@drawable/ic_sorry_dark</item>
+        <item name="icon_more">@drawable/ic_action_more_vert_dark</item>
     </style>
 
     <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
@@ -39,10 +40,12 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
 
         <item name="icon_theme">@drawable/icon_theme_light</item>
         <item name="icon_search">@drawable/ic_action_search_light</item>
         <item name="icon_sorry">@drawable/ic_sorry_light</item>
+        <item name="icon_more">@drawable/ic_action_more_vert_light</item>
     </style>
 
     <style name="AppTheme.Article.Light" parent="AppTheme.Light">

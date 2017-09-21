@@ -12,10 +12,16 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.ui.activities.ArticleActivity;
 import nich.work.aequorea.ui.activities.AuthorActivity;
 import nich.work.aequorea.ui.activities.SearchActivity;
+import nich.work.aequorea.ui.activities.SettingsActivity;
 import nich.work.aequorea.ui.activities.TagActivity;
 
 
 public class IntentUtils {
+    public static void startSettingsActivity(Context context) {
+        Intent i = new Intent(context, SettingsActivity.class);
+        context.startActivity(i);
+    }
+    
     public static void startArticleActivity(Context context, long id) {
         Intent i = new Intent(context, ArticleActivity.class);
         i.putExtra(Constants.ARTICLE_ID, id);

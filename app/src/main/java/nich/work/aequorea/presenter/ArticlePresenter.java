@@ -15,12 +15,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.IOUtils;
+import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.DataWrapper;
 import nich.work.aequorea.model.entity.Datum;
@@ -134,10 +136,12 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     }
     
     public void saveSnapshotToStorage(final Bitmap bitmap, final String title) {
+        final int quality = SPUtils.getBoolean(Constants.SP_HD_SCREENSHOT) ? 100 : 90;
+        
         mComposite.add(Single.create(new SingleOnSubscribe<String>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<String> e) throws Exception {
-                String address = IOUtils.saveBitmapToExternalStorage(bitmap, title);
+                String address = IOUtils.saveBitmapToExternalStorage(bitmap, title, quality);
                 e.onSuccess(address);
             }
         })

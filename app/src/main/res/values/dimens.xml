@@ -6,4 +6,6 @@
     <dimen name="spacing_article_content">5dp</dimen>
     
     <dimen name="parallax_image_offset">20dp</dimen>
+
+    <dimen name="search_item_height">50dp</dimen>
 </resources>

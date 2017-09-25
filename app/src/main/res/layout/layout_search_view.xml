@@ -64,7 +64,7 @@
         <ListView
             android:id="@+id/suggestion_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/shape_round_corner"
             android:divider="@android:color/transparent"/>
     </LinearLayout>

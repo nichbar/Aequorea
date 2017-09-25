@@ -16,31 +16,24 @@ import nich.work.aequorea.R;
 
 public class InstantSearchAdapter extends BaseAdapter {
     
-    private ArrayList<InstantSearchBean> data;
-    private Drawable suggestionIcon;
-    private LayoutInflater inflater;
-    private boolean ellipsize;
+    private ArrayList<InstantSearchBean> mData;
+    private LayoutInflater mInflater;
+    private int mActionBarSize;
     
     public InstantSearchAdapter(Context context, ArrayList<InstantSearchBean> instantSearchBeen) {
-        inflater = LayoutInflater.from(context);
-        data = instantSearchBeen;
-    }
-    
-    public InstantSearchAdapter(Context context, ArrayList<InstantSearchBean> instantSearchBeen, Drawable suggestionIcon, boolean ellipsize) {
-        inflater = LayoutInflater.from(context);
-        data = instantSearchBeen;
-        this.suggestionIcon = suggestionIcon;
-        this.ellipsize = ellipsize;
+        mInflater = LayoutInflater.from(context);
+        mData = instantSearchBeen;
+        mActionBarSize = (int) context.getResources().getDimension(R.dimen.search_item_height);
     }
     
     @Override
     public int getCount() {
-        return data == null ? 0 : data.size();
+        return mData == null ? 0 : mData.size();
     }
     
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return mData.get(position);
     }
     
     @Override
@@ -54,7 +47,7 @@ public class InstantSearchAdapter extends BaseAdapter {
         InstantSearchAdapter.SuggestionsViewHolder viewHolder;
         
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_search, parent, false);
+            convertView = mInflater.inflate(R.layout.item_search, parent, false);
             viewHolder = new InstantSearchAdapter.SuggestionsViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
@@ -64,13 +57,13 @@ public class InstantSearchAdapter extends BaseAdapter {
         String currentListData = ((InstantSearchBean) getItem(position)).title;
         
         viewHolder.textView.setText(currentListData);
-        if (ellipsize) {
-            viewHolder.textView.setSingleLine();
-            viewHolder.textView.setEllipsize(TextUtils.TruncateAt.END);
-        }
-        convertView.setTag(R.string.app_name, data.get(position));
+        convertView.setTag(R.string.app_name, mData.get(position));
         
         return convertView;
+    }
+    
+    public int getListHeight() {
+        return mActionBarSize * getCount();
     }
     
     private class SuggestionsViewHolder {
@@ -80,10 +73,6 @@ public class InstantSearchAdapter extends BaseAdapter {
         
         private SuggestionsViewHolder(View convertView) {
             textView = (TextView) convertView.findViewById(R.id.search_text);
-            if (suggestionIcon != null) {
-                imageView = (ImageView) convertView.findViewById(R.id.search_icon);
-                imageView.setImageDrawable(suggestionIcon);
-            }
         }
     }
     

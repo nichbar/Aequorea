@@ -10,7 +10,7 @@ import nich.work.aequorea.model.entity.search.SearchDatum;
 
 public class FilterUtils {
     public static boolean underSupport(String type) {
-        return !((Constants.ARTICLE_TYPE_THEME.equals(type)) || (Constants.ARTICLE_TYPE_MAGAZINE.equals(type)) || (Constants.ARTICLE_TYPE_MAGAZINE_V2.equals(type)));
+        return !((Constants.ARTICLE_TYPE_THEME.equals(type)) || (Constants.ARTICLE_TYPE_MAGAZINE.equals(type)) || (Constants.ARTICLE_TYPE_MAGAZINE_V2.equals(type)) || (Constants.ARTICLE_TYPE_SUBJECT.equals(type)));
     }
     
     public static List<Datum> filterData(List<Datum> data) {

@@ -142,12 +142,6 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     }
     
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(0, R.anim.activity_slide_out_bottom);
-    }
-    
-    @Override
     public void onThemeSwitch() {
         setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
         currentTheme = Aequorea.getCurrentTheme();

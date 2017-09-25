@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.view.BaseView;
 import nich.work.aequorea.common.utils.DisplayUtils;
@@ -90,5 +91,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     
     public boolean activityInForeground() {
         return isForeground;
+    }
+    
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(0, R.anim.activity_slide_out_bottom);
     }
 }

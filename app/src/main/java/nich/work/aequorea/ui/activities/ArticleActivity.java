@@ -348,12 +348,6 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mPresenter.detach();
     }
     
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(0, R.anim.activity_slide_out_bottom);
-    }
-    
     public void setStandardMode() {
         if (mIsStatusBarInLowProfileMode) {
             setStatusBarStyle();

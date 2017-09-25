@@ -1,9 +1,11 @@
 package nich.work.aequorea.ui.activities;
 
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -66,6 +68,13 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
         setStatusBarStyle();
     
         mToolbar.setTitle(R.string.settings);
+        mToolbar.setNavigationIcon(R.drawable.icon_ab_back_material);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
     
@@ -107,6 +116,13 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     
         mToolbar.setTitleTextColor(titleColor);
         mToolbar.setBackgroundColor(primaryColor);
+        
+        Drawable drawable = getDrawable(R.drawable.icon_ab_back_material);
+        if (drawable != null) {
+            drawable.setTint(ThemeHelper.getResourceColor(this, R.attr.colorControlNormal));
+        }
+        mToolbar.setNavigationIcon(drawable);
+        
         mCoordinatorLayout.setBackgroundColor(primaryColor);
         colorCheckBox();
     }

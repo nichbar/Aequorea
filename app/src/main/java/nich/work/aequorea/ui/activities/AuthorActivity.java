@@ -1,5 +1,6 @@
 package nich.work.aequorea.ui.activities;
 
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -140,6 +141,12 @@ public class AuthorActivity extends SimpleArticleListActivity {
         mCollapsingToolbarLayout.setExpandedTitleColor(titleColor);
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(titleColor);
         mCollapsingToolbarLayout.setBackgroundColor(primaryColor);
+    
+        Drawable drawable = getDrawable(R.drawable.icon_ab_back_material);
+        if (drawable != null) {
+            drawable.setTint(ThemeHelper.getResourceColor(this, R.attr.colorControlNormal));
+        }
+        mToolbar.setNavigationIcon(drawable);
     }
     
     private void showAuthorDetail() {

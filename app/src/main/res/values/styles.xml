@@ -17,6 +17,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="icon_theme">@drawable/icon_theme_dark</item>
         <item name="icon_search">@drawable/ic_action_search_dark</item>
@@ -40,7 +41,7 @@
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="popupTheme">@style/popup_dark</item>
 
         <item name="icon_theme">@drawable/icon_theme_light</item>
         <item name="icon_search">@drawable/ic_action_search_light</item>
@@ -125,6 +126,11 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:paddingLeft">13dp</item>
         <item name="android:paddingRight">13dp</item>
+    </style>
+
+    <style name="popup_dark" parent="@style/ThemeOverlay.AppCompat.Dark">
+        <item name="android:windowBackground">?attr/root_color</item>
+        <item name="android:colorBackground">?attr/root_color</item>
     </style>
 
 </resources>

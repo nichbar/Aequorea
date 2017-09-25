@@ -1,5 +1,6 @@
 package nich.work.aequorea.ui.activities;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
@@ -74,5 +75,11 @@ public class TagActivity extends SimpleArticleListActivity {
         
         mToolbar.setTitleTextColor(titleColor);
         mToolbar.setBackgroundColor(primaryColor);
+    
+        Drawable drawable = getDrawable(R.drawable.icon_ab_back_material);
+        if (drawable != null) {
+            drawable.setTint(ThemeHelper.getResourceColor(this, R.attr.colorControlNormal));
+        }
+        mToolbar.setNavigationIcon(drawable);
     }
 }

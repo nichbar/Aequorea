@@ -7,6 +7,7 @@ import com.zzhoujay.richtext.RichText;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.utils.ThemeHelper;
 
@@ -37,6 +38,10 @@ public class Aequorea extends Application {
     
     public static String getCurrentTheme() {
         return mCurrentTheme;
+    }
+    
+    public static boolean isLightTheme() {
+        return mCurrentTheme.equals(Constants.THEME_LIGHT);
     }
     
     public static void setCurrentTheme(String theme) {

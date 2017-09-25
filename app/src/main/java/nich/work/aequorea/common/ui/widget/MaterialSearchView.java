@@ -5,13 +5,10 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +24,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
 
+import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.AnimationUtil;
+import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.ui.adapters.InstantSearchAdapter;
 
 public class MaterialSearchView extends FrameLayout implements Filter.FilterListener {
@@ -39,10 +37,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private int mAnimationDuration;
     private boolean mClearingFocus;
     private boolean mSuggestionVisible;
+    private String mTheme;
     
     //Views
     private View mSearchLayout;
-    private View mTintView;
+    private View mDividerView;
     private ListView mSuggestionsListView;
     private EditText mSearchSrcTextView;
     private ImageButton mBackBtn;
@@ -50,14 +49,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private RelativeLayout mSearchTopBar;
     
     private CharSequence mOldQueryText;
-    private CharSequence mUserQuery;
     
     private MaterialSearchView.OnQueryTextListener mOnQueryChangeListener;
     private MaterialSearchView.SearchViewListener mSearchViewListener;
     
     private InstantSearchAdapter mAdapter;
-    
-    private SavedState mSavedState;
     
     private Context mContext;
     
@@ -78,22 +74,21 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
     
     private void initiateView() {
-        LayoutInflater.from(mContext)
-            .inflate(R.layout.layout_search_view, this, true);
-        mSearchLayout = findViewById(R.id.search_layout);
+        LayoutInflater.from(mContext).inflate(R.layout.layout_search_view, this, true);
         
-        mSearchTopBar = (RelativeLayout) mSearchLayout.findViewById(R.id.search_top_bar);
-        mSuggestionsListView = (ListView) mSearchLayout.findViewById(R.id.suggestion_list);
-        mSearchSrcTextView = (EditText) mSearchLayout.findViewById(R.id.searchTextView);
-        mBackBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_up_btn);
-        mEmptyBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_empty_btn);
-        mTintView = mSearchLayout.findViewById(R.id.transparent_view);
+        mSearchLayout = findViewById(R.id.search_layout);
+        mSearchTopBar = mSearchLayout.findViewById(R.id.search_top_bar);
+        mSuggestionsListView = mSearchLayout.findViewById(R.id.suggestion_list);
+        mSearchSrcTextView = mSearchLayout.findViewById(R.id.searchTextView);
+        mBackBtn = mSearchLayout.findViewById(R.id.action_up_btn);
+        mEmptyBtn = mSearchLayout.findViewById(R.id.action_empty_btn);
+        mDividerView = mSearchLayout.findViewById(R.id.view_divider);
         
         mSearchSrcTextView.setOnClickListener(mOnClickListener);
         mBackBtn.setOnClickListener(mOnClickListener);
         mEmptyBtn.setOnClickListener(mOnClickListener);
-        mTintView.setOnClickListener(mOnClickListener);
-        
+    
+        applyTheme();
         initSearchView();
         setAnimationDuration(AnimationUtil.ANIMATION_DURATION_MEDIUM);
     }
@@ -115,7 +110,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mUserQuery = s;
                 startFilter(s);
                 MaterialSearchView.this.onTextChanged(s);
                 if (s.length() == 0 && mSuggestionsListView != null) {
@@ -159,15 +153,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 mSearchSrcTextView.setText(null);
             } else if (v == mSearchSrcTextView) {
                 showSuggestions();
-            } else if (v == mTintView) {
-                closeSearch();
             }
         }
     };
     
     private void onTextChanged(CharSequence newText) {
         CharSequence text = mSearchSrcTextView.getText();
-        mUserQuery = text;
         boolean hasText = !TextUtils.isEmpty(text);
         if (hasText) {
             mEmptyBtn.setVisibility(VISIBLE);
@@ -227,39 +218,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mSearchSrcTextView.setTextColor(color);
     }
     
-    public void setHintTextColor(int color) {
-        mSearchSrcTextView.setHintTextColor(color);
-    }
-    
     public void setHint(CharSequence hint) {
         mSearchSrcTextView.setHint(hint);
-    }
-    
-    public void setCloseIcon(Drawable drawable) {
-        mEmptyBtn.setImageDrawable(drawable);
-    }
-    
-    public void setBackIcon(Drawable drawable) {
-        mBackBtn.setImageDrawable(drawable);
-    }
-    
-    public void setSuggestionBackground(Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mSuggestionsListView.setBackground(background);
-        } else {
-            mSuggestionsListView.setBackgroundDrawable(background);
-        }
-    }
-    
-    public void setCursorDrawable(int drawable) {
-        try {
-            // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
-            Field f = TextView.class.getDeclaredField("mCursorDrawableRes");
-            f.setAccessible(true);
-            f.set(mSearchSrcTextView, drawable);
-        } catch (Exception ignored) {
-            Log.e("MaterialSearchView", ignored.toString());
-        }
     }
     
     public void showSuggestions() {
@@ -298,7 +258,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     /**
      * Set Suggest List OnItemClickListener
      *
-     * @param listener
      */
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         mSuggestionsListView.setOnItemClickListener(listener);
@@ -307,7 +266,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     /**
      * Set Adapter for suggestions list. Should implement Filterable.
      *
-     * @param adapter
      */
     public void setAdapter(InstantSearchAdapter adapter) {
         mAdapter = adapter;
@@ -315,28 +273,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         startFilter(mSearchSrcTextView.getText());
     }
     
-    /**
-     * Calling this will set the query to search text box. if submit is true, it'll submit the query.
-     *
-     * @param query
-     * @param submit
-     */
-    public void setQuery(CharSequence query, boolean submit) {
-        mSearchSrcTextView.setText(query);
-        if (query != null) {
-            mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
-            mUserQuery = query;
-        }
-        if (submit && !TextUtils.isEmpty(query)) {
-            onSubmitQuery();
-        }
-    }
-    
-    /**
-     * Return true if search is open
-     *
-     * @return
-     */
     public boolean isSearchOpen() {
         return mIsSearchOpen;
     }
@@ -354,6 +290,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * Open Search View. This will animate the showing of the view.
      */
     public void showSearch() {
+        applyTheme();
         showSearch(true);
     }
     
@@ -373,43 +310,22 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         
         if (animate) {
             setVisibleWithAnimation();
-            
         } else {
             mSearchLayout.setVisibility(VISIBLE);
-            if (mSearchViewListener != null) {
-                mSearchViewListener.onSearchViewShown();
-            }
+        }
+        if (mSearchViewListener != null) {
+            mSearchViewListener.onSearchViewShown();
         }
         mIsSearchOpen = true;
     }
     
     private void setVisibleWithAnimation() {
-        AnimationUtil.AnimationListener animationListener = new AnimationUtil.AnimationListener() {
-            @Override
-            public boolean onAnimationStart(View view) {
-                return false;
-            }
-            
-            @Override
-            public boolean onAnimationEnd(View view) {
-                if (mSearchViewListener != null) {
-                    mSearchViewListener.onSearchViewShown();
-                }
-                return false;
-            }
-            
-            @Override
-            public boolean onAnimationCancel(View view) {
-                return false;
-            }
-        };
-        
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mSearchLayout.setVisibility(View.VISIBLE);
-            AnimationUtil.reveal(mSearchTopBar, animationListener, true);
+            AnimationUtil.reveal(mSearchTopBar, null, true);
             
         } else {
-            AnimationUtil.fadeInView(mSearchLayout, mAnimationDuration, animationListener);
+            AnimationUtil.fadeInView(mSearchLayout, mAnimationDuration, null);
         }
     }
     
@@ -451,20 +367,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mIsSearchOpen = false;
     }
     
-    /**
-     * Set this listener to listen to Query Change events.
-     *
-     * @param listener
-     */
     public void setOnQueryTextListener(OnQueryTextListener listener) {
         mOnQueryChangeListener = listener;
     }
     
-    /**
-     * Set this listener to listen to Search View open and close events
-     *
-     * @param listener
-     */
     public void setOnSearchViewListener(SearchViewListener listener) {
         mSearchViewListener = listener;
     }
@@ -500,89 +406,35 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mClearingFocus = false;
     }
     
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        
-        mSavedState = new MaterialSearchView.SavedState(superState);
-        mSavedState.query = mUserQuery != null ? mUserQuery.toString() : null;
-        mSavedState.isSearchOpen = this.mIsSearchOpen;
-        
-        return mSavedState;
-    }
-    
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof MaterialSearchView.SavedState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-        
-        mSavedState = (MaterialSearchView.SavedState) state;
-        
-        if (mSavedState.isSearchOpen) {
-            showSearch(false);
-            setQuery(mSavedState.query, false);
-        }
-        
-        super.onRestoreInstanceState(mSavedState.getSuperState());
-    }
-    
-    private static class SavedState extends BaseSavedState {
-        String query;
-        boolean isSearchOpen;
-        
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-        
-        private SavedState(Parcel in) {
-            super(in);
-            this.query = in.readString();
-            this.isSearchOpen = in.readInt() == 1;
-        }
-        
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeString(query);
-            out.writeInt(isSearchOpen ? 1 : 0);
-        }
-        
-        //required field that makes Parcelables from a Parcel
-        public static final Creator<MaterialSearchView.SavedState> CREATOR = new Creator<MaterialSearchView.SavedState>() {
-            public MaterialSearchView.SavedState createFromParcel(Parcel in) {
-                return new MaterialSearchView.SavedState(in);
-            }
+    private void applyTheme() {
+        if (!Aequorea.getCurrentTheme().equals(mTheme)) {
             
-            public MaterialSearchView.SavedState[] newArray(int size) {
-                return new MaterialSearchView.SavedState[size];
+            mTheme = Aequorea.getCurrentTheme();
+    
+            int lineColor = ThemeHelper.getResourceColor(mContext, R.attr.line_color);
+            int rootColor = ThemeHelper.getResourceColor(mContext, R.attr.root_color);
+            int textColor = ThemeHelper.getResourceColor(mContext, R.attr.title_color);
+            int hintColor = ThemeHelper.getResourceColor(mContext, R.attr.subtitle_color);
+    
+            mSearchTopBar.setBackgroundColor(rootColor);
+            mSuggestionsListView.setBackgroundColor(rootColor);
+            mDividerView.setBackgroundColor(lineColor);
+            mSearchSrcTextView.setTextColor(textColor);
+            mSearchSrcTextView.setHintTextColor(hintColor);
+    
+            if (Aequorea.isLightTheme()) {
+                mBackBtn.setImageResource(R.drawable.ic_action_navigation_arrow_back);
+                mEmptyBtn.setImageResource(R.drawable.ic_action_navigation_close);
+            } else {
+                mBackBtn.setImageResource(R.drawable.ic_action_navigation_arrow_back_inverted);
+                mEmptyBtn.setImageResource(R.drawable.ic_action_navigation_close_inverted);
             }
-        };
+        }
     }
     
     public interface OnQueryTextListener {
-        
-        /**
-         * Called when the user submits the query. This could be due to a key press on the
-         * keyboard or due to pressing a submit button.
-         * The listener can override the standard behavior by returning true
-         * to indicate that it has handled the submit request. Otherwise return false to
-         * let the SearchView handle the submission by launching any associated intent.
-         *
-         * @param query the query text that is to be submitted
-         * @return true if the query has been handled by the listener, false to let the
-         * SearchView perform the default action.
-         */
         boolean onQueryTextSubmit(String query);
         
-        /**
-         * Called when the query text is changed by the user.
-         *
-         * @param newText the new content of the query text field.
-         * @return false if the SearchView should perform the default action of showing any
-         * suggestions if available, true if the action was handled by the listener.
-         */
         boolean onQueryTextChange(String newText);
     }
     

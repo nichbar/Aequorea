@@ -200,7 +200,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         mSwipeRefreshLayout.setOnRefreshListener(mRefreshListener);
         
         mSearchView.setHint(getString(R.string.search_article));
-        mSearchView.setBackground(getResources().getDrawable(R.drawable.shape_round_corner, null));
         mSearchView.setOnQueryTextListener(mQueryTestListener);
         mSearchView.setOnItemClickListener(mOnSearchItemClickListener);
         mSearchView.setOnSearchViewListener(mSearchViewListener);

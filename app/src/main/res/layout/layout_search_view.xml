@@ -1,71 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     android:id="@+id/search_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:visibility="invisible">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:visibility="invisible"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <View
-        android:id="@+id/transparent_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparentBlack"
-        android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/search_top_bar"
+        android:layout_height="@dimen/search_item_height"
+        android:layout_width="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        <ImageButton
+            style="@style/MSV_ImageButton"
+            android:id="@+id/action_up_btn"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_action_navigation_arrow_back"/>
 
-        <RelativeLayout
-            android:id="@+id/search_top_bar"
+        <ImageButton
+            style="@style/MSV_ImageButton"
+            android:id="@+id/action_empty_btn"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_action_navigation_close"
+            android:visibility="gone"/>
+
+        <EditText
+            android:background="@null"
+            android:ellipsize="end"
+            android:id="@+id/searchTextView"
+            android:imeOptions="actionSearch"
+            android:inputType="textNoSuggestions"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/action_up_btn"
+            android:layout_toStartOf="@id/action_empty_btn"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/white">
+            android:maxLines="1"
+            android:textSize="16sp"/>
 
-            <EditText
-                android:id="@+id/searchTextView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:imeOptions="actionSearch"
-                android:inputType="textNoSuggestions"
-                android:ellipsize="end"
-                android:paddingLeft="65dp"
-                android:paddingRight="65dp"
-                android:maxLines="1"
-                android:textColor="#212121"
-                android:textColorHint="#727272"
-                android:textSize="16sp"/>
-
-            <ImageButton
-                android:id="@+id/action_up_btn"
-                style="@style/MSV_ImageButton"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_action_navigation_arrow_back"/>
-
-            <ImageButton
-                android:id="@+id/action_empty_btn"
-                style="@style/MSV_ImageButton"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_action_navigation_close"
-                android:visibility="gone"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="#fff"
-                android:backgroundTint="#10000000"/>
-        </RelativeLayout>
+        <View
+            android:id="@+id/view_divider"
+            android:layout_alignParentBottom="true"
+            android:background="#fff"
+            android:backgroundTint="#10000000"
+            android:layout_height="1dp"
+            android:layout_width="match_parent"/>
+    </RelativeLayout>
 
 
-        <ListView
-            android:id="@+id/suggestion_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/shape_round_corner"
-            android:divider="@android:color/transparent"/>
-    </LinearLayout>
-</FrameLayout>
+    <ListView
+        android:background="@color/white"
+        android:divider="@android:color/transparent"
+        android:id="@+id/suggestion_list"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"/>
+</LinearLayout>

@@ -39,16 +39,6 @@ public class MainArticleAdapter extends RecyclerView.Adapter<MainArticleAdapter.
                     this.mArticleList.add(i++, d);
                 }
             }
-    
-            notifyItemRangeChanged(0, i);
-            updateIdSet();
-            return;
-        } else {
-            for (Datum d : articleList) {
-                if (!listContains(d)) {
-                    this.mArticleList.add(d);
-                }
-            }
         }
         notifyDataSetChanged();
         updateIdSet();

@@ -55,7 +55,7 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
         articleData = data.getData().get(0);
         
         // article cover
-        ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, ImageHelper.generateRandomPlaceholder());
+        ImageHelper.setImage(context, articleData.getCoverUrl(), articleImg, ImageHelper.generateRandomPlaceholder(articleData.getCoverUrl()));
         
         // article title
         titleText.setText(articleData.getTitle());

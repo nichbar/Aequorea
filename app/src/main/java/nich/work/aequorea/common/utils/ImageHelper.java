@@ -4,12 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
-
-import java.util.Random;
 
 import nich.work.aequorea.common.ui.widget.glide.CircleTransformation;
 
@@ -60,12 +59,29 @@ public class ImageHelper {
         }
     }
     
-    public static Drawable generateRandomPlaceholder() {
-        Random rand = new Random();
-        int r = rand.nextInt(255);
+    public static Drawable generateRandomPlaceholder(String s) {
+        ColorDrawable drawable;
+        if (TextUtils.isEmpty(s)) {
+            drawable = new ColorDrawable();
+            drawable.setColor(Color.rgb(20, 20, 20));
+            
+            return drawable;
+        }
         
-        ColorDrawable drawable = new ColorDrawable();
-        drawable.setColor(Color.rgb(r,r,r));
+        int dividerIndex = s.lastIndexOf("/");
+        String tempString = s.substring(dividerIndex, dividerIndex + 5);
+        
+        int count = 0;
+        char a = 'a';
+        
+        for (int i = 0; i < 5; i++) {
+            count = tempString.charAt(i) - a;
+        }
+        
+        int r = Math.abs(count % 255);
+        
+        drawable = new ColorDrawable();
+        drawable.setColor(Color.rgb(r, r, r));
         
         return drawable;
     }

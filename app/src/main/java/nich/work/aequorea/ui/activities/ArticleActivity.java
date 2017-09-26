@@ -161,7 +161,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @OnLongClick(R.id.iv_share)
-    boolean showShareHint() {
+    protected boolean showShareHint() {
         ToastUtils.showShortToast(getString(R.string.share));
         return true;
     }

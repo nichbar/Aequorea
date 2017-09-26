@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.zzhoujay.richtext.RichText;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,7 +29,8 @@ public class Aequorea extends Application {
     }
     
     private void initCache() {
-        RichText.initCacheDir(this);
+        File cacheDir = new File(getCacheDir().getAbsolutePath() + File.separator + Constants.ARTICLE_PIC_CACHE);
+        RichText.initCacheDir(cacheDir);
         ArticleCache.getCache();
     }
     

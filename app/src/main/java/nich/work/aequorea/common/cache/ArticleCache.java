@@ -13,6 +13,7 @@ import java.io.OutputStream;
 
 import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.BuildConfig;
+import nich.work.aequorea.common.Constants;
 
 public class ArticleCache {
     private static final int MAX_CACHED_MEMORY_ARTICLE_SIZE = 20;
@@ -31,7 +32,7 @@ public class ArticleCache {
             @Override
             public void run() {
                 try {
-                    File cacheDir = new File(Aequorea.getApp().getCacheDir().getAbsolutePath() + File.separator + "article_cache");
+                    File cacheDir = new File(Aequorea.getApp().getCacheDir().getAbsolutePath() + File.separator + Constants.ARTICLE_CACHE);
                     mDiskCache = DiskLruCache.open(cacheDir, BuildConfig.VERSION_CODE, 1, MAX_CACHED_DISK_ARTICLE_SIZE);
                 } catch (IOException e) {
                     e.printStackTrace();

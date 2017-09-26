@@ -177,6 +177,7 @@ abstract class AbstractImageLoader<T> implements ImageLoader {
                     (config.cacheType < CacheType.ALL || imageWrapper.isGif()) ? null : imageWrapper.getAsBitmap(),
                     drawableWrapper.getBounds(), drawableWrapper.getScaleType(), drawableWrapper.getBorderHolder());
             pool.put(this.holder.getKey(), bw);
+            bw.save();
         }
         // reset TextView
         resetText();

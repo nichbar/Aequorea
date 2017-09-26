@@ -55,23 +55,26 @@ class BitmapWrapper {
 
         if (diskLruCache != null) {
             try {
-                DiskLruCache.Editor edit = diskLruCache.edit(name);
-
-                // write size
-                OutputStream sizeOutputStream = edit.newOutputStream(0);
-                sizeCacheHolder.save(sizeOutputStream);
-
-                // write bitmap
-                OutputStream bitmapOutputStream = edit.newOutputStream(1);
-                writeBoolean(bitmapOutputStream, bitmap != null);
-                if (bitmap != null) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bitmapOutputStream);
+                DiskLruCache.Snapshot snapshot = diskLruCache.get(name);
+                if (snapshot == null) {
+                    DiskLruCache.Editor edit = diskLruCache.edit(name);
+    
+                    // write size
+                    OutputStream sizeOutputStream = edit.newOutputStream(0);
+                    sizeCacheHolder.save(sizeOutputStream);
+    
+                    // write bitmap
+                    OutputStream bitmapOutputStream = edit.newOutputStream(1);
+                    writeBoolean(bitmapOutputStream, bitmap != null);
+                    if (bitmap != null) {
+                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bitmapOutputStream);
+                    }
+                    bitmapOutputStream.flush();
+                    bitmapOutputStream.close();
+                    // write bitmap
+    
+                    edit.commit();
                 }
-                bitmapOutputStream.flush();
-                bitmapOutputStream.close();
-                // write bitmap
-
-                edit.commit();
             } catch (IOException e) {
                 Debug.e(e);
             }
@@ -126,7 +129,7 @@ class BitmapWrapper {
                     InputStream bitmapInputStream = snapshot.getInputStream(1);
                     boolean hasBitmap = readBoolean(bitmapInputStream);
                     if (hasBitmap) {
-                        bitmap = decodeBitmap(bitmapInputStream, sizeCacheHolder.rect);
+                        bitmap = decodeBitmap(bitmapInputStream, null);
                     }
 
                     bitmapInputStream.close();

@@ -121,7 +121,7 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     
     @Override
     public void onUpdateAuthorInfo(Author author) {
-        
+        // do nothing
     }
     
     @Override

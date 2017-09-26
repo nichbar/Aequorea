@@ -355,15 +355,11 @@ public class RichText implements ImageGetterWrapper, ImageLoadNotify {
             return null;
         }
         ImageHolder holder;
-        if (config.richType == RichType.MARKDOWN) {
+    
+        holder = imageHolderMap.get(source);
+        if (holder == null) {
             holder = new ImageHolder(source, loadingCount - 1, config);
             imageHolderMap.put(source, holder);
-        } else {
-            holder = imageHolderMap.get(source);
-            if (holder == null) {
-                holder = new ImageHolder(source, loadingCount - 1, config);
-                imageHolderMap.put(source, holder);
-            }
         }
         holder.setImageState(ImageHolder.ImageState.INIT);
         if (config.imageFixCallback != null) {

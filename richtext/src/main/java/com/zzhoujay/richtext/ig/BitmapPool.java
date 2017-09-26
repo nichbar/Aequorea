@@ -18,17 +18,9 @@ public class BitmapPool {
 
     private BitmapPool() {
         bitmapLruCache = new LruCache<String, BitmapWrapper>(bitmapCacheSize) {
-
             @Override
             protected int sizeOf(String key, BitmapWrapper value) {
                 return value.size();
-            }
-
-            @Override
-            protected void entryRemoved(boolean evicted, String key, BitmapWrapper oldValue, BitmapWrapper newValue) {
-                if (oldValue != null && cacheDir != null) {
-                    oldValue.save();
-                }
             }
         };
     }

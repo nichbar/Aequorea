@@ -53,6 +53,7 @@ public final class RichTextConfig {
     public final ImageHolder.BorderHolder borderHolder;
     public final ImageGetter imageGetter; // 图片加载器，默认为GlideImageGetter
     public final boolean singleLoad;
+    public final boolean useCache; // 是否使用缓存
 
 
     private RichTextConfig(RichTextConfigBuild config) {
@@ -60,7 +61,7 @@ public final class RichTextConfig {
                 config.linkFixCallback, config.noImage, config.clickable, config.onImageClickListener,
                 config.onUrlClickListener, config.onImageLongClickListener, config.onUrlLongClickListener,
                 config.placeHolder, config.errorImage, config.imageGetter, config.callback, config.autoPlay,
-                config.scaleType, config.width, config.height, config.borderHolder, config.singleLoad);
+                config.scaleType, config.width, config.height, config.borderHolder, config.singleLoad, config.useCache);
     }
 
     private RichTextConfig(String source, int richType, boolean autoFix, boolean resetSize, @CacheType int cacheType,
@@ -69,7 +70,7 @@ public final class RichTextConfig {
                            OnImageLongClickListener onImageLongClickListener, OnUrlLongClickListener onUrlLongClickListener,
                            Drawable placeHolder, Drawable errorImage, ImageGetter imageGetter, Callback callback,
                            boolean autoPlay, @ImageHolder.ScaleType int scaleType, int width, int height,
-                           ImageHolder.BorderHolder borderHolder, boolean singleLoad) {
+                           ImageHolder.BorderHolder borderHolder, boolean singleLoad, boolean useCache) {
         this.source = source;
         this.richType = richType;
         this.autoFix = autoFix;
@@ -99,6 +100,7 @@ public final class RichTextConfig {
             }
         }
         this.clickable = clickable;
+        this.useCache = useCache;
     }
 
     @Override
@@ -175,6 +177,7 @@ public final class RichTextConfig {
         private int height;
         private ImageHolder.BorderHolder borderHolder;
         private boolean singleLoad;
+        private boolean useCache;
 
 
         RichTextConfigBuild(String source, int richType) {
@@ -192,6 +195,7 @@ public final class RichTextConfig {
             this.height = ImageHolder.WRAP_CONTENT;
             this.borderHolder = new ImageHolder.BorderHolder();
             this.singleLoad = true;
+            this.useCache = true;
         }
 
         /**
@@ -487,7 +491,18 @@ public final class RichTextConfig {
             this.singleLoad = singleLoad;
             return this;
         }
-
+    
+        /**
+         * 设置useCache
+         *
+         * @param useCache 是否使用已有缓存
+         * @return RichTextConfigBuild
+         */
+        public RichTextConfigBuild useCache(boolean useCache) {
+            this.useCache = useCache;
+            return this;
+        }
+    
         /**
          * 解析完成的回调（图片已完成加载）
          *

@@ -6,7 +6,7 @@ import nich.work.aequorea.common.ui.view.BaseView;
 import nich.work.aequorea.model.entity.Datum;
 
 public interface ArticleView extends BaseView {
-    void onArticleLoaded(Datum data);
+    void onArticleLoaded(Datum data, boolean isRefresh);
     void onArticleError(Throwable t);
     
     void onRecommendationLoaded(List<Datum> dataList);

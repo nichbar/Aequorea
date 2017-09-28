@@ -406,7 +406,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     }
     
     @Override
-    public void onArticleLoaded(Datum article) {
+    public void onArticleLoaded(Datum article, boolean isRefresh) {
         mModel.setData(article);
         
         mProgressBar.setVisibility(View.GONE);
@@ -441,7 +441,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         String content = article.getContent()
             .replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
-        mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
+        
+        if (isRefresh) {
+            mRichText = RichText.from(content).autoPlay(true).useCache(false).into(mContentTv);
+        } else {
+            mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
+        }
         
         mCopyrightTv.setVisibility(View.VISIBLE);
         

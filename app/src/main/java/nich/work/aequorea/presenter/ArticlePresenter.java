@@ -45,7 +45,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     
             DataWrapper article = generateObjectFromString(cacheContent);
             if (article != null) {
-                onArticleLoaded(article);
+                onArticleLoaded(article, false);
                 return;
             }
         }
@@ -72,7 +72,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             .subscribe(new Consumer<DataWrapper>() {
                 @Override
                 public void accept(DataWrapper article) throws Exception {
-                    onArticleLoaded(article);
+                    onArticleLoaded(article, false);
                 }
             }, new Consumer<Throwable>() {
                 @Override
@@ -82,7 +82,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     }
     
-    public void loadArticleFromInternet(final long id, boolean isRefresh) {
+    public void loadArticleFromInternet(final long id, final boolean isRefresh) {
         
         mComposite.add(mService.getArticleDetailInfo(id)
             .subscribeOn(Schedulers.newThread())
@@ -91,7 +91,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
                 @Override
                 public void accept(DataWrapper article) throws Exception {
                     cacheArticle(id, article);
-                    onArticleLoaded(article);
+                    onArticleLoaded(article, isRefresh);
                 }
             }, new Consumer<Throwable>() {
                 @Override
@@ -160,8 +160,8 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     }
     
-    private void onArticleLoaded(DataWrapper article) {
-        mBaseView.onArticleLoaded(article.getData());
+    private void onArticleLoaded(DataWrapper article, boolean isRefresh) {
+        mBaseView.onArticleLoaded(article.getData(), isRefresh);
     }
     
     private void onArticleError(Throwable throwable) {

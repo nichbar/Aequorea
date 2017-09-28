@@ -84,19 +84,21 @@ public class DefaultImageGetter implements ImageGetter, ImageLoadNotify {
         BitmapWrapper.SizeCacheHolder sizeCacheHolder = null;
         Cancelable cancelable = null;
         AbstractImageLoader imageLoader = null;
-        if (config.cacheType >= CacheType.ALL) {
-            if (hit >= 3) {
-                // 直接从内存中读取
-                return loadFromMemory(holder, textView, drawableWrapper);
-            } else if (hit == 1) {
-                // 从磁盘读取
-                return loadFromLocalDisk(holder, config, textView, drawableWrapper);
-            }
-        } else if (config.cacheType >= CacheType.LAYOUT) {
-            if (hit >= 2) {
-                // 内存中有尺寸信息
-                BitmapWrapper bitmapWrapper = BitmapPool.getPool().get(holder.getKey(), false, false);
-                sizeCacheHolder = bitmapWrapper.getSizeCacheHolder();
+        if (config.useCache) {
+            if (config.cacheType >= CacheType.ALL) {
+                if (hit >= 3) {
+                    // 直接从内存中读取
+                    return loadFromMemory(holder, textView, drawableWrapper);
+                } else if (hit == 1) {
+                    // 从磁盘读取
+                    return loadFromLocalDisk(holder, config, textView, drawableWrapper);
+                }
+            } else if (config.cacheType >= CacheType.LAYOUT) {
+                if (hit >= 2) {
+                    // 内存中有尺寸信息
+                    BitmapWrapper bitmapWrapper = BitmapPool.getPool().get(holder.getKey(), false, false);
+                    sizeCacheHolder = bitmapWrapper.getSizeCacheHolder();
+                }
             }
         }
 

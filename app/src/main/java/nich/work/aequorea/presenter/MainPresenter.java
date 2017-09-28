@@ -36,7 +36,16 @@ public class MainPresenter extends BasePresenter<HomeView> {
     protected void onAttach() {
         mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mTimer = new Timer();
-        loadData();
+        loadCacheData();
+    }
+    
+    private void loadCacheData() {
+        if (mPage == 1 && !mBaseView.getModel().isRefreshing()) {
+            Data cacheData = useCache();
+            if (cacheData != null) {
+                onDataLoaded(cacheData);
+            }
+        }
     }
     
     public void loadData() {
@@ -45,13 +54,6 @@ public class MainPresenter extends BasePresenter<HomeView> {
     
     public void loadData(int page) {
         if (!NetworkUtils.isNetworkAvailable()) {
-            if (mPage == 1 && !mBaseView.getModel().isRefreshing()) {
-                Data cacheData = useCache();
-                if (cacheData != null) {
-                    onDataLoaded(cacheData);
-                    return;
-                }
-            }
             onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
             return;
         }

@@ -171,6 +171,11 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             mPresenter = new MainPresenter();
         }
         mPresenter.attach(this);
+        
+        // refresh
+        mSwipeRefreshLayout.setRefreshing(true);
+        mModel.setRefreshing(true);
+        mPresenter.refresh();
     }
     
     @Override

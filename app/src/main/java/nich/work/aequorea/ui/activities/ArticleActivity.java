@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,6 +75,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private static final int ANIMATION_DURATION_THEME_SWITCHING = 350;
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 1;
     private static final int REFRESH_TRIGGER = 200;
+    private static final String ARTICLE_PATH = "www.cbnweek.com/articles";
     
     private int mScrollUpEdge;
     private int mScrollDownEdge;
@@ -285,6 +287,22 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     };
     
+    private OnUrlClickListener mOnUrlClickedListener = new OnUrlClickListener() {
+        @Override
+        public boolean urlClicked(String url) {
+            if (url.contains(ARTICLE_PATH) && url.contains(Constants.ARTICLE_TYPE_NORMAL_V2)) {
+                Uri uri = Uri.parse(url);
+                Long id = Long.valueOf(uri.getLastPathSegment());
+                
+                if (id != 0) {
+                    IntentUtils.startArticleActivity(ArticleActivity.this, id);
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -443,9 +461,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             .replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         
         if (isRefresh) {
-            mRichText = RichText.from(content).autoPlay(true).useCache(false).into(mContentTv);
+            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).useCache(false).into(mContentTv);
         } else {
-            mRichText = RichText.from(content).autoPlay(true).into(mContentTv);
+            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).into(mContentTv);
         }
         
         mCopyrightTv.setVisibility(View.VISIBLE);

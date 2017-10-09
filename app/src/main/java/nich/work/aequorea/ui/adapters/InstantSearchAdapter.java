@@ -65,7 +65,7 @@ public class InstantSearchAdapter extends BaseAdapter {
     
     private class SuggestionsViewHolder {
         
-        TextView textView;
+        private TextView textView;
         
         private SuggestionsViewHolder(View convertView) {
             textView = convertView.findViewById(R.id.search_text);

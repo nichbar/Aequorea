@@ -6,16 +6,17 @@
 >
 > 一类多管水母。
 
-一直以来都很喜欢一财的文章，但是一财的APP不太好用，所以就自己写了一个。
+自高中第一次翻阅一财开始就很喜欢看一财的文章，觉得一财的 APP 不太好用(内嵌各种毒瘤 SDK)，于是就写了一个自用。
 
 暂未上传至应用市场，可以到 [网盘](https://pan.baidu.com/s/1miLvVok#list/path=%2FAequorea) 或者 [Release](https://github.com/nichbar/Aequorea/releases) 里下载最新的安装包。
 
 ### Feature 
 
-* 无推送无广告
+* 零后台
+* 文章检索
+* 文章转图片
 * 浅色与深色主题
-* 遵循Material Design设计
-* 轻量级的第三方一财客户端
+* Material Design 设计
 
 ### Preview
 

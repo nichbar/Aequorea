@@ -8,7 +8,7 @@
 
 自高中第一次翻阅一财开始就很喜欢看一财的文章，觉得一财的 APP 不太好用(内嵌各种毒瘤 SDK)，于是就写了一个自用。
 
-暂未上传至应用市场，可以到 [网盘](https://pan.baidu.com/s/1miLvVok#list/path=%2FAequorea) 或者 [Release](https://github.com/nichbar/Aequorea/releases) 里下载最新的安装包。
+如果你也与我一样喜欢看一财的文章又对官方客户端不满意，不妨到 [网盘](https://pan.baidu.com/s/1miLvVok#list/path=%2FAequorea) 或者 [Release](https://github.com/nichbar/Aequorea/releases) 里下载新的安装包，体验更纯粹的阅读。
 
 ### Feature 
 
@@ -16,7 +16,7 @@
 * 文章检索
 * 文章转图片
 * 浅色与深色主题
-* Material Design 设计
+* Material Design 风格
 
 ### Preview
 

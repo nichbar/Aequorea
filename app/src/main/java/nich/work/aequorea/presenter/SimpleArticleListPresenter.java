@@ -42,7 +42,7 @@ public abstract class SimpleArticleListPresenter extends BasePresenter<SimpleArt
             }
     
             mBaseView.onDataLoaded(data);
-        } else {
+        } else if (mPage == 1){
             mBaseView.onNoData();
         }
     }

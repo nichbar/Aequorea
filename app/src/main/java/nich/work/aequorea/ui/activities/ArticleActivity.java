@@ -332,6 +332,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         setStatusBarStyle();
         setStatusBarMask();
         
+        DisplayUtils.cancelTranslucentNavigation(this);
+        
         mSwipeBackLayout.setOnSwipeListener(mSwipeBackListener);
         
         mContentTv.setOnTouchListener(mTouchListener);

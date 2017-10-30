@@ -67,7 +67,7 @@ public class CacheService extends Service {
     private static Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
     
     private static final String TAG = CacheService.class.getSimpleName();
-    private static final int MAX_BITMAP_SIZE = 20 * 1024 * 1024;
+    private static final int MAX_BITMAP_SIZE = 60 * 1024 * 1024;
     
     @Override
     public void onCreate() {
@@ -317,7 +317,7 @@ public class CacheService extends Service {
         return MD5.generate(url);
     }
     
-    private void CancelCaching() {
+    private void cancelCaching() {
         for (Call call : mDownloadTasks) {
             call.cancel();
         }

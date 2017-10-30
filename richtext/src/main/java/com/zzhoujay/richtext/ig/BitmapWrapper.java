@@ -23,7 +23,7 @@ class BitmapWrapper {
 
     private static final int MARK_POSITION = 1024 * 1024;
 
-    private static final int MAX_BITMAP_SIZE = 20 * 1024 * 1024;
+    private static final int MAX_BITMAP_SIZE = 60 * 1024 * 1024;
 
     private static final String RICH_TEXT_DIR_NAME = "_rt";
 

@@ -154,17 +154,18 @@ abstract class AbstractImageLoader<T> implements ImageLoader {
         holder.setImageState(ImageHolder.ImageState.READY);
         drawableWrapper.setScaleType(holder.getScaleType());
         drawableWrapper.setDrawable(imageWrapper.getDrawable(textView.getResources()));
-        if (!useCache(drawableWrapper)) {
-            int imageWidth = imageWrapper.getWidth(), imageHeight = imageWrapper.getHeight();
-            if (config.imageFixCallback != null) {
-                config.imageFixCallback.onImageReady(this.holder, imageWidth, imageHeight);
-            }
-            int width = getHolderWidth(imageWidth);
-            int height = getHolderHeight(imageHeight);
-            drawableWrapper.setScaleType(this.holder.getScaleType());
-            drawableWrapper.setBounds(0, 0, width, height);
-            drawableWrapper.setBorderHolder(holder.getBorderHolder());
+    
+        // remove the usage of size cache, because i don't wanna save size in background caching.
+        int imageWidth = imageWrapper.getWidth(), imageHeight = imageWrapper.getHeight();
+        if (config.imageFixCallback != null) {
+            config.imageFixCallback.onImageReady(this.holder, imageWidth, imageHeight);
         }
+        int width = getHolderWidth(imageWidth);
+        int height = getHolderHeight(imageHeight);
+        drawableWrapper.setScaleType(this.holder.getScaleType());
+        drawableWrapper.setBounds(0, 0, width, height);
+        drawableWrapper.setBorderHolder(holder.getBorderHolder());
+        
         drawableWrapper.calculate();
         // start gif play
         if (imageWrapper.isGif() && this.holder.isAutoPlay()) {

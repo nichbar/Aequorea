@@ -220,7 +220,7 @@ public class ImageHolder {
     }
 
     private void generateKey() {
-        this.key = MD5.generate(configHashCode + source);
+        this.key = MD5.generate(source);
     }
 
     public void setSource(String source) {

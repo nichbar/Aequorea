@@ -86,7 +86,7 @@ public class DisplayUtils {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                // do nothing
             }
         }
         return result;

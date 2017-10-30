@@ -1,5 +1,6 @@
 package nich.work.aequorea.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -23,14 +24,17 @@ import butterknife.OnClick;
 import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
+import nich.work.aequorea.common.service.CacheService;
 import nich.work.aequorea.common.ui.activities.BaseActivity;
 import nich.work.aequorea.common.ui.widget.MaterialSearchView;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
+import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
+import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.model.MainPageModel;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.search.Content;
@@ -215,6 +219,19 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         hideRefreshLayout();
         
         mAdapter.setArticleList(data, isRefresh);
+        
+        if (isRefresh) startOfflineCaching();
+    }
+    
+    private void startOfflineCaching() {
+        if (SPUtils.getBoolean(Constants.OFFLINE_CACHE)) {
+            if (NetworkUtils.isWiFiNetwork()) {
+                Intent intent = new Intent(this, CacheService.class);
+                startService(intent);
+            } else {
+                ToastUtils.showShortToast(getString(R.string.offline_caching_only_in_wifi));
+            }
+        }
     }
     
     @Override

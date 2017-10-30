@@ -26,6 +26,13 @@ public class Aequorea extends Application {
         mExecutor = Executors.newCachedThreadPool();
     
         initCache();
+    
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                e.printStackTrace();
+            }
+        });
     }
     
     private void initCache() {

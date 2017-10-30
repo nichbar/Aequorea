@@ -37,4 +37,6 @@ public class Constants {
     // Cache dir
     public static final String ARTICLE_CACHE = "article_cache";
     public static final String ARTICLE_PIC_CACHE = "article_pic_cache";
+    
+    public static final String OFFLINE_CACHE = "offline_cache";
 }

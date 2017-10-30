@@ -51,6 +51,13 @@
                     android:layout_height="wrap_content"
                     app:summary="@string/dark_theme_title"
                     app:title="@string/dark_theme"/>
+
+                <nich.work.aequorea.common.ui.widget.ACheckBox
+                    android:id="@+id/cb_offline_caching"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:summary="@string/offline_cache_summary"
+                    app:title="@string/offline_cache"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

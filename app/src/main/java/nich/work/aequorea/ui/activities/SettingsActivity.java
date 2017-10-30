@@ -37,6 +37,8 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     protected ACheckBox mHdScreenshotCb;
     @BindView(R.id.cb_dark_theme)
     protected ACheckBox mDarkThemeCb;
+    @BindView(R.id.cb_offline_caching)
+    protected ACheckBox mOfflineCb;
     @BindView(R.id.container_settings)
     protected ViewGroup mContainer;
     @BindView(R.id.toolbar)
@@ -90,10 +92,12 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
             }
         });
+        mOfflineCb.initStatus(Constants.OFFLINE_CACHE, SPUtils.getBoolean(Constants.OFFLINE_CACHE));
         
         mList = new ArrayList<>();
         mList.add(mHdScreenshotCb);
         mList.add(mDarkThemeCb);
+        mList.add(mOfflineCb);
         
         colorCheckBox();
     }

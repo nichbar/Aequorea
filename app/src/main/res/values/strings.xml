@@ -36,4 +36,7 @@
     <string name="dark_theme">深色主题</string>
     <string name="dark_theme_title">开启全局深色主题</string>
     <string name="settings">设置</string>
+    <string name="offline_cache">离线缓存</string>
+    <string name="offline_cache_summary">在WiFi下刷新时自动离线缓存文章</string>
+    <string name="offline_caching_only_in_wifi">为了你的流量着想，仅在WiFi下进行离线缓存</string>
 </resources>

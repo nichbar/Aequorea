@@ -44,6 +44,10 @@
         <activity android:name=".ui.activities.SettingsActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.activities.PhotoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Transparent"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

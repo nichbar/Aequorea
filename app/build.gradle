@@ -7,8 +7,8 @@ android {
         applicationId "nich.work.aequorea"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 13300
-        versionName "1.3.3"
+        versionCode 13400
+        versionName "1.3.4"
     }
     buildTypes {
         release {
@@ -44,4 +44,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 
     compile 'com.jakewharton:disklrucache:2.0.2'
+
+    compile 'com.github.chrisbanes:PhotoView:2.1.3'
 }

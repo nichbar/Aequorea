@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.zzhoujay.richtext.RichText;
+import com.zzhoujay.richtext.callback.OnImageClickListener;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
 
 import java.text.ParseException;
@@ -303,6 +304,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     };
     
+    private OnImageClickListener mOnImageClickListener = new OnImageClickListener() {
+        @Override
+        public void imageClicked(List<String> imageUrls, int position) {
+            String url = imageUrls.get(position);
+            IntentUtils.openInNewPhotoActivity(ArticleActivity.this, url);
+        }
+    };
+    
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -466,9 +475,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>","");
         
         if (isRefresh) {
-            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).useCache(false).into(mContentTv);
+            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).useCache(false).imageClick(mOnImageClickListener).into(mContentTv);
         } else {
-            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).into(mContentTv);
+            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).imageClick(mOnImageClickListener).into(mContentTv);
         }
         
         mCopyrightTv.setVisibility(View.VISIBLE);

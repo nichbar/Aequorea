@@ -19,7 +19,7 @@ import java.io.OutputStream;
  * Created by zhou on 2017/3/25.
  * Bitmap图片包装类，用于缓存
  */
-class BitmapWrapper {
+public class BitmapWrapper {
 
     private static final int MARK_POSITION = 1024 * 1024;
 

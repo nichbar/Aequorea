@@ -5,16 +5,18 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 
+import com.zzhoujay.richtext.ext.MD5;
+
 import java.io.File;
 
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.ui.activities.ArticleActivity;
 import nich.work.aequorea.ui.activities.AuthorActivity;
+import nich.work.aequorea.ui.activities.PhotoActivity;
 import nich.work.aequorea.ui.activities.SearchActivity;
 import nich.work.aequorea.ui.activities.SettingsActivity;
 import nich.work.aequorea.ui.activities.TagActivity;
-
 
 public class IntentUtils {
     public static void startSettingsActivity(Context context) {
@@ -76,6 +78,12 @@ public class IntentUtils {
         intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        context.startActivity(intent);
+    }
+    
+    public static void openInNewPhotoActivity(Context context, String url) {
+        Intent intent = new Intent(context, PhotoActivity.class);
+        intent.putExtra(Constants.PHOTO, MD5.generate(url));
         context.startActivity(intent);
     }
 }

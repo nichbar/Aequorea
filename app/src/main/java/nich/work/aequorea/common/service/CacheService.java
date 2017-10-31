@@ -14,9 +14,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.zzhoujay.richtext.ext.MD5;
-import com.zzhoujay.richtext.ig.BitmapPool;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -37,6 +35,7 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.cache.ArticleCache;
 import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
+import nich.work.aequorea.common.utils.CacheUtils;
 import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.model.entity.Data;
@@ -67,7 +66,6 @@ public class CacheService extends Service {
     private static Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
     
     private static final String TAG = CacheService.class.getSimpleName();
-    private static final int MAX_BITMAP_SIZE = 60 * 1024 * 1024;
     
     @Override
     public void onCreate() {
@@ -107,12 +105,7 @@ public class CacheService extends Service {
     private int preCache(Data data) {
         mArticleList = new LinkedList<>();
         mDownloadTasks = new HashSet<>();
-        try {
-            File cacheDir = new File(getCacheDir().getAbsolutePath() + File.separator + Constants.ARTICLE_PIC_CACHE);
-            mDiskLruCache = DiskLruCache.open(checkDir(cacheDir), BitmapPool.getVersion(), 2, MAX_BITMAP_SIZE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mDiskLruCache = CacheUtils.getArticlePicDiskLruCache();
         
         List<Datum> dataList = FilterUtils.filterData(data.getData());
         
@@ -253,15 +246,6 @@ public class CacheService extends Service {
             return gson.fromJson(cacheString, Data.class);
         }
         return null;
-    }
-    
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private File checkDir(File dir) {
-        File cacheDir = new File(dir, "_rt");
-        if (!cacheDir.exists()) {
-            cacheDir.mkdir();
-        }
-        return cacheDir;
     }
     
     private class WriteToCacheCallback implements Callback {

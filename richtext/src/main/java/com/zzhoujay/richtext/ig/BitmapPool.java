@@ -29,7 +29,7 @@ public class BitmapPool {
         bitmapLruCache.put(key, bitmapWrapper);
     }
 
-    BitmapWrapper get(String key, boolean useLocal, boolean readBitmap) {
+    public BitmapWrapper get(String key, boolean useLocal, boolean readBitmap) {
         BitmapWrapper bitmapWrapper = bitmapLruCache.get(key);
         if (bitmapWrapper == null && useLocal && cacheDir != null) {
             bitmapWrapper = BitmapWrapper.read(key, readBitmap);

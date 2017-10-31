@@ -462,6 +462,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         String content = article.getContent()
             .replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         
+        // remove figcaption tag
+        content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>","");
+        
         if (isRefresh) {
             mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).useCache(false).into(mContentTv);
         } else {

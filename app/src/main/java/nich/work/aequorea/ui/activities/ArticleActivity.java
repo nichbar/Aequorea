@@ -435,7 +435,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mTitleTv.setText(article.getTitle());
         
         SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        SimpleDateFormat targetDateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm");
+        SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy MM.dd, HH:mm");
         String targetDateString = null;
         try {
             Date date = sourceDateFormat.parse(article.getDisplayTime());
@@ -460,7 +460,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
         
         String content = article.getContent()
-            .replaceAll("<iframe\\s+.*?\\s+src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
+            .replaceAll("<iframe src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         
         // remove figcaption tag
         content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>","");

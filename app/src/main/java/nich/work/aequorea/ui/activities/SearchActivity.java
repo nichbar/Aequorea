@@ -30,9 +30,4 @@ public class SearchActivity extends TagActivity {
     public void onDataLoaded(Data a) {
         super.onDataLoaded(a);
     }
-    
-    @Override
-    protected void updateToolbarTitle(Data a) {
-        // do nothing
-    }
 }

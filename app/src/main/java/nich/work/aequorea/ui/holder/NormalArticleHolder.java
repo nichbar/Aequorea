@@ -35,10 +35,10 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
         IntentUtils.startArticleActivity(context, articleData.getId());
     }
     
-    @OnClick(R.id.iv_author)
+    @OnClick(R.id.container_author)
     protected void startAuthorActivity() {
-        if (articleData.getAuthors().get(0).getId() != null) {
-            IntentUtils.startAuthorActivity(context, articleData.getAuthors().get(0).getId());
+        if (articleData.getAuthors().get(0) != null) {
+            IntentUtils.startAuthorActivity(context, authorImg, articleData.getAuthors().get(0));
         }
     }
     

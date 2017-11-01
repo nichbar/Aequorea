@@ -1,12 +1,13 @@
 package nich.work.aequorea.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;

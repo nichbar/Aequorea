@@ -1,9 +1,12 @@
 package nich.work.aequorea.common.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.FileProvider;
+import android.view.View;
 
 import com.zzhoujay.richtext.ext.MD5;
 
@@ -11,6 +14,7 @@ import java.io.File;
 
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
+import nich.work.aequorea.model.entity.Author;
 import nich.work.aequorea.ui.activities.ArticleActivity;
 import nich.work.aequorea.ui.activities.AuthorActivity;
 import nich.work.aequorea.ui.activities.PhotoActivity;
@@ -36,8 +40,17 @@ public class IntentUtils {
         context.startActivity(i);
     }
     
-    public static void startTagActivity(Context context, long id){
+    public static void startAuthorActivity(Context context, View avatar, Author author){
+        Intent i = new Intent(context, AuthorActivity.class);
+        i.putExtra(Constants.AUTHOR_ID, author.getId());
+        i.putExtra(Constants.AUTHOR, author);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, avatar, "author_avatar");
+        context.startActivity(i, options.toBundle());
+    }
+    
+    public static void startTagActivity(Context context, long id, String tag){
         Intent i = new Intent(context, TagActivity.class);
+        i.putExtra(Constants.TAG, tag);
         i.putExtra(Constants.TAG_ID, id);
         context.startActivity(i);
     }

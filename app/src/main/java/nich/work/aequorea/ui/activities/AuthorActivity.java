@@ -30,6 +30,8 @@ public class AuthorActivity extends SimpleArticleListActivity {
     private static final int ANIMATE_SHOW = 1;
     private static final int ANIMATE_HIDE = 0;
     
+    private Author mAuthor;
+    
     @BindView(R.id.tv_introduction)
     protected TextView mIntroductionTv;
     @BindView(R.id.tv_article_count)
@@ -62,6 +64,10 @@ public class AuthorActivity extends SimpleArticleListActivity {
         mModel = new SimpleArticleListModel();
         
         mModel.setId((int) getIntent().getLongExtra(Constants.AUTHOR_ID, 0));
+        
+        if (getIntent().getExtras() != null) {
+            mAuthor = (Author) getIntent().getExtras().get(Constants.AUTHOR);
+        }
     }
     
     @Override
@@ -85,6 +91,10 @@ public class AuthorActivity extends SimpleArticleListActivity {
         mRecyclerView.addOnScrollListener(mScrollListener);
         mAppBar.addOnOffsetChangedListener(mOffsetListener);
         
+        if (mAuthor != null) {
+            updateAuthorImg(mAuthor);
+        }
+        
         setStatusBarStyle();
     }
     
@@ -105,28 +115,30 @@ public class AuthorActivity extends SimpleArticleListActivity {
         }
     }
     
+    private void updateAuthorImg(Author author) {
+        mCollapsingToolbarLayout.setTitle(author.getName());
+    
+        ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
+    }
+    
     @Override
     public void onUpdateAuthorInfo(Author author) {
-        mCollapsingToolbarLayout.setTitle(author.getName());
-        
-        ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
+        if (mAuthor == null) {
+            updateAuthorImg(author);
+        }
         
         String intro = author.getIntroduction();
-        if (!TextUtils.isEmpty(intro) && " ".equals(intro)) {
-            
+        if (!TextUtils.isEmpty(intro) && !" ".equals(intro)) {
             if (intro.contains("。")) {
                 int position = intro.indexOf("。");
                 intro = intro.substring(0, position);
             }
-            
             mIntroductionTv.setText(intro);
-            
         } else {
             mIntroductionTv.setText(R.string.default_introduction);
         }
         
-        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta()
-            .getTotalCount()));
+        mArticleCountTv.setText(String.format(getString(R.string.article_count), author.getMeta().getTotalCount()));
     }
     
     @Override

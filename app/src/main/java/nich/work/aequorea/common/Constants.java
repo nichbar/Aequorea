@@ -1,6 +1,8 @@
 package nich.work.aequorea.common;
 
 public class Constants {
+    public static String AUTHOR = "author";
+    public static String TAG = "tag";
     public static String ARTICLE_ID = "article_id";
     public static String AUTHOR_ID = "author_id";
     public static String TAG_ID = "tag_id";

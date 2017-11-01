@@ -11,6 +11,7 @@
         android:scaleType="centerCrop" />
 
     <LinearLayout
+        android:id="@+id/container_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -24,7 +25,8 @@
         <ImageView
             android:id="@+id/iv_author"
             android:layout_width="25dp"
-            android:layout_height="25dp" />
+            android:layout_height="25dp"
+            android:transitionName="author_avatar"/>
 
         <TextView
             android:id="@+id/tv_author"

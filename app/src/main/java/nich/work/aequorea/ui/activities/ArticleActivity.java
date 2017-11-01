@@ -59,6 +59,7 @@ import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.model.ArticleModel;
 import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.model.entity.Topic;
 import nich.work.aequorea.presenter.ArticlePresenter;
 import nich.work.aequorea.ui.fragment.FontDialogFragment;
 import nich.work.aequorea.ui.view.ArticleView;
@@ -136,7 +137,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     @OnClick(R.id.tv_tag)
     protected void gotoTagPage() {
-        IntentUtils.startTagActivity(this, mModel.getData().getTopics().get(0).getId());
+        Topic topic = mModel.getData().getTopics().get(0);
+        if (topic != null) {
+            IntentUtils.startTagActivity(this, topic.getId(), topic.getName());
+        }
     }
     
     @OnLongClick(R.id.iv_theme)

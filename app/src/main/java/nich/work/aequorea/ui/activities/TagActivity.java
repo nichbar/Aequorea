@@ -24,6 +24,7 @@ public class TagActivity extends SimpleArticleListActivity {
     protected void initModel() {
         mModel = new SimpleArticleListModel();
         mModel.setId((int) getIntent().getLongExtra(Constants.TAG_ID, 0));
+        mModel.setTitle(getIntent().getStringExtra(Constants.TAG));
     }
     
     @Override
@@ -37,6 +38,7 @@ public class TagActivity extends SimpleArticleListActivity {
                 onBackPressed();
             }
         });
+        mToolbar.setTitle(mModel.getTitle());
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
         
         mAdapter = new SimpleArticleListAdapter(this, null);
@@ -57,13 +59,6 @@ public class TagActivity extends SimpleArticleListActivity {
     @Override
     public void onDataLoaded(Data a) {
         super.onDataLoaded(a);
-        updateToolbarTitle(a);
-    }
-    
-    protected void updateToolbarTitle(Data a) {
-        if (mIsFirstPage) {
-            mToolbar.setTitle(a.getData().get(0).getTopics().get(0).getName());
-        }
     }
     
     @Override

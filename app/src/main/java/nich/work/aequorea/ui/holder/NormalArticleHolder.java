@@ -53,11 +53,11 @@ public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
     @OnClick({R.id.iv_author, R.id.iv_author_2, R.id.iv_author_3})
     protected void onClick(View view) {
         int id = 0;
-        if (view == authorImg) {
+        if (view.equals(authorImg)) {
             id = 0;
-        } else if (view == authorImg2) {
+        } else if (view.equals(authorImg2)) {
             id = 1;
-        } else if (view == authorImg3) {
+        } else if (view.equals(authorImg3)) {
             id = 2;
         }
         

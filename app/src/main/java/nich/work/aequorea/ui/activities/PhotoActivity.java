@@ -30,7 +30,10 @@ public class PhotoActivity extends BaseActivity {
         Single.create(new SingleOnSubscribe<Bitmap>() {
             @Override
             public void subscribe(SingleEmitter<Bitmap> e) throws Exception {
-                e.onSuccess(loadBitmap());
+                Bitmap bitmap = loadBitmap();
+                if (bitmap != null) {
+                    e.onSuccess(bitmap);
+                }
             }
         })
             .observeOn(AndroidSchedulers.mainThread())

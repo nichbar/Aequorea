@@ -17,6 +17,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -58,6 +63,7 @@ import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.model.ArticleModel;
+import nich.work.aequorea.model.entity.Author;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.Topic;
 import nich.work.aequorea.presenter.ArticlePresenter;
@@ -130,10 +136,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @BindView(R.id.iv_share)
     protected ImageView mShareIv;
     
-    @OnClick(R.id.tv_author)
-    protected void gotoAuthorPage() {
-        IntentUtils.startAuthorActivity(this, mModel.getData().getAuthors().get(0).getId());
-    }
+//    @OnClick(R.id.tv_author)
+//
     
     @OnClick(R.id.tv_tag)
     protected void gotoTagPage() {
@@ -448,7 +452,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         mTitleTv.setText(article.getTitle());
         
         SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy MM.dd, HH:mm");
+        SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy.MM.dd, HH:mm");
         String targetDateString = null;
         try {
             Date date = sourceDateFormat.parse(article.getDisplayTime());
@@ -459,11 +463,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         mDateTv.setText(targetDateString);
         
-        if (article.getAuthors().size() != 0 && article.getAuthors().get(0) != null) {
-            mAuthorTv.setText(article.getAuthors().get(0).getName());
-        } else {
-            mAuthorTv.setText(R.string.default_author);
-        }
+        updateAuthorTv(article);
         
         if (article.getTopics() != null && article.getTopics().size() != 0 && article.getTopics()
             .get(0) != null) {
@@ -488,6 +488,55 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         // load recommendation after rendering the context
         mPresenter.loadRecommendedArticles(mModel.getId());
+    }
+    
+    private void updateAuthorTv(Datum article) {
+        if (article.getAuthors().size() != 0) {
+            StringBuilder sb = new StringBuilder();
+            final List<Author> authors = article.getAuthors();
+            int size = article.getAuthors().size() > 3 ? 3 : article.getAuthors().size();
+        
+            ClickableSpan[] csArray = new ClickableSpan[size];
+            String[] authorArray = new String[size];
+        
+            for (int i = 0; i < size; i++) {
+                String name = authors.get(i).getName();
+                sb.append(name);
+                final int finalI = i;
+                ClickableSpan cs = new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+                        gotoAuthorPage(authors.get(finalI).getId());
+                    }
+                
+                    @Override
+                    public void updateDrawState(TextPaint ds) {
+                        ds.setUnderlineText(false);
+                    }
+                };
+            
+                csArray[i] = cs;
+                authorArray[i] = name;
+            
+                if (size != 1 && i + 1 != size) {
+                    sb.append("，");
+                }
+            }
+            mAuthorTv.setText(sb);
+        
+            SpannableString spannableString = new SpannableString(mAuthorTv.getText());
+            for (int i = 0; i < authorArray.length; i++) {
+                ClickableSpan clickableSpan = csArray[i];
+                String link = authorArray[i];
+            
+                int startIndexOfLink = mAuthorTv.getText().toString().indexOf(link);
+                spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            mAuthorTv.setMovementMethod(LinkMovementMethod.getInstance());
+            mAuthorTv.setText(spannableString, TextView.BufferType.SPANNABLE);
+        } else {
+            mAuthorTv.setText(R.string.default_author);
+        }
     }
     
     @Override
@@ -712,5 +761,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     public void onSnapshotSavedFailed(Throwable t) {
         ToastUtils.showShortToast(getString(R.string.save_failed) + t.toString());
+    }
+    
+    protected void gotoAuthorPage(long id) {
+        IntentUtils.startAuthorActivity(this, id);
     }
 }

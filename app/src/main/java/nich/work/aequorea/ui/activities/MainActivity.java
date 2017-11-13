@@ -34,7 +34,6 @@ import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
-import nich.work.aequorea.common.utils.ToastUtils;
 import nich.work.aequorea.model.MainPageModel;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.search.Content;
@@ -228,8 +227,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
             if (NetworkUtils.isWiFiNetwork()) {
                 Intent intent = new Intent(this, CacheService.class);
                 startService(intent);
-            } else {
-                ToastUtils.showShortToast(getString(R.string.offline_caching_only_in_wifi));
             }
         }
     }

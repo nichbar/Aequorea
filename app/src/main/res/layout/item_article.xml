@@ -15,12 +15,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginBottom="20dp"
         android:background="@color/alphaDark"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="5dp">
+        android:paddingStart="20dp"
+        android:paddingEnd="5dp">
 
         <ImageView
             android:id="@+id/iv_author"
@@ -29,12 +29,42 @@
             android:transitionName="author_avatar"/>
 
         <TextView
+            android:id="@+id/tv_author_linker_1"
+            android:text="@string/linker"
+            style="@style/TextLinker"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/iv_author_2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:transitionName="author_avatar"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_author_linker_2"
+            android:text="@string/linker"
+            style="@style/TextLinker"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/iv_author_3"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:transitionName="author_avatar"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+        <TextView
             android:id="@+id/tv_author"
             style="@style/TextWithShadow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white"
             android:textSize="14sp"
             tools:text="Mazzello" />
@@ -57,9 +87,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="18dp"
-        android:layout_marginRight="18dp"
+        android:layout_marginEnd="18dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -74,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
             android:textColor="@color/white"
             android:textSize="14sp"
             tools:text="1" />

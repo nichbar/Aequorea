@@ -125,8 +125,8 @@ public class CacheService extends Service {
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "cache")
             .setSmallIcon(R.mipmap.ic_notification)
-            .setContentTitle("Aequore")
-            .setContentText("正在离线缓存文章");
+            .setContentTitle(getString(R.string.app_name))
+            .setContentText(getString(R.string.caching_offline_article));
         
         if (mNotificationManager != null) {
             mNotificationManager.notify(1, builder.build());
@@ -305,5 +305,6 @@ public class CacheService extends Service {
         for (Call call : mDownloadTasks) {
             call.cancel();
         }
+        stopSelf();
     }
 }

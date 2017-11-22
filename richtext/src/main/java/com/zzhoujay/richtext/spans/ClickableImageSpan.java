@@ -3,12 +3,14 @@ package com.zzhoujay.richtext.spans;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.style.ImageSpan;
 import android.view.View;
 
 import com.zzhoujay.richtext.callback.OnImageClickListener;
 import com.zzhoujay.richtext.callback.OnImageLongClickListener;
+import com.zzhoujay.richtext.drawable.DrawableWrapper;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -64,7 +66,14 @@ public class ClickableImageSpan extends ImageSpan implements LongClickableSpan {
     public void onClick(View widget) {
         OnImageClickListener onImageClickListener = onImageClickListenerWeakReference.get();
         if (onImageClickListener != null) {
-            onImageClickListener.imageClicked(imageUrls, position);
+            boolean isDefaultDrawable = false;
+            
+            Drawable drawable;
+            if (getDrawable() instanceof DrawableWrapper) {
+                drawable = ((DrawableWrapper) getDrawable()).getDrawable();
+                isDefaultDrawable = drawable instanceof ColorDrawable;
+            }
+            onImageClickListener.imageClicked(imageUrls, position, isDefaultDrawable);
         }
     }
 

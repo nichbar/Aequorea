@@ -314,9 +314,13 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     private OnImageClickListener mOnImageClickListener = new OnImageClickListener() {
         @Override
-        public void imageClicked(List<String> imageUrls, int position) {
-            String url = imageUrls.get(position);
-            IntentUtils.openInNewPhotoActivity(ArticleActivity.this, url);
+        public void imageClicked(List<String> imageUrls, int position, boolean isDefaultDrawable) {
+            if (isDefaultDrawable) {
+                ToastUtils.showShortToast(getString(R.string.photo_not_ready));
+            } else{
+                String url = imageUrls.get(position);
+                IntentUtils.openInNewPhotoActivity(ArticleActivity.this, url);
+            }
         }
     };
     

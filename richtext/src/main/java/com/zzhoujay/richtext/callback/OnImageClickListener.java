@@ -12,6 +12,7 @@ public interface OnImageClickListener {
      *
      * @param imageUrls 本篇富文本内容里的全部图片
      * @param position  点击处图片在imageUrls中的位置
+     * @param isDefaultColorDrawable 是否为原始的颜色占位资源
      */
-    void imageClicked(List<String> imageUrls, int position);
+    void imageClicked(List<String> imageUrls, int position, boolean isDefaultColorDrawable);
 }

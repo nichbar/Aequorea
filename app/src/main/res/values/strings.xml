@@ -41,4 +41,5 @@
     <string name="offline_caching_only_in_wifi">为了你的流量着想，仅在WiFi下进行离线缓存</string>
     <string name="caching_offline_article">正在离线缓存文章</string>
     <string name="linker">x</string>
+    <string name="photo_not_ready">图片尚未加载完成</string>
 </resources>

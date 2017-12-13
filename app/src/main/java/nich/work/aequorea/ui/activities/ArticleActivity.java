@@ -135,7 +135,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     protected ImageView mScreenshotIv;
     @BindView(R.id.iv_share)
     protected ImageView mShareIv;
-    
+
 //    @OnClick(R.id.tv_author)
 //
     
@@ -166,7 +166,9 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @OnLongClick(R.id.iv_screenshot)
     protected boolean saveScreenShot() {
         if (mModel.getData() != null) {
-            saveArticleToStorageWithPermissionCheck();
+            if (hasPermission()) {
+                saveSnapshotToStorage();
+            }
         }
         return true;
     }
@@ -317,7 +319,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         public void imageClicked(List<String> imageUrls, int position, boolean isDefaultDrawable) {
             if (isDefaultDrawable) {
                 ToastUtils.showShortToast(getString(R.string.photo_not_ready));
-            } else{
+            } else {
                 String url = imageUrls.get(position);
                 IntentUtils.openInNewPhotoActivity(ArticleActivity.this, url);
             }
@@ -480,12 +482,21 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             .replaceAll("<iframe src=(\".*?\").*?<\\/iframe>", "<a href=$1>点击播放视频</a>");
         
         // remove figcaption tag
-        content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>","");
+        content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>", "");
         
         if (isRefresh) {
-            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).useCache(false).imageClick(mOnImageClickListener).into(mContentTv);
+            mRichText = RichText.from(content)
+                .autoPlay(true)
+                .urlClick(mOnUrlClickedListener)
+                .useCache(false)
+                .imageClick(mOnImageClickListener)
+                .into(mContentTv);
         } else {
-            mRichText = RichText.from(content).autoPlay(true).urlClick(mOnUrlClickedListener).imageClick(mOnImageClickListener).into(mContentTv);
+            mRichText = RichText.from(content)
+                .autoPlay(true)
+                .urlClick(mOnUrlClickedListener)
+                .imageClick(mOnImageClickListener)
+                .into(mContentTv);
         }
         
         mCopyrightTv.setVisibility(View.VISIBLE);
@@ -499,10 +510,10 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
             StringBuilder sb = new StringBuilder();
             final List<Author> authors = article.getAuthors();
             int size = article.getAuthors().size() > 3 ? 3 : article.getAuthors().size();
-        
+            
             ClickableSpan[] csArray = new ClickableSpan[size];
             String[] authorArray = new String[size];
-        
+            
             for (int i = 0; i < size; i++) {
                 String name = authors.get(i).getName();
                 sb.append(name);
@@ -512,27 +523,27 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                     public void onClick(View widget) {
                         gotoAuthorPage(authors.get(finalI).getId());
                     }
-                
+                    
                     @Override
                     public void updateDrawState(TextPaint ds) {
                         ds.setUnderlineText(false);
                     }
                 };
-            
+                
                 csArray[i] = cs;
                 authorArray[i] = name;
-            
+                
                 if (size != 1 && i + 1 != size) {
                     sb.append("，");
                 }
             }
             mAuthorTv.setText(sb);
-        
+            
             SpannableString spannableString = new SpannableString(mAuthorTv.getText());
             for (int i = 0; i < authorArray.length; i++) {
                 ClickableSpan clickableSpan = csArray[i];
                 String link = authorArray[i];
-            
+                
                 int startIndexOfLink = mAuthorTv.getText().toString().indexOf(link);
                 spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -710,13 +721,12 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         }
     }
     
-    private void saveArticleToStorageWithPermissionCheck() {
+    private boolean hasPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !PermissionUtils.hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_WRITE_EXTERNAL_STORAGE);
-            return;
+            return false;
         }
-        
-        saveSnapshotToStorage();
+        return true;
     }
     
     @Override

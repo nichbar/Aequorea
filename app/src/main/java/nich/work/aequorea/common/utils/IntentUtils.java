@@ -96,7 +96,7 @@ public class IntentUtils {
     
     public static void openInNewPhotoActivity(Context context, String url) {
         Intent intent = new Intent(context, PhotoActivity.class);
-        intent.putExtra(Constants.PHOTO, MD5.generate(url));
+        intent.putExtra(Constants.PHOTO, url);
         context.startActivity(intent);
     }
 }

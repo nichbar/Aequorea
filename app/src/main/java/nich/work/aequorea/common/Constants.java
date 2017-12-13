@@ -1,14 +1,15 @@
 package nich.work.aequorea.common;
 
 public class Constants {
-    public static String AUTHOR = "author";
-    public static String TAG = "tag";
-    public static String ARTICLE_ID = "article_id";
-    public static String AUTHOR_ID = "author_id";
-    public static String TAG_ID = "tag_id";
-    public static String SEARCH_KEY = "search_key";
-    public static String PHOTO = "photo";
-
+    public static final String AUTHOR = "author";
+    public static final String TAG = "tag";
+    public static final String ARTICLE_ID = "article_id";
+    public static final String AUTHOR_ID = "author_id";
+    public static final String TAG_ID = "tag_id";
+    public static final String SEARCH_KEY = "search_key";
+    public static final String PHOTO = "photo";
+    public static final String ARG_URL = "arg_url";
+    
     // Article Type
     public static final String ARTICLE_TYPE_MAGAZINE = "magazine_article"; // 封面故事
     public static final String ARTICLE_TYPE_MAGAZINE_V2 = "magazine"; // 封面故事

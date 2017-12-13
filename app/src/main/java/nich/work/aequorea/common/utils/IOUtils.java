@@ -9,12 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class IOUtils {
-    private static final String mPicDir = "/Pictures/Aequorea/";
+    public static final String PIC_DIR = "/Pictures/Aequorea/";
     
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String saveBitmapToExternalStorage(Bitmap bitmap, String name, int quality) {
         
-        File newDir = new File(Environment.getExternalStorageDirectory().getPath() + mPicDir);
+        File newDir = new File(Environment.getExternalStorageDirectory().getPath() + PIC_DIR);
         if (!newDir.isDirectory()) {
             newDir.mkdir();
         }
@@ -22,7 +22,7 @@ public class IOUtils {
         String fileName = name + ".jpg";
         File file = new File(newDir, fileName);
         
-//        if (file.exists()) file.delete();
+        if (file.exists()) file.delete();
         
         FileOutputStream fos = null;
         try {

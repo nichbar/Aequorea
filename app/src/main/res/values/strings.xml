@@ -22,7 +22,7 @@
     <string name="sans_serif">Sans Serif</string>
     <string name="serif">Serif</string>
     <string name="monospace">Monospace</string>
-    <string name="require_write_stroage_permission">你需要提供储存权限给 Aequorea 才能把文章截成图片保存</string>
+    <string name="require_write_stroage_permission">你需要提供储存权限给 Aequorea 来保存图片</string>
     <string name="long_click_to_save_this_article">长按以截屏保存本文章</string>
     <string name="screenshot_saved_to_stroage">已截图存至本机</string>
     <string name="open_image">打开图片</string>
@@ -42,4 +42,7 @@
     <string name="caching_offline_article">正在离线缓存文章</string>
     <string name="linker">x</string>
     <string name="photo_not_ready">图片尚未加载完成</string>
+    <string name="save_image">保存图片</string>
+    <string name="image_saved">图片已保存至</string>
+    <string name="open_image_in_browser">在浏览器打开图片</string>
 </resources>

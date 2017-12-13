@@ -151,4 +151,15 @@
         <item name="android:colorBackground">?attr/root_color</item>
     </style>
 
+    <style name="dialog_simple_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">?attr/title_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

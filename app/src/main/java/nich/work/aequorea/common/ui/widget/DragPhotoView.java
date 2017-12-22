@@ -27,7 +27,7 @@ public class DragPhotoView extends PhotoView {
     private int mHeight;
     private float mMinScale = 0.5f;
     private int mAlpha = 255;
-    private final static int MAX_TRANSLATE_Y = 500;
+    private final static int MAX_TRANSLATE_Y = 300;
     
     private final static long DURATION = 300;
     private boolean canFinish = false;

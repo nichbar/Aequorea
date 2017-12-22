@@ -3,8 +3,11 @@ package nich.work.aequorea.common.service;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -37,6 +40,7 @@ import nich.work.aequorea.common.network.NetworkService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.utils.CacheUtils;
 import nich.work.aequorea.common.utils.FilterUtils;
+import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.DataWrapper;
@@ -55,9 +59,10 @@ public class CacheService extends Service {
     private LinkedList<Long> mArticleList;
     private HashSet<Call> mDownloadTasks;
     private DiskLruCache mDiskLruCache;
-    private NotificationManager mNotificationManager;
     
-    private int mArticleSize;
+    private NotificationManager mNotificationManager;
+    private BroadcastReceiver mNetworkChangeReceiver;
+    private IntentFilter mIntentFilter;
     
     private int mPicToCacheSize;
     private int mPicCachedCount;
@@ -72,12 +77,24 @@ public class CacheService extends Service {
         super.onCreate();
         
         mClient = new OkHttpClient();
+        mIntentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mComposite = new CompositeDisposable();
+    
+        mNetworkChangeReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (!NetworkUtils.isWiFiNetwork()) {
+                    cancelCaching();
+                }
+            }
+        };
+        
+        registerReceiver(mNetworkChangeReceiver, mIntentFilter);
         
         Data dataToCache = getMainPageDataFromSP();
         if (dataToCache != null) {
-            mArticleSize = preCache(dataToCache);
+            preCache(dataToCache);
             
             if (mArticleList.size() != 0) {
                 showNotification();
@@ -95,6 +112,7 @@ public class CacheService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        unregisterReceiver(mNetworkChangeReceiver);
         hideNotification();
         if (mComposite != null) {
             mComposite.clear();
@@ -147,8 +165,8 @@ public class CacheService extends Service {
         mPicToCacheSize = 0;
         
         if (mArticleList.size() == 0) {
-            Log.d(TAG, "no more article to cache, stopSelf()");
-            stopSelf();
+            Log.d(TAG, "No more article to cache, stop and leave");
+            stopAndLeave();
             return;
         }
         
@@ -186,7 +204,7 @@ public class CacheService extends Service {
     }
     
     /**
-     * Cache pic in article and show caching progress notification.
+     * Cache pic in article and show caching notification.
      */
     private void cacheArticlePic(final String text) {
         Runnable runnable = new Runnable() {
@@ -305,6 +323,11 @@ public class CacheService extends Service {
         for (Call call : mDownloadTasks) {
             call.cancel();
         }
+        stopAndLeave();
+    }
+    
+    private void stopAndLeave() {
+        hideNotification();
         stopSelf();
     }
 }

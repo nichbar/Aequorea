@@ -27,8 +27,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
-    compile 'com.jakewharton:disklrucache:2.0.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    implementation 'com.jakewharton:disklrucache:2.0.2'
 }

@@ -223,7 +223,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     }
     
     private void startOfflineCaching() {
-        if (SPUtils.getBoolean(Constants.OFFLINE_CACHE)) {
+        if (SPUtils.getBoolean(Constants.SP_OFFLINE_CACHE)) {
             if (NetworkUtils.isWiFiNetwork()) {
                 Intent intent = new Intent(this, CacheService.class);
                 startService(intent);

@@ -40,24 +40,33 @@
 
                 <nich.work.aequorea.common.ui.widget.ACheckBox
                     android:id="@+id/cb_hd_screenshot"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/settings_checkbox_item"
                     app:summary="@string/hd_screenshot_summary"
                     app:title="@string/hd_screenshot_title"/>
 
                 <nich.work.aequorea.common.ui.widget.ACheckBox
                     android:id="@+id/cb_dark_theme"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/settings_checkbox_item"
                     app:summary="@string/dark_theme_title"
                     app:title="@string/dark_theme"/>
 
                 <nich.work.aequorea.common.ui.widget.ACheckBox
                     android:id="@+id/cb_offline_caching"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/settings_checkbox_item"
                     app:summary="@string/offline_cache_summary"
                     app:title="@string/offline_cache"/>
+
+                <nich.work.aequorea.common.ui.widget.ACheckBox
+                    android:id="@+id/cb_enable_text_selection"
+                    style="@style/settings_checkbox_item"
+                    app:summary="@string/enable_text_selection_summary"
+                    app:title="@string/enable_text_selection"/>
+
+                <nich.work.aequorea.common.ui.widget.ACheckBox
+                    android:id="@+id/cb_disable_recommend_article"
+                    style="@style/settings_checkbox_item"
+                    app:summary="@string/disable_recommend_article_summary"
+                    app:title="@string/disable_recommend_article"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
 

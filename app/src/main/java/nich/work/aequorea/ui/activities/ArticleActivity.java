@@ -59,6 +59,7 @@ import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.FontHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.common.utils.PermissionUtils;
+import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
@@ -499,10 +500,14 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 .into(mContentTv);
         }
         
+        mContentTv.setTextIsSelectable(SPUtils.getBoolean(Constants.SP_ENABLE_SELECTION));
+        
         mCopyrightTv.setVisibility(View.VISIBLE);
         
         // load recommendation after rendering the context
-        mPresenter.loadRecommendedArticles(mModel.getId());
+        if (!SPUtils.getBoolean(Constants.SP_DISABLE_RECOMMEND_ARTICLE)) {
+            mPresenter.loadRecommendedArticles(mModel.getId());
+        }
     }
     
     private void updateAuthorTv(Datum article) {

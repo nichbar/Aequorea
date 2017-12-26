@@ -37,10 +37,11 @@ public class Constants {
     // Key of SharePreference
     public static final String SP_LATEST_MAIN_PAGE = "sp_latest_main_page";
     public static final String SP_HD_SCREENSHOT = "sp_hd_screenshot";
+    public static final String SP_ENABLE_SELECTION = "sp_enable_selection";
+    public static final String SP_OFFLINE_CACHE = "sp_offline_cache";
+    public static final String SP_DISABLE_RECOMMEND_ARTICLE = "sp_disable_recommend_article";
     
     // Cache dir
     public static final String ARTICLE_CACHE = "article_cache";
     public static final String ARTICLE_PIC_CACHE = "article_pic_cache";
-    
-    public static final String OFFLINE_CACHE = "offline_cache";
 }

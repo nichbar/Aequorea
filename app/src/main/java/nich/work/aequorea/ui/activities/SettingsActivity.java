@@ -35,6 +35,10 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
     
     @BindView(R.id.cb_hd_screenshot)
     protected ACheckBox mHdScreenshotCb;
+    @BindView(R.id.cb_enable_text_selection)
+    protected ACheckBox mEnableSelectionCb;
+    @BindView(R.id.cb_disable_recommend_article)
+    protected ACheckBox mDisableRecommendArticleCb;
     @BindView(R.id.cb_dark_theme)
     protected ACheckBox mDarkThemeCb;
     @BindView(R.id.cb_offline_caching)
@@ -92,12 +96,16 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
             }
         });
-        mOfflineCb.initStatus(Constants.OFFLINE_CACHE, SPUtils.getBoolean(Constants.OFFLINE_CACHE));
+        mOfflineCb.initStatus(Constants.SP_OFFLINE_CACHE, SPUtils.getBoolean(Constants.SP_OFFLINE_CACHE));
+        mEnableSelectionCb.initStatus(Constants.SP_ENABLE_SELECTION, SPUtils.getBoolean(Constants.SP_ENABLE_SELECTION));
+        mDisableRecommendArticleCb.initStatus(Constants.SP_DISABLE_RECOMMEND_ARTICLE, SPUtils.getBoolean(Constants.SP_DISABLE_RECOMMEND_ARTICLE));
         
         mList = new ArrayList<>();
         mList.add(mHdScreenshotCb);
         mList.add(mDarkThemeCb);
         mList.add(mOfflineCb);
+        mList.add(mEnableSelectionCb);
+        mList.add(mDisableRecommendArticleCb);
         
         colorCheckBox();
     }

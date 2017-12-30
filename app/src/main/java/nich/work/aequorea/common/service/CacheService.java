@@ -62,8 +62,7 @@ public class CacheService extends Service {
     
     private NotificationManager mNotificationManager;
     private BroadcastReceiver mNetworkChangeReceiver;
-    private IntentFilter mIntentFilter;
-    
+
     private int mPicToCacheSize;
     private int mPicCachedCount;
     
@@ -77,7 +76,7 @@ public class CacheService extends Service {
         super.onCreate();
         
         mClient = new OkHttpClient();
-        mIntentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mComposite = new CompositeDisposable();
     
@@ -90,7 +89,7 @@ public class CacheService extends Service {
             }
         };
         
-        registerReceiver(mNetworkChangeReceiver, mIntentFilter);
+        registerReceiver(mNetworkChangeReceiver, intentFilter);
         
         Data dataToCache = getMainPageDataFromSP();
         if (dataToCache != null) {

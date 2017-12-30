@@ -8,8 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 
-import com.zzhoujay.richtext.ext.MD5;
-
 import java.io.File;
 
 import nich.work.aequorea.BuildConfig;

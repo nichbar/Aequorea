@@ -59,7 +59,7 @@ public class DisplayUtils {
         }
     }
 
-    public static boolean setMIUIStatusBarStyle(BaseActivity activity, boolean isLight) {
+    private static boolean setMIUIStatusBarStyle(BaseActivity activity, boolean isLight) {
         boolean result = false;
         Window window = activity.getWindow();
         if (window != null) {

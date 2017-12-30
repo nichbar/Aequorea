@@ -393,8 +393,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         // Don't accept focus if in the middle of clearing focus
         if (mClearingFocus) return false;
         // Check if SearchView is focusable.
-        if (!isFocusable()) return false;
-        return mSearchSrcTextView.requestFocus(direction, previouslyFocusedRect);
+        return isFocusable() && mSearchSrcTextView.requestFocus(direction, previouslyFocusedRect);
     }
     
     @Override

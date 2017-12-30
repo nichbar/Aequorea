@@ -20,6 +20,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -346,7 +348,22 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     @Override
     protected void initModel() {
         mModel = new ArticleModel();
-        mModel.setId(getIntent().getLongExtra(Constants.ARTICLE_ID, 0));
+
+        long articleId;
+
+        articleId = getIntent().getLongExtra(Constants.ARTICLE_ID, 0);
+        if (articleId == 0 && getIntent().getData() != null) {
+            Uri data = getIntent().getData();
+            String id = data.getPath();
+            List<String> pathSegments = data.getPathSegments();
+            for (String s : pathSegments) {
+                if (TextUtils.isDigitsOnly(s)) {
+                    articleId = Long.parseLong(s);
+                }
+            }
+            ToastUtils.showShortToast(id);
+        }
+        mModel.setId(articleId);
     }
     
     @Override
@@ -458,8 +475,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         mTitleTv.setText(article.getTitle());
         
-        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy.MM.dd, HH:mm");
+        SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.CHINA);
+        SimpleDateFormat targetDateFormat = new SimpleDateFormat("yyyy.MM.dd, HH:mm", Locale.CHINA);
         String targetDateString = null;
         try {
             Date date = sourceDateFormat.parse(article.getDisplayTime());
@@ -580,7 +597,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     private View createRecommendArticle(final Datum datum) {
         View view = View.inflate(this, R.layout.piece_recommend_article, null);
         
-        TextView title = (TextView) view.findViewById(R.id.tv_article_recommend_title);
+        TextView title = view.findViewById(R.id.tv_article_recommend_title);
         title.setText(datum.getTitle());
         title.setOnClickListener(new View.OnClickListener() {
             @Override

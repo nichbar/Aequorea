@@ -17,13 +17,10 @@ public class HtmlTagHandler implements Html.TagHandler {
 
     private Stack<Integer> stack;
     private Stack<Boolean> list;
-    private int index = 0;
-    private SoftReference<TextView> textViewSoftReference;
 
     public HtmlTagHandler(TextView textView) {
         stack = new Stack<>();
         list = new Stack<>();
-        this.textViewSoftReference = new SoftReference<>(textView);
     }
 
     @Override
@@ -67,21 +64,6 @@ public class HtmlTagHandler implements Html.TagHandler {
                 if (!list.isEmpty())
                     list.pop();
                 break;
-//            case "li":
-//                boolean isUl = list.peek();
-//                int i;
-//                if (isUl) {
-//                    index = 0;
-//                    i = -1;
-//                } else {
-//                    i = ++index;
-//                }
-//                out.append('\n');
-//                TextView textView = textViewSoftReference.get();
-//                if (textView == null) {
-//                    return;
-//                }
-//                break;
             default:
                 break;
         }

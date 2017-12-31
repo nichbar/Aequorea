@@ -47,14 +47,6 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
         private NestedScrollAppBarLayout mAppBarLayout;
         private float mOriginTop;
 
-        public Behaviour() {
-            super();
-        }
-
-        public Behaviour(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
         private void bindChild(AppBarLayout appBarLayout) {
             if (mAppBarLayout == null) {
                 mAppBarLayout = (NestedScrollAppBarLayout) appBarLayout;
@@ -127,6 +119,7 @@ public class NestedScrollAppBarLayout extends AppBarLayout implements NestedScro
             mAnimator.cancel();
     }
 
+    @SuppressWarnings("unchecked")
     private class ScrollAnimator extends ValueAnimator {
         private CoordinatorLayout.Behavior behavior = null;
         private int lastY;

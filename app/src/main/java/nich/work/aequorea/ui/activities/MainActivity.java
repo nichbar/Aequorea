@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     @Override
     public void onSearchResultLoaded(List<SearchDatum> dataList) {
         if (mSearchView.getSearchEditText().length() != 0 && dataList.size() != 0) {
-            ArrayList arrayList = new ArrayList<>();
+            ArrayList<InstantSearchAdapter.InstantSearchBean> arrayList = new ArrayList<>();
     
             int size = dataList.size() > 5 ? 5 : dataList.size();
             if (size > 0) {

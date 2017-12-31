@@ -119,7 +119,7 @@ public class CacheService extends Service {
     }
     
     @SuppressLint("UseSparseArrays")
-    private int preCache(Data data) {
+    private void preCache(Data data) {
         mArticleList = new LinkedList<>();
         mDownloadTasks = new HashSet<>();
         mDiskLruCache = CacheUtils.getArticlePicDiskLruCache();
@@ -134,8 +134,6 @@ public class CacheService extends Service {
                 mArticleList.add(d.getId());
             }
         }
-    
-        return mArticleList.size();
     }
     
     private void showNotification() {

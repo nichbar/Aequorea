@@ -185,7 +185,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext()
             .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
     
     public void showKeyboard(View view) {
@@ -195,18 +197,16 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         view.requestFocus();
         InputMethodManager imm = (InputMethodManager) view.getContext()
             .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, 0);
+        if (imm != null) {
+            imm.showSoftInput(view, 0);
+        }
     }
     
     //Public Attributes
     
     @Override
     public void setBackground(Drawable background) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            mSearchTopBar.setBackground(background);
-        } else {
-            mSearchTopBar.setBackgroundDrawable(background);
-        }
+        mSearchTopBar.setBackground(background);
     }
     
     @Override
@@ -433,7 +433,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     
     public interface OnQueryTextListener {
         boolean onQueryTextSubmit(String query);
-        
+
         boolean onQueryTextChange(String newText);
     }
     

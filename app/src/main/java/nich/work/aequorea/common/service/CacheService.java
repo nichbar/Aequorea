@@ -1,6 +1,7 @@
 package nich.work.aequorea.common.service;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -62,12 +63,13 @@ public class CacheService extends Service {
     
     private NotificationManager mNotificationManager;
     private BroadcastReceiver mNetworkChangeReceiver;
-
+    
     private int mPicToCacheSize;
     private int mPicCachedCount;
+    private static final String CHANNEL_ID = "aequorea_cache";
     
-    private static Pattern IMAGE_TAG_PATTERN = Pattern.compile("<(img|IMG)(.*?)>");
-    private static Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
+    private static final Pattern IMAGE_TAG_PATTERN = Pattern.compile("<(img|IMG)(.*?)>");
+    private static final Pattern IMAGE_SRC_PATTERN = Pattern.compile("(src|SRC)=\"(.*?)\"");
     
     private static final String TAG = CacheService.class.getSimpleName();
     
@@ -79,7 +81,7 @@ public class CacheService extends Service {
         IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
         mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
         mComposite = new CompositeDisposable();
-    
+        
         mNetworkChangeReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -138,8 +140,13 @@ public class CacheService extends Service {
     
     private void showNotification() {
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "cache")
-            .setSmallIcon(R.mipmap.ic_notification)
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, getString(R.string.aequorea_offline_cache), NotificationManager.IMPORTANCE_DEFAULT);
+            mNotificationManager.createNotificationChannel(channel);
+        }
+        
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID).setSmallIcon(R.mipmap.ic_notification)
             .setContentTitle(getString(R.string.app_name))
             .setContentText(getString(R.string.caching_offline_article));
         
@@ -208,7 +215,7 @@ public class CacheService extends Service {
             @Override
             public void run() {
                 List<String> picList = analyzeImages(text);
-    
+                
                 mPicToCacheSize = picList.size();
                 
                 // this article contains no pic
@@ -300,7 +307,7 @@ public class CacheService extends Service {
                 
                 edit.commit();
             }
-    
+            
             checkPicCachingProcedure();
         }
     }

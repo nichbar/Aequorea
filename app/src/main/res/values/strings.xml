@@ -49,4 +49,5 @@
     <string name="enable_text_selection_summary">使文章内容可选择</string>
     <string name="disable_recommend_article">不加载相关文章</string>
     <string name="disable_recommend_article_summary">关闭详情页相关文章推荐功能</string>
+    <string name="aequorea_offline_cache">Aequorea 离线缓存</string>
 </resources>

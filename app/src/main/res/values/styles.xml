@@ -16,7 +16,6 @@
         <item name="android:textColorPrimary">?attr/content_color</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="icon_theme">@drawable/icon_theme_dark</item>
@@ -42,7 +41,6 @@
         <item name="android:textColorPrimary">?attr/content_color</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowIsTranslucent">true</item>
         <item name="popupTheme">@style/popup_dark</item>
 
         <item name="icon_theme">@drawable/icon_theme_light</item>
@@ -54,6 +52,7 @@
     </style>
 
     <style name="AppTheme.Article.Light" parent="AppTheme.Light">
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
 
         <item name="icon_screenshot">@drawable/icon_screenshot_dark</item>
@@ -68,6 +67,7 @@
     </style>
 
     <style name="AppTheme.Article.Dark" parent="AppTheme.Dark">
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
 
         <item name="icon_screenshot">@drawable/icon_screenshot_light</item>

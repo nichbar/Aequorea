@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.Manifest;
 import android.animation.Animator;
@@ -54,7 +54,7 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.rx.RxBus;
 import nich.work.aequorea.common.rx.RxEvent;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.activity.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout;
 import nich.work.aequorea.common.utils.DisplayUtils;

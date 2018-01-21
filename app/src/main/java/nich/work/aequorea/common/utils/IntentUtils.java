@@ -13,12 +13,12 @@ import java.io.File;
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.model.entity.Author;
-import nich.work.aequorea.ui.activities.ArticleActivity;
-import nich.work.aequorea.ui.activities.AuthorActivity;
-import nich.work.aequorea.ui.activities.PhotoActivity;
-import nich.work.aequorea.ui.activities.SearchActivity;
-import nich.work.aequorea.ui.activities.SettingsActivity;
-import nich.work.aequorea.ui.activities.TagActivity;
+import nich.work.aequorea.ui.activitiy.ArticleActivity;
+import nich.work.aequorea.ui.activitiy.AuthorActivity;
+import nich.work.aequorea.ui.activitiy.PhotoActivity;
+import nich.work.aequorea.ui.activitiy.SearchActivity;
+import nich.work.aequorea.ui.activitiy.SettingsActivity;
+import nich.work.aequorea.ui.activitiy.TagActivity;
 
 public class IntentUtils {
     public static void startSettingsActivity(Context context) {

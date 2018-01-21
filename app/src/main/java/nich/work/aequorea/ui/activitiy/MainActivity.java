@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +25,7 @@ import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.service.CacheService;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.activity.BaseActivity;
 import nich.work.aequorea.common.ui.widget.MaterialSearchView;
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
@@ -39,8 +39,8 @@ import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.search.Content;
 import nich.work.aequorea.model.entity.search.SearchDatum;
 import nich.work.aequorea.presenter.MainPresenter;
-import nich.work.aequorea.ui.adapters.InstantSearchAdapter;
-import nich.work.aequorea.ui.adapters.MainArticleAdapter;
+import nich.work.aequorea.ui.adapter.InstantSearchAdapter;
+import nich.work.aequorea.ui.adapter.MainArticleAdapter;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {

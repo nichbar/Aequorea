@@ -29,7 +29,7 @@ import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.AnimationUtil;
 import nich.work.aequorea.common.utils.ThemeHelper;
-import nich.work.aequorea.ui.adapters.InstantSearchAdapter;
+import nich.work.aequorea.ui.adapter.InstantSearchAdapter;
 
 public class MaterialSearchView extends FrameLayout implements Filter.FilterListener {
     

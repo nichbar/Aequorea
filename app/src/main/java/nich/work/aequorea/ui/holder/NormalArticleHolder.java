@@ -13,7 +13,7 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
 import nich.work.aequorea.model.entity.Datum;
-import nich.work.aequorea.ui.adapters.MainArticleAdapter;
+import nich.work.aequorea.ui.adapter.MainArticleAdapter;
 
 public class NormalArticleHolder extends MainArticleAdapter.ViewHolder {
     private Datum articleData;

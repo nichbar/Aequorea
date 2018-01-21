@@ -17,7 +17,7 @@ import butterknife.OnLongClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.FontHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
-import nich.work.aequorea.ui.activities.ArticleActivity;
+import nich.work.aequorea.ui.activitiy.ArticleActivity;
 
 public class FontDialogFragment extends DialogFragment {
     private ArticleActivity mView;

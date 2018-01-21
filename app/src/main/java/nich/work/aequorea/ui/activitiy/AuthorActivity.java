@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
@@ -21,7 +21,7 @@ import nich.work.aequorea.model.SimpleArticleListModel;
 import nich.work.aequorea.model.entity.Author;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.presenter.AuthorPresenter;
-import nich.work.aequorea.ui.adapters.SimpleArticleListAdapter;
+import nich.work.aequorea.ui.adapter.SimpleArticleListAdapter;
 
 public class AuthorActivity extends SimpleArticleListActivity {
     

@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Light">
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activitiy.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.ArticleActivity"
+            android:name=".ui.activitiy.ArticleActivity"
             android:theme="@style/AppTheme.Article.Light"
             android:screenOrientation="portrait">
             <intent-filter android:label="@string/app_name">
@@ -38,23 +38,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.AuthorActivity"
+            android:name=".ui.activitiy.AuthorActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activities.TagActivity"
+            android:name=".ui.activitiy.TagActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activities.SearchActivity"
+            android:name=".ui.activitiy.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activities.SettingsActivity"
+            android:name=".ui.activitiy.SettingsActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.activities.AboutActivity"
+            android:name=".ui.activitiy.AboutActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activities.PhotoActivity"
+            android:name=".ui.activitiy.PhotoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Transparent"/>
 

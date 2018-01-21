@@ -1,4 +1,4 @@
-package nich.work.aequorea.common.ui.activities;
+package nich.work.aequorea.common.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

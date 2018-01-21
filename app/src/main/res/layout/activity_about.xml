@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <nich.work.aequorea.common.ui.widget.StatusBarView
+            android:id="@+id/status_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimaryDark"/>
+
+        <nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout
+            android:id="@+id/swipe_back_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/root_color">
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="?attr/actionBarSize"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/ic_launcher"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/app_name"
+                        android:textColor="?attr/title_color"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_app_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:textColor="?attr/subtitle_color"
+                        android:textSize="12sp"
+                        tools:text="1.4.0"/>
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+
+        </nich.work.aequorea.common.ui.widget.SwipeBackCoordinatorLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +15,7 @@ import butterknife.OnClick;
 import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.activity.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
@@ -24,7 +24,7 @@ import nich.work.aequorea.model.SimpleArticleListModel;
 import nich.work.aequorea.model.entity.Author;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.presenter.SimpleArticleListPresenter;
-import nich.work.aequorea.ui.adapters.SimpleArticleListAdapter;
+import nich.work.aequorea.ui.adapter.SimpleArticleListAdapter;
 import nich.work.aequorea.ui.view.SimpleArticleListView;
 
 public abstract class SimpleArticleListActivity extends BaseActivity implements SimpleArticleListView {

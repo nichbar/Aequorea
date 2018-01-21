@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import nich.work.aequorea.R;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.activity.BaseActivity;
 
 public class DisplayUtils {
     

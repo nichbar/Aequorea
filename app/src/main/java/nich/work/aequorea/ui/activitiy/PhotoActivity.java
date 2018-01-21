@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -22,7 +22,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.common.ui.activities.BaseActivity;
+import nich.work.aequorea.common.ui.activity.BaseActivity;
 import nich.work.aequorea.common.ui.widget.DragPhotoView;
 import nich.work.aequorea.common.utils.PermissionUtils;
 import nich.work.aequorea.common.utils.ToastUtils;

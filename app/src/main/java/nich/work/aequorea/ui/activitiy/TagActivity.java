@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activities;
+package nich.work.aequorea.ui.activitiy;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +12,7 @@ import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.model.SimpleArticleListModel;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.presenter.TagPresenter;
-import nich.work.aequorea.ui.adapters.SimpleArticleListAdapter;
+import nich.work.aequorea.ui.adapter.SimpleArticleListAdapter;
 
 public class TagActivity extends SimpleArticleListActivity {
     @Override

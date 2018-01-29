@@ -1,29 +1,29 @@
 package nich.work.aequorea.common.rx;
 
-public class RxEvent {
+public class RxEvent<T> {
     public static final int EVENT_TYPE_CHANGE_THEME = 1;
-    
+
     private int mCode;
-    private Object mObject;
-    
-    public RxEvent(int type, Object obj){
+    private T mData;
+
+    public RxEvent(int type, T data) {
         mCode = type;
-        mObject = obj;
+        mData = data;
     }
-    
+
     public int getType() {
         return mCode;
     }
-    
+
     public void setType(int mCode) {
         this.mCode = mCode;
     }
-    
-    public Object getObject() {
-        return mObject;
+
+    public T getData() {
+        return mData;
     }
-    
-    public void setObject(Object mObject) {
-        this.mObject = mObject;
+
+    public void setData(T data) {
+        mData = data;
     }
 }

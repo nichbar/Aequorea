@@ -218,7 +218,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
         startThemeSwitchingAnimation();
         
-        RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
+        RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME);
     }
     
     @OnClick(R.id.container_refresh)

@@ -93,7 +93,7 @@ public class SettingsActivity extends BaseActivity implements SettingsView {
                 
                 ThemeHelper.setTheme(currentTheme);
                 setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
-                RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME, null);
+                RxBus.getInstance().post(RxEvent.EVENT_TYPE_CHANGE_THEME);
             }
         });
         mOfflineCb.initStatus(Constants.SP_OFFLINE_CACHE, SPUtils.getBoolean(Constants.SP_OFFLINE_CACHE));

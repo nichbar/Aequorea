@@ -70,7 +70,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     
         mComposite.add(mNetworkService
                 .getMainPageInfo(mPage, ITEM_PER_PAGE)
-                .subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Data>() {
                     @Override
@@ -142,7 +142,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     
         mComposite.add(mNetworkService
             .getArticleListWithKeyword(1, 10, key, false)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<SearchData>() {
                 @Override

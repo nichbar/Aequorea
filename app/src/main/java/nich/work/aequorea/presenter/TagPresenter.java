@@ -21,7 +21,7 @@ public class TagPresenter extends SimpleArticleListPresenter {
         mBaseView.getModel().setLoading(true);
     
         mComposite.add(mService.getTagsList(mBaseView.getModel().getId(), mPage, mPer)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<Data>() {
                 @Override

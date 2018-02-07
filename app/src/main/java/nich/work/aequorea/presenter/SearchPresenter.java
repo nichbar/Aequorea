@@ -30,7 +30,7 @@ public class SearchPresenter extends SimpleArticleListPresenter {
         
         mComposite.add(mService.getArticleListWithKeyword(mPage, 20, mBaseView.getModel()
             .getKey(), false)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<SearchData>() {
                 @Override

@@ -16,7 +16,7 @@ public class ThemeHelper {
     
     public static void setTheme(String theme) {
         SPUtils.setString(Constants.THEME, theme);
-        Aequorea.setCurrentTheme(theme);
+        Aequorea.Companion.setCurrentTheme(theme);
     }
     
     public static int getThemeStyle(String theme) {

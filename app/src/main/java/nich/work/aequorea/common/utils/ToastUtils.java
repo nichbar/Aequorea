@@ -9,7 +9,7 @@ public class ToastUtils {
     
     public static void showShortToast(String text) {
         if (mToast == null) {
-            mToast = Toast.makeText(Aequorea.getApp(), text, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(Aequorea.Companion.getApp(), text, Toast.LENGTH_SHORT);
         } else {
             mToast.setText(text);
             mToast.setDuration(Toast.LENGTH_SHORT);

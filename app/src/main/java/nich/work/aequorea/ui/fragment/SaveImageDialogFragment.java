@@ -58,7 +58,7 @@ public class SaveImageDialogFragment extends DialogFragment {
                 @Override
                 public void accept(String s) throws Exception {
                     ToastUtils.showShortToast(getString(R.string.image_saved) + IOUtils.PIC_DIR);
-                    MediaScannerConnection.scanFile(Aequorea.getApp()
+                    MediaScannerConnection.scanFile(Aequorea.Companion.getApp()
                         .getApplicationContext(), new String[]{Environment.getExternalStorageDirectory()
                         .getPath().concat(IOUtils.PIC_DIR)}, null, new MediaScannerConnection.OnScanCompletedListener() {
                         @Override

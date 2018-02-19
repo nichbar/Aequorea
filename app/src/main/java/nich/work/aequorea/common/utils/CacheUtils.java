@@ -15,7 +15,7 @@ public class CacheUtils {
     
     public static DiskLruCache getArticlePicDiskLruCache() {
         
-        File cacheDir = new File(Aequorea.getApp()
+        File cacheDir = new File(Aequorea.Companion.getApp()
             .getCacheDir()
             .getAbsolutePath() + File.separator + Constants.ARTICLE_PIC_CACHE);
         

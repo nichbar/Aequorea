@@ -143,8 +143,8 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
     
     @Override
     public void onThemeSwitch() {
-        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        currentTheme = Aequorea.getCurrentTheme();
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.Companion.getCurrentTheme()));
+        currentTheme = Aequorea.Companion.getCurrentTheme();
         
         setStatusBarStyle();
         

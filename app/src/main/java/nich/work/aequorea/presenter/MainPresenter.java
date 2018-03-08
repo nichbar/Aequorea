@@ -22,6 +22,7 @@ import nich.work.aequorea.model.entity.search.SearchData;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainPresenter extends BasePresenter<HomeView> {
+    
     private NetworkService mNetworkService;
     private Timer mTimer;
     

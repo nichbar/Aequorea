@@ -8,7 +8,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
@@ -23,6 +22,7 @@ import nich.work.aequorea.model.entity.search.SearchData;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainPresenter extends BasePresenter<HomeView> {
+    
     private NetworkService mNetworkService;
     private Timer mTimer;
     
@@ -52,46 +52,33 @@ public class MainPresenter extends BasePresenter<HomeView> {
         loadData(-1);
     }
     
-    public void loadData(int page) {
-        if (!NetworkUtils.isNetworkAvailable()) {
-            onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
-            return;
-        }
+    private void loadData(int page) {
         
-        if (mBaseView.getModel().isLoading()){
+        if (mBaseView.getModel().isLoading()) {
             return;
         }
         
         if (page != -1) {
             mPage = page;
         }
-    
+        
         mBaseView.getModel().setLoading(true);
-    
-        mComposite.add(mNetworkService
-                .getMainPageInfo(mPage, ITEM_PER_PAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Data>() {
-                    @Override
-                    public void accept(Data data) throws Exception {
-                        if (mPage == 1) {
-                            cacheData(data);
-                        }
-                        mPage++;
-                        onDataLoaded(data);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        onError(throwable);
-                    }
-                })
-        );
+      
+        mComposite.add(mNetworkService.getMainPageInfo(mPage, ITEM_PER_PAGE)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(data -> {
+                if (mPage == 1) {
+                    cacheData(data);
+                }
+                mPage++;
+                onDataLoaded(data);
+            }, this::onError));
     }
     
     private void onDataLoaded(Data data) {
-        mBaseView.onDataLoaded(FilterUtils.filterData(data.getData()), mBaseView.getModel().isRefreshing());
+        mBaseView.onDataLoaded(FilterUtils.filterData(data.getData()), mBaseView.getModel()
+            .isRefreshing());
         setLoadingFinish();
     }
     
@@ -105,8 +92,13 @@ public class MainPresenter extends BasePresenter<HomeView> {
         mBaseView.getModel().setLoading(false);
         mBaseView.getModel().setRefreshing(false);
     }
-
+    
     public void refresh() {
+        if (!NetworkUtils.isNetworkAvailable()) {
+            onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
+            return;
+        }
+        
         loadData(1);
     }
     
@@ -139,23 +131,8 @@ public class MainPresenter extends BasePresenter<HomeView> {
     }
     
     private void getSearchListAfterDelay(String key) {
-    
-        mComposite.add(mNetworkService
-            .getArticleListWithKeyword(1, 10, key, false)
+        mComposite.add(mNetworkService.getArticleListWithKeyword(1, 10, key, false)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<SearchData>() {
-                @Override
-                public void accept(SearchData data) throws Exception {
-                    onSearchResultLoaded(data);
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    onError(throwable);
-                }
-            })
-        );
     }
     
     private void onSearchResultLoaded(SearchData data) {

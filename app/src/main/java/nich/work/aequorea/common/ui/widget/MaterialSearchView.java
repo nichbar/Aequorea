@@ -406,9 +406,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
     
     private void applyTheme() {
-        if (!Aequorea.getCurrentTheme().equals(mTheme)) {
+        if (!Aequorea.Companion.getCurrentTheme().equals(mTheme)) {
             
-            mTheme = Aequorea.getCurrentTheme();
+            mTheme = Aequorea.Companion.getCurrentTheme();
     
             int lineColor = ThemeHelper.getResourceColor(mContext, R.attr.line_color);
             int rootColor = ThemeHelper.getResourceColor(mContext, R.attr.root_color);
@@ -421,7 +421,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             mSearchSrcTextView.setTextColor(textColor);
             mSearchSrcTextView.setHintTextColor(hintColor);
     
-            if (Aequorea.isLightTheme()) {
+            if (Aequorea.Companion.isLightTheme()) {
                 mBackBtn.setImageResource(R.drawable.ic_action_navigation_arrow_back);
                 mEmptyBtn.setImageResource(R.drawable.ic_action_navigation_close);
             } else {

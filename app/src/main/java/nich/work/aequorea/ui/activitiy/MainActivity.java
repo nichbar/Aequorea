@@ -2,7 +2,6 @@ package nich.work.aequorea.ui.activitiy;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -148,11 +147,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     };
     
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-    
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.detach();
@@ -285,8 +279,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6 && NetworkUtils
-            .isNetworkAvailable()) {
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6) {
             mPresenter.loadData();
         }
     }
@@ -324,8 +317,8 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     
     @Override
     public void onThemeSwitch() {
-        setTheme(ThemeHelper.getThemeStyle(Aequorea.getCurrentTheme()));
-        currentTheme = Aequorea.getCurrentTheme();
+        setTheme(ThemeHelper.getThemeStyle(Aequorea.Companion.getCurrentTheme()));
+        currentTheme = Aequorea.Companion.getCurrentTheme();
         
         setStatusBarStyle();
         setStatusBarMask();

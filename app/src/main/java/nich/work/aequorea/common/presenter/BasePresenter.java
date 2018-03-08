@@ -15,12 +15,7 @@ public abstract class BasePresenter<T extends BaseView> {
     public void attach(T view) {
         mBaseView = view;
         mComposite = new CompositeDisposable();
-        addSubscription(RxEvent.EVENT_TYPE_CHANGE_THEME, new Consumer<RxEvent>() {
-            @Override
-            public void accept(RxEvent rxEvent) throws Exception {
-                mBaseView.onThemeSwitch();
-            }
-        });
+        addSubscription(RxEvent.EVENT_TYPE_CHANGE_THEME, rxEvent -> mBaseView.onThemeSwitch());
         
         onAttach();
     }
@@ -32,12 +27,7 @@ public abstract class BasePresenter<T extends BaseView> {
     protected void addSubscription(int type, Consumer<RxEvent> consumer) {
         mComposite.add(RxBus.getInstance()
             .toObservable(type, RxEvent.class)
-            .subscribe(consumer, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    throwable.printStackTrace();
-                }
-            }));
+            .subscribe(consumer, Throwable::printStackTrace));
     }
     
     public void detach() {

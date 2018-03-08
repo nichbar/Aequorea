@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.FilterUtils;
-import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.model.entity.Data;
 import nich.work.aequorea.model.entity.Datum;
 import nich.work.aequorea.model.entity.search.Content;
@@ -18,10 +15,6 @@ import nich.work.aequorea.model.entity.search.SearchDatum;
 public class SearchPresenter extends SimpleArticleListPresenter {
     @Override
     public void load() {
-        if (!NetworkUtils.isNetworkAvailable()) {
-            onError(new Throwable(getString(R.string.please_connect_to_the_internet)));
-            return;
-        }
         
         if (mPage > mTotalPage || mBaseView.getModel().isLoading()) {
             return;
@@ -32,17 +25,7 @@ public class SearchPresenter extends SimpleArticleListPresenter {
             .getKey(), false)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Consumer<SearchData>() {
-                @Override
-                public void accept(SearchData data) throws Exception {
-                    onSearchDataLoaded(data);
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    onError(throwable);
-                }
-            }));
+            .subscribe(this::onSearchDataLoaded, this::onError));
     }
     
     private void onSearchDataLoaded(SearchData searchData) {

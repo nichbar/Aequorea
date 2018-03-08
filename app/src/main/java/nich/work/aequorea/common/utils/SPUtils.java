@@ -10,7 +10,7 @@ public class SPUtils {
     
     private static SharedPreferences getSp() {
         if (mSp == null) {
-            mSp = Aequorea.getApp().getSharedPreferences("Aequorea", Context.MODE_PRIVATE);
+            mSp = Aequorea.Companion.getApp().getSharedPreferences("Aequorea", Context.MODE_PRIVATE);
         }
         return mSp;
     }

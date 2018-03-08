@@ -9,7 +9,7 @@ import nich.work.aequorea.Aequorea;
 public class NetworkUtils {
 
     public static boolean isNetworkAvailable() {
-        Context context = Aequorea.getApp();
+        Context context = Aequorea.Companion.getApp();
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     
         NetworkInfo info = null;
@@ -20,7 +20,7 @@ public class NetworkUtils {
     }
     
     public static boolean isWiFiNetwork() {
-        Context context = Aequorea.getApp();
+        Context context = Aequorea.Companion.getApp();
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     
         NetworkInfo info = null;

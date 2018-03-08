@@ -2,7 +2,6 @@ package nich.work.aequorea.ui.activitiy;
 
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
 
 import butterknife.ButterKnife;
 import nich.work.aequorea.R;
@@ -32,12 +31,7 @@ public class TagActivity extends SimpleArticleListActivity {
         ButterKnife.bind(this);
         
         mToolbar.setNavigationIcon(R.drawable.icon_ab_back_material);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> onBackPressed());
         mToolbar.setTitle(mModel.getTitle());
         mCoordinatorLayout.setPadding(0, DisplayUtils.getStatusBarHeight(getResources()), 0, 0);
         

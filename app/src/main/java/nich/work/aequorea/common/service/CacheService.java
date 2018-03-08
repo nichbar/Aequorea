@@ -233,7 +233,7 @@ public class CacheService extends Service {
             }
         };
         
-        Aequorea.getExecutor().submit(runnable);
+        Aequorea.Companion.getExecutor().submit(runnable);
     }
     
     /**

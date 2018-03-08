@@ -28,7 +28,7 @@ public class FontHelper {
     
     private static int getDefaultSize() {
         if (mDefaultSize == -1) {
-            Resources r = Aequorea.getApp().getResources();
+            Resources r = Aequorea.Companion.getApp().getResources();
             mDefaultSize = (int) (r.getDimension(R.dimen.size_article_content) / r.getDisplayMetrics().density);
         }
         return mDefaultSize;
@@ -41,7 +41,7 @@ public class FontHelper {
     
     private static int getDefaultSpacing() {
         if (mDefaultFontSpacing == -1) {
-            Resources r = Aequorea.getApp().getResources();
+            Resources r = Aequorea.Companion.getApp().getResources();
             mDefaultFontSpacing = (int) (r.getDimension(R.dimen.spacing_article_content) / r.getDisplayMetrics().density);
         }
         return mDefaultFontSpacing;

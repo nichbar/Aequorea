@@ -649,8 +649,8 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
     
     @Override
     public void onThemeSwitch() {
-        needToReTheme = !currentTheme.equals(Aequorea.getCurrentTheme());
-        currentTheme = Aequorea.getCurrentTheme();
+        needToReTheme = !currentTheme.equals(Aequorea.Companion.getCurrentTheme());
+        currentTheme = Aequorea.Companion.getCurrentTheme();
         setTheme(ThemeHelper.getArticleThemeStyle(currentTheme));
         
         if (activityInForeground()) {

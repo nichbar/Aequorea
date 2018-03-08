@@ -286,8 +286,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6 && NetworkUtils
-            .isNetworkAvailable()) {
+        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6) {
             mPresenter.loadData();
         }
     }

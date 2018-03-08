@@ -17,7 +17,6 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.ui.activity.BaseActivity;
 import nich.work.aequorea.common.ui.widget.StatusBarView;
-import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
 import nich.work.aequorea.model.SimpleArticleListModel;
@@ -135,8 +134,7 @@ public abstract class SimpleArticleListActivity extends BaseActivity implements 
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
         int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && totalCount > 0 && lastVisibleItem >= totalCount - 3 && NetworkUtils
-            .isNetworkAvailable()) {
+        if (!mModel.isLoading() && totalCount > 0 && lastVisibleItem >= totalCount - 3) {
             mPresenter.load();
         }
     }

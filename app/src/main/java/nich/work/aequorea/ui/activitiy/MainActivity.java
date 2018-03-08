@@ -234,7 +234,6 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         }
         
         if (error != null) {
-            Log.d(TAG, error.getMessage());
             SnackbarUtils.show(mRecyclerView, error.getMessage());
         }
     }

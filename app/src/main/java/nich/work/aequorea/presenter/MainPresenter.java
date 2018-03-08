@@ -63,9 +63,9 @@ public class MainPresenter extends BasePresenter<HomeView> {
         }
         
         mBaseView.getModel().setLoading(true);
-        
+      
         mComposite.add(mNetworkService.getMainPageInfo(mPage, ITEM_PER_PAGE)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(data -> {
                 if (mPage == 1) {
@@ -131,11 +131,8 @@ public class MainPresenter extends BasePresenter<HomeView> {
     }
     
     private void getSearchListAfterDelay(String key) {
-        
         mComposite.add(mNetworkService.getArticleListWithKeyword(1, 10, key, false)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onSearchResultLoaded, this::onError));
+            .subscribeOn(Schedulers.io())
     }
     
     private void onSearchResultLoaded(SearchData data) {

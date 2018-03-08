@@ -22,7 +22,7 @@ public class AuthorPresenter extends SimpleArticleListPresenter {
         mBaseView.getModel().setLoading(true);
         
         mComposite.add(mService.getArticleList(mBaseView.getModel().getId(), mPage, mPer)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::onDataLoaded, this::onError));
     }

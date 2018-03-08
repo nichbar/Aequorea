@@ -85,7 +85,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     public void loadArticleFromInternet(final long id, final boolean isRefresh) {
         
         mComposite.add(mService.getArticleDetailInfo(id)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<DataWrapper>() {
                 @Override
@@ -107,7 +107,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     
     public void loadRecommendedArticles(long id) {
         mComposite.add(mService.getRecommendedArticle(id)
-            .subscribeOn(Schedulers.newThread())
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<Data>() {
                 @Override

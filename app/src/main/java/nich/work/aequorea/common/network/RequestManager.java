@@ -1,10 +1,7 @@
 package nich.work.aequorea.common.network;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import nich.work.aequorea.Aequorea;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -18,8 +15,6 @@ public class RequestManager {
     private static final int READ_TIMEOUT = 5;
     private static final int WRITE_TIMEOUT = 5;
     
-    private static final long CACHE_SIZE = 10 * 1024 * 1024; // 10 MB
-    
     private static final String PLATFORM = "Android";
     private static final String VERSION = "3.1.1.0";
 
@@ -28,13 +23,11 @@ public class RequestManager {
     }
 
     private void init() {
-        Cache cache = new Cache(new File(Aequorea.Companion.getApp().getCacheDir(), "http"), CACHE_SIZE);
         
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(new CacheInterceptor())
                 .addNetworkInterceptor(chain -> {
                     Request original = chain.request();
             
@@ -46,7 +39,6 @@ public class RequestManager {
             
                     return chain.proceed(request);
                 })
-                .cache(cache)
                 .build();
         
         mRetrofit = new Retrofit.Builder()

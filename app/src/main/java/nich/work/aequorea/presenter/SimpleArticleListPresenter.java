@@ -3,23 +3,23 @@ package nich.work.aequorea.presenter;
 import java.util.Iterator;
 import java.util.List;
 
-import nich.work.aequorea.common.network.NetworkService;
+import nich.work.aequorea.common.network.ApiService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.FilterUtils;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.Datum;
 import nich.work.aequorea.ui.view.SimpleArticleListView;
 
 public abstract class SimpleArticleListPresenter extends BasePresenter<SimpleArticleListView> {
-    protected NetworkService mService;
+    protected ApiService mService;
     protected int mPage;
     protected int mPer;
     protected long mTotalPage;
     
     @Override
     protected void onAttach() {
-        mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+        mService = RequestManager.getInstance().getRetrofit().create(ApiService.class);
         
         mPage = 1;
         mPer = 20; // default value is 10, but due to unpredictable result it's set to 20.

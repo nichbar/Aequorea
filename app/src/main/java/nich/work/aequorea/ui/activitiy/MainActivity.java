@@ -7,7 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,13 +32,12 @@ import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
 import nich.work.aequorea.common.utils.SnackbarUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
-import nich.work.aequorea.model.MainPageModel;
-import nich.work.aequorea.model.entity.Datum;
-import nich.work.aequorea.model.entity.search.Content;
-import nich.work.aequorea.model.entity.search.SearchDatum;
+import nich.work.aequorea.data.MainPageModel;
+import nich.work.aequorea.data.entity.Datum;
+import nich.work.aequorea.data.entity.search.Content;
+import nich.work.aequorea.data.entity.search.SearchDatum;
 import nich.work.aequorea.presenter.MainPresenter;
 import nich.work.aequorea.ui.adapter.InstantSearchAdapter;
-import nich.work.aequorea.ui.adapter.MainArticleAdapter;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainActivity extends BaseActivity implements HomeView, NestedScrollAppBarLayout.OnNestedScrollListener, View.OnClickListener {
@@ -47,7 +45,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     private static final String TAG = MainActivity.class.getSimpleName();
     
     private MainPresenter mPresenter;
-    private MainArticleAdapter mAdapter;
+//    private MainArticleAdapter mAdapter;
     private MainPageModel mModel;
     private LinearLayoutManager mLinearLayoutManager;
     private MenuItem mSearchMenuItem;
@@ -191,10 +189,10 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
         mToolbar.setOnClickListener(this);
         setSupportActionBar(mToolbar);
         
-        mAdapter = new MainArticleAdapter(this, null);
+//        mAdapter = new MainArticleAdapter(this, null);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mScrollListener);
         
         mAppBarLayout.setOnNestedListener(this);
@@ -211,7 +209,7 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     public void onDataLoaded(List<Datum> data, boolean isRefresh) {
         hideRefreshLayout();
         
-        mAdapter.setArticleList(data, isRefresh);
+//        mAdapter.setArticleList(data, isRefresh);
         
         if (isRefresh) startOfflineCaching();
     }
@@ -227,11 +225,11 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     
     @Override
     public void onError(Throwable error) {
-        if (mAdapter.getItemCount() == 0) {
-            showRefreshLayout();
-        } else {
-            hideRefreshLayout();
-        }
+//        if (mAdapter.getItemCount() == 0) {
+//            showRefreshLayout();
+//        } else {
+//            hideRefreshLayout();
+//        }
         
         if (error != null) {
             SnackbarUtils.show(mRecyclerView, error.getMessage());
@@ -278,10 +276,10 @@ public class MainActivity extends BaseActivity implements HomeView, NestedScroll
     private void autoLoad() {
         int lastVisibleItem = ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findLastVisibleItemPosition();
         
-        int totalCount = mAdapter.getItemCount();
-        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6) {
-            mPresenter.loadData();
-        }
+//        int totalCount = mAdapter.getItemCount();
+//        if (!mModel.isLoading() && !mModel.isRefreshing() && totalCount > 0 && lastVisibleItem >= totalCount - 6) {
+//            mPresenter.loadData();
+//        }
     }
     
     @Override

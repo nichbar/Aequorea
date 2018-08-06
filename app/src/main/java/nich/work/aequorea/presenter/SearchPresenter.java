@@ -6,11 +6,11 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.utils.FilterUtils;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.Datum;
-import nich.work.aequorea.model.entity.search.Content;
-import nich.work.aequorea.model.entity.search.SearchData;
-import nich.work.aequorea.model.entity.search.SearchDatum;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.Datum;
+import nich.work.aequorea.data.entity.search.Content;
+import nich.work.aequorea.data.entity.search.SearchData;
+import nich.work.aequorea.data.entity.search.SearchDatum;
 
 public class SearchPresenter extends SimpleArticleListPresenter {
     @Override

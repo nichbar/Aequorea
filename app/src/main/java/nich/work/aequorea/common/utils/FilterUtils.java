@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.model.entity.Datum;
-import nich.work.aequorea.model.entity.search.Content;
-import nich.work.aequorea.model.entity.search.SearchDatum;
+import nich.work.aequorea.data.entity.Datum;
+import nich.work.aequorea.data.entity.search.Content;
+import nich.work.aequorea.data.entity.search.SearchDatum;
 
 public class FilterUtils {
     public static boolean underSupport(String type) {

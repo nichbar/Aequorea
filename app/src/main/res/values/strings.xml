@@ -31,6 +31,7 @@
     <string name="search">搜索</string>
     <string name="search_article">搜索文章</string>
     <string name="no_data">这是一片没有数据的荒野</string>
+    <string name="no_internet_connection">看来我们失去了网络连接</string>
     <string name="hd_screenshot_title">高品质截图</string>
     <string name="hd_screenshot_summary">开启高品质截图能生成更清晰的截图文件</string>
     <string name="dark_theme">深色主题</string>
@@ -50,4 +51,8 @@
     <string name="disable_recommend_article">不加载相关文章</string>
     <string name="disable_recommend_article_summary">关闭详情页相关文章推荐功能</string>
     <string name="aequorea_offline_cache">Aequorea 离线缓存</string>
+    <string name="footer_hint">没有更多了</string>
+    <string name="footer_hint_reach_the_end">没有更多了</string>
+    <string name="footer_hint_network_error">网络异常，点击重试</string>
+    <string name="no_content_error">你来到了没有文字的荒野</string>
 </resources>

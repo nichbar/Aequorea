@@ -1,48 +1,41 @@
 package nich.work.aequorea
 
+import android.app.Activity
 import android.app.Application
 import com.zzhoujay.richtext.RichText
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import nich.work.aequorea.common.AppExecutor
 import nich.work.aequorea.common.Constants
 import nich.work.aequorea.common.cache.ArticleCache
 import nich.work.aequorea.common.utils.ThemeHelper
+import nich.work.aequorea.di.AppInjector
 import java.io.File
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+import javax.inject.Inject
 
-class Aequorea : Application() {
+class Aequorea : Application(), HasActivityInjector {
+
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     companion object {
-        private var mApp: Aequorea? = null
-        private var mCurrentTheme: String? = null
-        private var mExecutor: ExecutorService? = null
-
-        fun getApp(): Application {
-            return mApp!!
-        }
-
-        fun getCurrentTheme(): String {
-            return mCurrentTheme!!
-        }
+        var app: Aequorea? = null
+        var currentTheme: String? = null
+        var appExecutor: AppExecutor = AppExecutor()
 
         fun isLightTheme(): Boolean {
-            return mCurrentTheme == Constants.THEME_LIGHT
-        }
-
-        fun setCurrentTheme(theme: String) {
-            mCurrentTheme = theme
-        }
-
-        fun getExecutor(): ExecutorService {
-            return this.mExecutor!!
+            return currentTheme == Constants.THEME_LIGHT
         }
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        mApp = this
-        mCurrentTheme = ThemeHelper.getTheme()
-        mExecutor = Executors.newCachedThreadPool()
+        app = this
+        currentTheme = ThemeHelper.getTheme()
+
+        AppInjector.init(this)
 
         initCache()
     }
@@ -52,4 +45,9 @@ class Aequorea : Application() {
         RichText.initCacheDir(cacheDir)
         ArticleCache.getCache()
     }
+
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return dispatchingAndroidInjector
+    }
+
 }

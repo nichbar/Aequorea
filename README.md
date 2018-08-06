@@ -6,7 +6,7 @@
 >
 > 一类多管水母。
 
-自高中第一次翻阅一财开始就爱上了看一财的文章，觉得一财的 APP 不太好用，于是就写了一个自用。
+自高中起就喜欢看一财的文章，觉得一财的 APP 不太好用，于是就写了一个自用。
 
 如果你也与我一样喜欢看一财的文章又对官方客户端不满意，不妨到 [Release](https://github.com/nichbar/Aequorea/releases) 里下载新的安装包，体验更纯粹的阅读。
 
@@ -52,3 +52,7 @@
 - [RichText](https://github.com/zzhoujay/RichText)
 - [MySplash](https://github.com/WangDaYeeeeee/Mysplash)
 - [Newsfold](https://play.google.com/store/apps/details?id=it.mvilla.android.quote&hl=en)
+
+### TODO
+
+- 刷新时会自动滑到底部？

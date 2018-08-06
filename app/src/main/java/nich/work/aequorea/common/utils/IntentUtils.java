@@ -12,7 +12,7 @@ import java.io.File;
 
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.model.entity.Author;
+import nich.work.aequorea.data.entity.Author;
 import nich.work.aequorea.ui.activitiy.ArticleActivity;
 import nich.work.aequorea.ui.activitiy.AuthorActivity;
 import nich.work.aequorea.ui.activitiy.PhotoActivity;

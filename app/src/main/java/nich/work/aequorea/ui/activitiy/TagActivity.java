@@ -8,8 +8,8 @@ import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.ThemeHelper;
-import nich.work.aequorea.model.SimpleArticleListModel;
-import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.data.SimpleArticleListModel;
+import nich.work.aequorea.data.entity.Data;
 import nich.work.aequorea.presenter.TagPresenter;
 import nich.work.aequorea.ui.adapter.SimpleArticleListAdapter;
 

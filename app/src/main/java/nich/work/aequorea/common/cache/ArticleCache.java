@@ -28,15 +28,12 @@ public class ArticleCache {
     }
     
     private void initDiskCache() {
-        Aequorea.Companion.getExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    File cacheDir = new File(Aequorea.Companion.getApp().getCacheDir().getAbsolutePath() + File.separator + Constants.ARTICLE_CACHE);
-                    mDiskCache = DiskLruCache.open(cacheDir, BuildConfig.VERSION_CODE, 1, MAX_CACHED_DISK_ARTICLE_SIZE);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        Aequorea.Companion.getAppExecutor().getDiskIO().execute(() -> {
+            try {
+                File cacheDir = new File(Aequorea.Companion.getApp().getCacheDir().getAbsolutePath() + File.separator + Constants.ARTICLE_CACHE);
+                mDiskCache = DiskLruCache.open(cacheDir, BuildConfig.VERSION_CODE, 1, MAX_CACHED_DISK_ARTICLE_SIZE);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -60,12 +57,7 @@ public class ArticleCache {
     public void cache(final long id, final String articleData) {
         mCache.put(id, articleData);
         
-        Aequorea.Companion.getExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                cacheInStorage(id, articleData);
-            }
-        });
+        Aequorea.Companion.getAppExecutor().getDiskIO().execute(() -> cacheInStorage(id, articleData));
     }
     
     // cache in internal storage

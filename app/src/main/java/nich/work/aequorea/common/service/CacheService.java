@@ -31,21 +31,20 @@ import java.util.regex.Pattern;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.Aequorea;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.cache.ArticleCache;
-import nich.work.aequorea.common.network.NetworkService;
+import nich.work.aequorea.common.network.ApiService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.utils.CacheUtils;
 import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.DataWrapper;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.DataWrapper;
+import nich.work.aequorea.data.entity.Datum;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -55,7 +54,7 @@ import okhttp3.Response;
 public class CacheService extends Service {
     
     private OkHttpClient mClient;
-    private NetworkService mService;
+    private ApiService mService;
     private CompositeDisposable mComposite;
     private LinkedList<Long> mArticleList;
     private HashSet<Call> mDownloadTasks;
@@ -79,7 +78,7 @@ public class CacheService extends Service {
         
         mClient = new OkHttpClient();
         IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+        mService = RequestManager.getInstance().getRetrofit().create(ApiService.class);
         mComposite = new CompositeDisposable();
         
         mNetworkChangeReceiver = new BroadcastReceiver() {
@@ -184,20 +183,12 @@ public class CacheService extends Service {
     private void cacheArticleText(final long id) {
         Disposable disposable = mService.getArticleDetailInfo(id)
             .subscribeOn(Schedulers.io())
-            .subscribe(new Consumer<DataWrapper>() {
-                @Override
-                public void accept(DataWrapper article) throws Exception {
-                    cacheArticleText(id, article);
-                    
-                    cacheArticlePic(article.getData().getContent());
-                    Log.d(TAG, id + " text cache succeed");
-                }
-            }, new Consumer<Throwable>() {
-                @Override
-                public void accept(Throwable throwable) throws Exception {
-                    throwable.printStackTrace();
-                }
-            });
+            .subscribe(article -> {
+                cacheArticleText(id, article);
+                
+                cacheArticlePic(article.getData().getContent());
+                Log.d(TAG, id + " text cache succeed");
+            }, Throwable::printStackTrace);
         mComposite.add(disposable);
     }
     
@@ -211,29 +202,26 @@ public class CacheService extends Service {
      * Cache pic in article and show caching notification.
      */
     private void cacheArticlePic(final String text) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                List<String> picList = analyzeImages(text);
-                
-                mPicToCacheSize = picList.size();
-                
-                // this article contains no pic
-                if (mPicToCacheSize == 0) {
-                    startCaching();
-                    return;
-                }
-                
-                for (final String url : picList) {
-                    Request builder = new Request.Builder().url(url).build();
-                    Call call = mClient.newCall(builder);
-                    call.enqueue(new WriteToCacheCallback());
-                    mDownloadTasks.add(call);
-                }
+        Runnable runnable = () -> {
+            List<String> picList = analyzeImages(text);
+            
+            mPicToCacheSize = picList.size();
+            
+            // this article contains no pic
+            if (mPicToCacheSize == 0) {
+                startCaching();
+                return;
+            }
+            
+            for (final String url : picList) {
+                Request builder = new Request.Builder().url(url).build();
+                Call call = mClient.newCall(builder);
+                call.enqueue(new WriteToCacheCallback());
+                mDownloadTasks.add(call);
             }
         };
         
-        Aequorea.Companion.getExecutor().submit(runnable);
+        Aequorea.Companion.getAppExecutor().getDiskIO().execute(runnable);
     }
     
     /**

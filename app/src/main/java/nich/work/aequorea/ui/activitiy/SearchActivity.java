@@ -1,8 +1,8 @@
 package nich.work.aequorea.ui.activitiy;
 
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.model.SimpleArticleListModel;
-import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.data.SimpleArticleListModel;
+import nich.work.aequorea.data.entity.Data;
 import nich.work.aequorea.presenter.SearchPresenter;
 
 public class SearchActivity extends TagActivity {

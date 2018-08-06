@@ -1,112 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="270dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/iv_article"
+    <data>
+
+        <variable
+            name="data"
+            type="nich.work.aequorea.data.entity.Datum" />
+
+        <import type="nich.work.aequorea.common.utils.IntentUtils" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:scaleType="centerCrop" />
-
-    <LinearLayout
-        android:id="@+id/container_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="20dp"
-        android:background="@color/alphaDark"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="5dp">
+        android:layout_height="270dp">
 
         <ImageView
-            android:id="@+id/iv_author"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:transitionName="author_avatar"/>
+            android:id="@+id/iv_article"
+            image="@{data.coverUrl}"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:onClick="@{() -> IntentUtils.startArticleActivity(context, data.id)}"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/container_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:background="@color/alphaDark"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="5dp">
+
+            <ImageView
+                authorClickListener="@{data.authors[0]}"
+                roundImage="@{data.authors[0].avatar}"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:transitionName="author_avatar" />
+
+            <TextView
+                style="@style/TextLinker"
+                visibleIfExist="@{data.authors[1].avatar}"
+                android:text="@string/linker" />
+
+            <ImageView
+                authorClickListener="@{data.authors[1]}"
+                roundImage="@{data.authors[1].avatar}"
+                visibleIfExist="@{data.authors[1].avatar}"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:transitionName="author_avatar" />
+
+            <TextView
+                style="@style/TextLinker"
+                visibleIfExist="@{data.authors[2].avatar}"
+                android:text="@string/linker" />
+
+            <ImageView
+                authorClickListener="@{data.authors[2]}"
+                roundImage="@{data.authors[2].avatar}"
+                visibleIfExist="@{data.authors[2].avatar}"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:transitionName="author_avatar" />
+
+            <TextView
+                style="@style/TextWithShadow"
+                visibleIfNotExist="@{data.authors[1].avatar}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:text="@{data.authors[0].name}"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="Mazzello" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_author_linker_1"
-            android:text="@string/linker"
-            style="@style/TextLinker"
-            android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <ImageView
-            android:id="@+id/iv_author_2"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:transitionName="author_avatar"
-            android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <TextView
-            android:id="@+id/tv_author_linker_2"
-            android:text="@string/linker"
-            style="@style/TextLinker"
-            android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <ImageView
-            android:id="@+id/iv_author_3"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:transitionName="author_avatar"
-            android:visibility="gone"
-            tools:visibility="visible"/>
-
-        <TextView
-            android:id="@+id/tv_author"
+            android:id="@+id/tv_article_title"
             style="@style/TextWithShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@{data.title}"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            tools:text="Kick off." />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="Mazzello" />
-    </LinearLayout>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="18dp"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_article_title"
-        style="@style/TextWithShadow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        tools:text="Kick off." />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_heart" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="18dp"
-        android:layout_marginEnd="18dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/iv_like"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_heart" />
-
-        <TextView
-            android:id="@+id/tv_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="3dp"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            tools:text="1" />
-    </LinearLayout>
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp"
+                android:text="@{data.likeTimes.toString()}"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                tools:text="1" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -6,9 +6,9 @@ import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import nich.work.aequorea.model.entity.Author;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Author;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.Datum;
 
 public class AuthorPresenter extends SimpleArticleListPresenter {
     

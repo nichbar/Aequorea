@@ -17,23 +17,23 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.cache.ArticleCache;
-import nich.work.aequorea.common.network.NetworkService;
+import nich.work.aequorea.common.network.ApiService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.IOUtils;
 import nich.work.aequorea.common.utils.SPUtils;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.DataWrapper;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.DataWrapper;
+import nich.work.aequorea.data.entity.Datum;
 import nich.work.aequorea.ui.view.ArticleView;
 
 public class ArticlePresenter extends BasePresenter<ArticleView> {
-    private NetworkService mService;
+    private ApiService mService;
     
     @Override
     protected void onAttach() {
-        mService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+        mService = RequestManager.getInstance().getRetrofit().create(ApiService.class);
     }
     
     public void loadArticle(long id) {

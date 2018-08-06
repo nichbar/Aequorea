@@ -3,7 +3,7 @@ package nich.work.aequorea.ui.view;
 import java.util.List;
 
 import nich.work.aequorea.common.ui.view.BaseView;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Datum;
 
 public interface ArticleView extends BaseView {
     void onArticleLoaded(Datum data, boolean isRefresh);

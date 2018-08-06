@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "nich.work.aequorea"
+        applicationId "work.nich.aequorea"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 13900
-        versionName "1.3.9"
+        versionCode 14000
+        versionName "1.4.0"
         resConfigs "zh"
     }
     buildTypes {
@@ -26,34 +27,52 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':richtext')
 
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation "com.google.dagger:dagger:2.14.1"
-    implementation "com.google.dagger:dagger-android:2.14.1"
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+
+    implementation "com.google.dagger:dagger:2.16"
+    implementation "com.google.dagger:dagger-android:2.16"
     implementation "com.google.dagger:dagger-android-support:2.14.1"
-    annotationProcessor "com.google.dagger:dagger-android-processor:2.14.1"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.14.1"
+    kapt "com.google.dagger:dagger-android-processor:2.14.1"
+    kapt "com.google.dagger:dagger-compiler:2.14.1"
 
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+
     implementation 'com.github.bumptech.glide:glide:4.6.1'
-    annotationProcessor "com.github.bumptech.glide:compiler:4.6.1"
+    implementation 'com.github.bumptech.glide:okhttp3-integration:4.6.1'
+    kapt "com.github.bumptech.glide:compiler:4.6.1"
+
     implementation 'com.google.code.gson:gson:2.8.2'
+
     implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.jakewharton:disklrucache:2.0.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+repositories {
+    mavenCentral()
 }

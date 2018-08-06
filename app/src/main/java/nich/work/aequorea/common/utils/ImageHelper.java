@@ -10,23 +10,23 @@ import android.widget.ImageView;
 import nich.work.aequorea.common.glide.GlideApp;
 
 public class ImageHelper {
-    public static void setImage(Context context, String url, ImageView imageView) {
-        setImage(context, url, imageView, false, -1);
+    public static void loadImage(Context context, String url, ImageView imageView) {
+        loadImage(context, url, imageView, false, -1);
     }
     
-    public static void setImage(Context context, String url, ImageView imageView, boolean isRound) {
-        setImage(context, url, imageView, isRound, -1);
+    public static void loadImage(Context context, String url, ImageView imageView, boolean isRound) {
+        loadImage(context, url, imageView, isRound, -1);
     }
     
-    public static void setImage(Context context, String url, ImageView imageView, int placeHolder) {
-        setImage(context, url, imageView, false, placeHolder);
+    public static void loadImage(Context context, String url, ImageView imageView, int placeHolder) {
+        loadImage(context, url, imageView, false, placeHolder);
     }
     
-    public static void setImage(Context context, String url, ImageView imageView, Drawable placeHolder) {
-        setImage(context, url, imageView, false, placeHolder);
+    public static void loadImage(Context context, String url, ImageView imageView, Drawable placeHolder) {
+        loadImage(context, url, imageView, false, placeHolder);
     }
     
-    public static void setImage(Context context, String url, ImageView imageView, boolean isRound, int placeHolder) {
+    public static void loadImage(Context context, String url, ImageView imageView, boolean isRound, int placeHolder) {
         if (isRound) {
             GlideApp.with(context).load(url).placeholder(placeHolder).circleCrop().into(imageView);
         } else {
@@ -34,7 +34,7 @@ public class ImageHelper {
         }
     }
     
-    public static void setImage(Context context, String url, ImageView imageView, boolean isRound, Drawable placeHolder) {
+    public static void loadImage(Context context, String url, ImageView imageView, boolean isRound, Drawable placeHolder) {
         if (isRound) {
             GlideApp.with(context).load(url).placeholder(placeHolder).circleCrop().into(imageView);
         } else {

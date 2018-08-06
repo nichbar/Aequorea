@@ -11,19 +11,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;
-import nich.work.aequorea.common.network.NetworkService;
+import nich.work.aequorea.common.network.ApiService;
 import nich.work.aequorea.common.network.RequestManager;
 import nich.work.aequorea.common.presenter.BasePresenter;
 import nich.work.aequorea.common.utils.FilterUtils;
 import nich.work.aequorea.common.utils.NetworkUtils;
 import nich.work.aequorea.common.utils.SPUtils;
-import nich.work.aequorea.model.entity.Data;
-import nich.work.aequorea.model.entity.search.SearchData;
+import nich.work.aequorea.data.entity.Data;
+import nich.work.aequorea.data.entity.search.SearchData;
 import nich.work.aequorea.ui.view.HomeView;
 
 public class MainPresenter extends BasePresenter<HomeView> {
     
-    private NetworkService mNetworkService;
+    private ApiService mApiService;
     private Timer mTimer;
     
     private static final int ITEM_PER_PAGE = 15;
@@ -34,7 +34,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     
     @Override
     protected void onAttach() {
-        mNetworkService = RequestManager.getInstance().getRetrofit().create(NetworkService.class);
+        mApiService = RequestManager.getInstance().getRetrofit().create(ApiService.class);
         mTimer = new Timer();
         loadCacheData();
     }
@@ -64,7 +64,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
         
         mBaseView.getModel().setLoading(true);
       
-        mComposite.add(mNetworkService.getMainPageInfo(mPage, ITEM_PER_PAGE)
+        mComposite.add(mApiService.getMainPageInfo(mPage, ITEM_PER_PAGE)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(data -> {
@@ -131,7 +131,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     }
     
     private void getSearchListAfterDelay(String key) {
-        mComposite.add(mNetworkService.getArticleListWithKeyword(1, 10, key, false)
+        mComposite.add(mApiService.getArticleListWithKeyword(1, 10, key, false)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::onSearchResultLoaded, this::onError));

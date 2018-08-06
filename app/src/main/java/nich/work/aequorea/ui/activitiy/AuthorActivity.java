@@ -16,9 +16,9 @@ import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.common.utils.DisplayUtils;
 import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.ThemeHelper;
-import nich.work.aequorea.model.SimpleArticleListModel;
-import nich.work.aequorea.model.entity.Author;
-import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.data.SimpleArticleListModel;
+import nich.work.aequorea.data.entity.Author;
+import nich.work.aequorea.data.entity.Data;
 import nich.work.aequorea.presenter.AuthorPresenter;
 import nich.work.aequorea.ui.adapter.SimpleArticleListAdapter;
 
@@ -112,7 +112,7 @@ public class AuthorActivity extends SimpleArticleListActivity {
     private void updateAuthorImg(Author author) {
         mCollapsingToolbarLayout.setTitle(author.getName());
     
-        ImageHelper.setImage(this, author.getAvatar(), mAuthorIv, true);
+        ImageHelper.loadImage(this, author.getAvatar(), mAuthorIv, true);
     }
     
     @Override

@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.ImageHelper;
 import nich.work.aequorea.common.utils.IntentUtils;
-import nich.work.aequorea.model.entity.Datum;
+import nich.work.aequorea.data.entity.Datum;
 
 public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticleListAdapter.ViewHolder> {
     private List<Datum> mArticleDataList;
@@ -42,7 +42,7 @@ public class SimpleArticleListAdapter extends RecyclerView.Adapter<SimpleArticle
         holder.articleTitleTv.setText(article.getTitle());
         holder.articleSummaryTv.setText(article.getSummary());
         
-        ImageHelper.setImage(mContext, article.getCoverUrl(), holder.coverIv, R.color.colorPrimary_light);
+        ImageHelper.loadImage(mContext, article.getCoverUrl(), holder.coverIv, R.color.colorPrimary_light);
     }
     
     @Override

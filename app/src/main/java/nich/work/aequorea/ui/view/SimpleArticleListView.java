@@ -1,9 +1,9 @@
 package nich.work.aequorea.ui.view;
 
 import nich.work.aequorea.common.ui.view.NetworkView;
-import nich.work.aequorea.model.SimpleArticleListModel;
-import nich.work.aequorea.model.entity.Author;
-import nich.work.aequorea.model.entity.Data;
+import nich.work.aequorea.data.SimpleArticleListModel;
+import nich.work.aequorea.data.entity.Author;
+import nich.work.aequorea.data.entity.Data;
 
 public interface SimpleArticleListView extends NetworkView {
     

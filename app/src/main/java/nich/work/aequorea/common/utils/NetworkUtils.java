@@ -18,6 +18,16 @@ public class NetworkUtils {
         }
         return info != null && info.isAvailable();
     }
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo info = null;
+        if (connectivityManager != null) {
+            info = connectivityManager.getActiveNetworkInfo();
+        }
+        return info != null && info.isAvailable();
+    }
     
     public static boolean isWiFiNetwork() {
         Context context = Aequorea.Companion.getApp();

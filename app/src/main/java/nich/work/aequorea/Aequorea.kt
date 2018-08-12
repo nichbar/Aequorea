@@ -6,9 +6,7 @@ import com.zzhoujay.richtext.RichText
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
-import nich.work.aequorea.common.AppExecutor
 import nich.work.aequorea.common.Constants
-import nich.work.aequorea.common.cache.ArticleCache
 import nich.work.aequorea.common.utils.ThemeHelper
 import nich.work.aequorea.di.AppInjector
 import java.io.File
@@ -22,7 +20,6 @@ class Aequorea : Application(), HasActivityInjector {
     companion object {
         var app: Aequorea? = null
         var currentTheme: String? = null
-        var appExecutor: AppExecutor = AppExecutor()
 
         fun isLightTheme(): Boolean {
             return currentTheme == Constants.THEME_LIGHT
@@ -43,7 +40,6 @@ class Aequorea : Application(), HasActivityInjector {
     private fun initCache() {
         val cacheDir = File(cacheDir?.absolutePath + File.separator + Constants.ARTICLE_CACHE)
         RichText.initCacheDir(cacheDir)
-        ArticleCache.getCache()
     }
 
     override fun activityInjector(): AndroidInjector<Activity> {

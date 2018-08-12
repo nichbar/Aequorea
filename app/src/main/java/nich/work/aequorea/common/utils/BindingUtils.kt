@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.ImageView
 import nich.work.aequorea.data.entity.Author
 
-class BindingUtils
-
 @BindingAdapter("image")
 fun setImage(view: ImageView, imageUrl: String?) {
     imageUrl?.let { ImageHelper.loadImage(view.context, imageUrl, view) }

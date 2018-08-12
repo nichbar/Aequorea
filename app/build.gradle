@@ -6,7 +6,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "work.nich.aequorea"
+        applicationId "nich.work.aequorea"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 14000

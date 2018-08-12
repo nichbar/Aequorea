@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
+import nich.work.aequorea.Aequorea
 
 abstract class BaseFragment : Fragment() {
 
@@ -22,4 +23,8 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected abstract fun provideContentView(): View
+
+    fun isInLightTheme(): Boolean {
+        return Aequorea.isLightTheme()
+    }
 }

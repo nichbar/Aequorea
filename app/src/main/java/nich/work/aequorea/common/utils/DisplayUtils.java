@@ -31,7 +31,7 @@ public class DisplayUtils {
         return result;
     }
     
-    public static void setStatusBarStyle(BaseActivity activity, boolean isLight) {
+    public static void setStatusBarStyle(Activity activity, boolean isLight) {
         boolean isMIUI = setMIUIStatusBarStyle(activity, isLight);
 
         if (!isMIUI) {
@@ -59,7 +59,7 @@ public class DisplayUtils {
         }
     }
 
-    private static boolean setMIUIStatusBarStyle(BaseActivity activity, boolean isLight) {
+    private static boolean setMIUIStatusBarStyle(Activity activity, boolean isLight) {
         boolean result = false;
         Window window = activity.getWindow();
         if (window != null) {

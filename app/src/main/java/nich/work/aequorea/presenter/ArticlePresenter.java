@@ -39,7 +39,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     public void loadArticle(long id) {
         
         // try to load from memory
-        String cacheContent = ArticleCache.getCache().loadCache(id);
+        String cacheContent = ArticleCache.loadCache(id);
 
         if (!TextUtils.isEmpty(cacheContent)) {
     
@@ -51,7 +51,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
         }
         
         // then from storage
-        if (ArticleCache.getCache().isCachedInStorage(id)) {
+        if (ArticleCache.isCachedInStorage(id)) {
             loadArticleFromStorage(id);
         } else {
             loadArticleFromInternet(id, false);
@@ -62,7 +62,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
         mComposite.add(Single.create(new SingleOnSubscribe<DataWrapper>() {
             @Override
             public void subscribe(@NonNull SingleEmitter<DataWrapper> e) throws Exception {
-                String s = ArticleCache.getCache().loadCacheFromStorage(id);
+                String s = ArticleCache.loadCacheFromStorage(id);
                 DataWrapper article = generateObjectFromString(s);
                 e.onSuccess(article);
             }
@@ -101,7 +101,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
             }));
     
         if (isRefresh) {
-            ArticleCache.getCache().remove(Long.toString(id));
+            ArticleCache.remove(Long.toString(id));
         }
     }
     
@@ -171,7 +171,7 @@ public class ArticlePresenter extends BasePresenter<ArticleView> {
     private void cacheArticle(long id, DataWrapper article) {
         Gson gson = new Gson();
         String json = gson.toJson(article);
-        ArticleCache.getCache().cache(id, json);
+        ArticleCache.cache(id, json);
     }
     
     private DataWrapper generateObjectFromString(String cacheContent) {

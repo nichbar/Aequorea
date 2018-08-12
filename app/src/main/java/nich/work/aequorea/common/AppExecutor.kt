@@ -4,21 +4,23 @@ import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class AppExecutor(var diskIO: Executor, var networkIO: Executor, var mainThread: Executor) {
+private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
 
-    @Inject
-    constructor() : this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(3),
-            MainThreadExecutor())
+private val UI_EXECUTOR = MainThreadExecutor()
 
-    private class MainThreadExecutor : Executor {
-        private val mainThreadHandler = Handler(Looper.getMainLooper())
+fun runOnIoThread(f: () -> Unit) {
+    IO_EXECUTOR.execute(f)
+}
 
-        override fun execute(command: Runnable) {
-            mainThreadHandler.post(command)
-        }
+fun runOnUiThread(f: () -> Unit) {
+    UI_EXECUTOR.execute(f)
+}
+
+private class MainThreadExecutor : Executor {
+    private val mainThreadHandler = Handler(Looper.getMainLooper())
+
+    override fun execute(command: Runnable) {
+        mainThreadHandler.post(command)
     }
 }

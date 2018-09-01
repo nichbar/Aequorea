@@ -1,6 +1,6 @@
 package nich.work.aequorea.view.home
 
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -18,13 +18,15 @@ import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout
 import nich.work.aequorea.common.ui.widget.StatusBarView
 import nich.work.aequorea.common.utils.DisplayUtils
 import nich.work.aequorea.common.utils.IntentUtils
+import nich.work.aequorea.common.utils.consume
+import nich.work.aequorea.common.utils.viewModelProvider
 import nich.work.aequorea.data.entity.Datum
+import nich.work.aequorea.data.entity.search.SearchDatum
 import nich.work.aequorea.ui.adapter.InstantSearchAdapter
+import java.util.*
 import javax.inject.Inject
 
 class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
-
-    private var mClickTime: Long = 0
 
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
@@ -39,8 +41,10 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
     @BindView(R.id.search_mask)
     lateinit var searchMask: View
 
+    private var mClickTime: Long = 0
+
     @Inject
-    lateinit var factory: ViewModelProviderFactory<HomeViewModel>
+    lateinit var factory: ViewModelProviderFactory
 
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mAdapter: HomeAdapter
@@ -50,7 +54,7 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
     }
 
     override fun provideViewModel(): ListViewModel<Datum, Datum> {
-        mViewModel = ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
+        mViewModel = viewModelProvider(factory)
         return mViewModel
     }
 
@@ -64,7 +68,48 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
 
         setStatusBarStyle()
 
+        initToolbar()
+        initSearch()
+
+        mViewModel.searchResult.observe(this, Observer { it ->
+            it?.let { showSearchResult(it) }
+        })
+//        mAppBarLayout.setOnNestedListener(this)
+    }
+
+    private fun showSearchResult(resultList: List<SearchDatum>?) {
+        resultList?.let {
+            if (searchView.searchEditText.isNotEmpty() && it.isNotEmpty()) {
+                val arrayList = ArrayList<InstantSearchAdapter.InstantSearchBean>()
+                val size = if (it.size > 5) 5 else it.size
+                if (size > 0) {
+                    for (i in 0 until size) {
+                        val content = it[i].content
+                        arrayList.add(i, InstantSearchAdapter.InstantSearchBean(content.getId()!!, content
+                                .getTitle()))
+                    }
+                    val mSearchAdapter = InstantSearchAdapter(context, arrayList)
+                    searchView.setAdapter(mSearchAdapter)
+
+                    searchView.showSuggestions()
+                }
+            } else {
+                searchView.setAdapter(null)
+                searchView.dismissSuggestions()
+            }
+        }
+    }
+
+    private fun initToolbar() {
         toolbar.title = resources.getString(R.string.app_name)
+        toolbar.inflateMenu(R.menu.main_menu)
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_settings -> consume { IntentUtils.startSettingsActivity(context) }
+                R.id.action_search -> consume { searchView.showSearch() }
+                else -> consume {}
+            }
+        }
         toolbar.setOnClickListener {
             if (System.currentTimeMillis() - mClickTime < 200) {
                 val position = (mRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
@@ -72,8 +117,15 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
             }
             mClickTime = System.currentTimeMillis()
         }
-//        mAppBarLayout.setOnNestedListener(this)
+    }
 
+    private fun initSearch() {
+        searchMask.setOnClickListener {
+            if (it.visibility == View.VISIBLE) {
+                searchView.closeSearch()
+                it.visibility = View.GONE
+            }
+        }
         searchView.run {
             setHint(getString(R.string.search_article))
             setOnQueryTextListener(
@@ -85,14 +137,14 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
                         }
 
                         override fun onQueryTextChange(newText: String): Boolean {
-//                            mViewModel.getSearchList(newText)
+                            mViewModel.getSearchList(newText)
                             return false
                         }
                     })
             setOnItemClickListener { _, _, _, _ ->
-                val bean = view.getTag(R.string.app_name) as InstantSearchAdapter.InstantSearchBean
+                val bean = view?.getTag(R.string.app_name) as InstantSearchAdapter.InstantSearchBean
                 bean.let {
-                    IntentUtils.startArticleActivity(context, bean.id)
+                    IntentUtils.startArticleActivity(context, it.id)
                     searchView.closeSearch()
                 }
             }

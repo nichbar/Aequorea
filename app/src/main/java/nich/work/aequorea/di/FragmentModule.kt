@@ -15,7 +15,7 @@ class HomeFragmentModule {
     }
 
     @Provides
-    fun provideViewModelFactory(viewModel: HomeViewModel): ViewModelProviderFactory<HomeViewModel> {
+    fun provideViewModelFactory(viewModel: HomeViewModel): ViewModelProviderFactory {
         return ViewModelProviderFactory(viewModel)
     }
 }

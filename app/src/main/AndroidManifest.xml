@@ -42,6 +42,7 @@
         <activity android:name=".ui.activitiy.TagActivity"/>
         <activity android:name=".ui.activitiy.SearchActivity"/>
         <activity android:name=".ui.activitiy.SettingsActivity"/>
+        <activity android:name=".view.ShellActivity"/>
 
         <activity android:name=".ui.activitiy.AboutActivity"/>
         <activity

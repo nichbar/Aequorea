@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import butterknife.BindView
 import nich.work.aequorea.R
+import nich.work.aequorea.common.EventObserver
 import nich.work.aequorea.common.arch.paging.ListAdapter
 import nich.work.aequorea.common.arch.paging.ListFragment
 import nich.work.aequorea.common.arch.paging.ListViewModel
@@ -16,10 +17,7 @@ import nich.work.aequorea.common.di.ViewModelProviderFactory
 import nich.work.aequorea.common.ui.widget.MaterialSearchView
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout
 import nich.work.aequorea.common.ui.widget.StatusBarView
-import nich.work.aequorea.common.utils.DisplayUtils
-import nich.work.aequorea.common.utils.IntentUtils
-import nich.work.aequorea.common.utils.consume
-import nich.work.aequorea.common.utils.viewModelProvider
+import nich.work.aequorea.common.utils.*
 import nich.work.aequorea.data.entity.Datum
 import nich.work.aequorea.data.entity.search.SearchDatum
 import nich.work.aequorea.ui.adapter.InstantSearchAdapter
@@ -66,15 +64,19 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setStatusBarStyle()
-
         initToolbar()
         initSearch()
+        initAppBar()
+
+        initStatusBar()
 
         mViewModel.searchResult.observe(this, Observer { it ->
             it?.let { showSearchResult(it) }
         })
-//        mAppBarLayout.setOnNestedListener(this)
+
+        mViewModel.snackBar.observe(this, EventObserver {
+            SnackbarUtils.show(coordinatorLayout, it)
+        })
     }
 
     private fun showSearchResult(resultList: List<SearchDatum>?) {
@@ -85,8 +87,7 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
                 if (size > 0) {
                     for (i in 0 until size) {
                         val content = it[i].content
-                        arrayList.add(i, InstantSearchAdapter.InstantSearchBean(content.getId()!!, content
-                                .getTitle()))
+                        arrayList.add(i, InstantSearchAdapter.InstantSearchBean(content.id, content.title))
                     }
                     val mSearchAdapter = InstantSearchAdapter(context, arrayList)
                     searchView.setAdapter(mSearchAdapter)
@@ -160,13 +161,38 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
         }
     }
 
-    private fun setStatusBarStyle() {
+    private fun initAppBar() {
+        appBarLayout.setOnNestedListener(object : NestedScrollAppBarLayout.OnNestedScrollListener {
+            override fun onNestedScrolling() {
+                updateStatusBarStyle()
+            }
+
+            override fun onStopNestedScrolling() {
+                updateStatusBarStyle()
+            }
+        })
+    }
+
+    private fun initStatusBar() {
         if (isInLightTheme()) {
-            statusBar.setLightMask()
-            DisplayUtils.setStatusBarStyle(activity, true)
+            activity?.let { DisplayHelper.setStatusBarStyle(it, statusBar, true) }
         } else {
-            statusBar.setDarkMask()
-            DisplayUtils.setStatusBarStyle(activity, false)
+            activity?.let { DisplayHelper.setStatusBarStyle(it, statusBar, false) }
+        }
+    }
+
+    private fun updateStatusBarStyle() {
+        // light status bar only show in light theme
+        if (isInLightTheme()) {
+            if (appBarLayout.y <= -appBarLayout.measuredHeight) {
+                if (statusBar.isInitState) {
+                    activity?.let { DisplayHelper.setStatusBarStyle(it, statusBar, false) }
+                }
+            } else {
+                if (!statusBar.isInitState) {
+                    activity?.let { DisplayHelper.setStatusBarStyle(it, statusBar, true) }
+                }
+            }
         }
     }
 

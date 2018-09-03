@@ -24,9 +24,9 @@ abstract class ListViewModel<LD, ILD>(application: Application, var pageSize: In
     val itemListLiveData: MediatorLiveData<List<ILD>> = MediatorLiveData()
 
     init {
-        itemListLiveData.addSource(listLiveData, { listData ->
+        itemListLiveData.addSource(listLiveData) { listData ->
             postItemListLiveData(listData!!)
-        })
+        }
     }
 
     /**

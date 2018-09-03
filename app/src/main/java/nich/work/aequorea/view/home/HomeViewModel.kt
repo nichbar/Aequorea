@@ -6,6 +6,7 @@ import io.reactivex.Single
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import nich.work.aequorea.common.Event
 import nich.work.aequorea.common.arch.paging.ListViewModel
 import nich.work.aequorea.common.network.ApiService
 import nich.work.aequorea.common.utils.FilterUtils
@@ -19,7 +20,18 @@ class HomeViewModel(application: Application, var apiService: ApiService)
     : ListViewModel<Datum, Datum>(application, DEFAULT_PAGE_SIZE) {
 
     private var mPublishSubject = PublishSubject.create<String>()
+
     var searchResult = MutableLiveData<List<SearchDatum>>()
+        private set
+
+    var snackBar = MutableLiveData<Event<String>>()
+        private set
+
+    init {
+        mPublishSubject.debounce(300, TimeUnit.MILLISECONDS)
+                .distinctUntilChanged()
+                .subscribe { doSearch(it) }
+    }
 
     override fun decorateListDataAsItemListData(listData: List<Datum>): List<Datum> {
         return FilterUtils.filterData(listData)
@@ -33,11 +45,8 @@ class HomeViewModel(application: Application, var apiService: ApiService)
         return data.map { d -> d.data }
     }
 
-    // TODO Post this searchContent to publishSubject.
     fun getSearchList(searchContent: String) {
-        mPublishSubject.debounce(300, TimeUnit.MILLISECONDS)
-                .distinctUntilChanged()
-                .subscribe { doSearch(it) }
+        mPublishSubject.onNext(searchContent)
     }
 
     private fun doSearch(searchContent: String) {
@@ -45,7 +54,10 @@ class HomeViewModel(application: Application, var apiService: ApiService)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         Consumer<SearchData> { searchResult.postValue(FilterUtils.filterSearchData(it.data)) },
-                        Consumer<Throwable> { it.printStackTrace() }
+                        Consumer<Throwable> {
+                            it.printStackTrace()
+                            snackBar.postValue(it.message?.let { msg -> Event(msg) })
+                        }
                 )
     }
 

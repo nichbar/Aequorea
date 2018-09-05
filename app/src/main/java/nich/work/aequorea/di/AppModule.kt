@@ -17,9 +17,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        builder.connectTimeout(5, TimeUnit.SECONDS)
-        return builder.build()
+        return OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .build()
     }
 
     @Provides

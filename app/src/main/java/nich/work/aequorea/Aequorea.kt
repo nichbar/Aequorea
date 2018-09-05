@@ -18,8 +18,8 @@ class Aequorea : Application(), HasActivityInjector {
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
     companion object {
-        var app: Aequorea? = null
-        var currentTheme: String? = null
+        lateinit var app: Aequorea
+        lateinit var currentTheme: String
 
         fun isLightTheme(): Boolean {
             return currentTheme == Constants.THEME_LIGHT

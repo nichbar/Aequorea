@@ -112,7 +112,7 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
             }
         })
 
-        mListViewModel.itemListLiveData.observe(this, Observer {
+        mListViewModel.itemListLiveData.observe(this, Observer { it ->
             it?.let {
                 if (it.isEmpty() && mListAdapter.itemCount == 0) {
                     showNoContentError()
@@ -148,7 +148,7 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
 
                 if (mListAdapter.footerStatus == ListAdapter.FooterStatus.REACH_THE_END || mListAdapter.itemCount == 0) return
 
-                if (llManager.findLastVisibleItemPosition() > mListAdapter.itemCount - 2 && RecyclerView.SCROLL_STATE_IDLE == newState) {
+                if (llManager.findLastVisibleItemPosition() > mListAdapter.itemCount - 3 && RecyclerView.SCROLL_STATE_IDLE == newState) {
                     mListViewModel.loadMore()
                 }
             }
@@ -165,11 +165,11 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
         super.onSaveInstanceState(outState)
     }
 
-    private fun showLoadMoreError(message: String) {
+    open fun showLoadMoreError(message: String) {
         ToastUtils.showShortToast(message)
     }
 
-    private fun showRefreshError(message: String) {
+    open fun showRefreshError(message: String) {
         ToastUtils.showShortToast(message)
     }
 

@@ -39,10 +39,10 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
     @BindView(R.id.search_mask)
     lateinit var searchMask: View
 
-    private var mClickTime: Long = 0
-
     @Inject
     lateinit var factory: ViewModelProviderFactory
+
+    private var mClickTime: Long = 0
 
     private lateinit var mViewModel: HomeViewModel
     private lateinit var mAdapter: HomeAdapter
@@ -75,8 +75,16 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
         })
 
         mViewModel.snackBar.observe(this, EventObserver {
-            SnackbarUtils.show(coordinatorLayout, it)
+            SnackHelper.show(coordinatorLayout, it)
         })
+    }
+
+    override fun showLoadMoreError(message: String) {
+        SnackHelper.show(coordinatorLayout, message)
+    }
+
+    override fun showRefreshError(message: String) {
+        SnackHelper.show(coordinatorLayout, message)
     }
 
     private fun showSearchResult(resultList: List<SearchDatum>?) {

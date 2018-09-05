@@ -24,6 +24,14 @@ class HomeAdapter : ListAdapter<Datum>() {
         }
     }
 
+    override fun areItemsTheSame(oldItem: Datum, newItem: Datum): Boolean {
+        return oldItem.data[0].id == newItem.data[0].id
+    }
+
+    override fun areContentsTheSame(oldItem: Datum, newItem: Datum): Boolean {
+        return oldItem.data[0].likeTimes == oldItem.data[0].likeTimes
+    }
+
     internal class ArticleHolder(var binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

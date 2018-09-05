@@ -27,7 +27,7 @@ abstract class ListAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
     var retryCallback: RetryCallback? = null
 
 
-    protected fun getItem(position: Int): T {
+    private fun getItem(position: Int): T {
         return dataList[position]
     }
 
@@ -50,7 +50,7 @@ abstract class ListAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         Single.create(SingleOnSubscribe<DiffUtil.DiffResult> {
             val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
                 override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                    return dataList[oldItemPosition] == list[newItemPosition]
+                    return areItemsTheSame(dataList[oldItemPosition], list[newItemPosition])
                 }
 
                 override fun getOldListSize(): Int {
@@ -72,6 +72,10 @@ abstract class ListAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() 
         }, {
             it.printStackTrace()
         })
+    }
+
+    open fun areItemsTheSame(oldItem: T, newItem: T) : Boolean {
+        return oldItem == newItem
     }
 
     open fun areContentsTheSame(oldItem: T, newItem: T): Boolean {

@@ -1,9 +1,9 @@
 package nich.work.aequorea.view.home
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import io.reactivex.Single
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import nich.work.aequorea.common.Event
@@ -12,11 +12,11 @@ import nich.work.aequorea.common.network.ApiService
 import nich.work.aequorea.common.utils.FilterUtils
 import nich.work.aequorea.data.entity.Data
 import nich.work.aequorea.data.entity.Datum
-import nich.work.aequorea.data.entity.search.SearchData
 import nich.work.aequorea.data.entity.search.SearchDatum
 import java.util.concurrent.TimeUnit
 
-class HomeViewModel(application: Application, var apiService: ApiService)
+@SuppressLint("CheckResult")
+class HomeViewModel(application: Application, private var apiService: ApiService)
     : ListViewModel<Datum, Datum>(application, DEFAULT_PAGE_SIZE) {
 
     private var mPublishSubject = PublishSubject.create<String>()
@@ -53,8 +53,8 @@ class HomeViewModel(application: Application, var apiService: ApiService)
         apiService.getArticleListWithKeyword(1, 10, searchContent, false)
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        Consumer<SearchData> { searchResult.postValue(FilterUtils.filterSearchData(it.data)) },
-                        Consumer<Throwable> {
+                        { searchResult.postValue(FilterUtils.filterSearchData(it.data)) },
+                        {
                             it.printStackTrace()
                             snackBar.postValue(it.message?.let { msg -> Event(msg) })
                         }

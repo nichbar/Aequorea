@@ -33,6 +33,7 @@ class Aequorea : Application(), HasActivityInjector {
         currentTheme = ThemeHelper.getTheme()
 
         AppInjector.init(this)
+        DebuggableProvider.init(this)
 
         initCache()
     }

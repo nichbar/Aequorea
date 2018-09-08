@@ -5,11 +5,13 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import nich.work.aequorea.Aequorea
+import nich.work.aequorea.DebuggableModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [AndroidInjectionModule::class,
     ActivityModule::class,
+    DebuggableModule::class,
     AppModule::class])
 
 interface AppComponent {

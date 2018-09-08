@@ -10,8 +10,10 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import butterknife.BindView
 import nich.work.aequorea.R
+import nich.work.aequorea.common.di.ViewModelProviderFactory
 import nich.work.aequorea.common.utils.ToastUtils
 import nich.work.aequorea.common.view.BaseFragment
+import javax.inject.Inject
 
 /**
  * LD -> ListData means data entity from internet
@@ -37,6 +39,9 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
     protected lateinit var mListAdapter: ListAdapter<ILD>
 
     private lateinit var mListViewModel: ListViewModel<LD, ILD>
+
+    @Inject
+    lateinit var factory: ViewModelProviderFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

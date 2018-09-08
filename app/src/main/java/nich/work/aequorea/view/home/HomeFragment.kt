@@ -13,7 +13,6 @@ import nich.work.aequorea.common.arch.paging.ListAdapter
 import nich.work.aequorea.common.arch.paging.ListFragment
 import nich.work.aequorea.common.arch.paging.ListViewModel
 import nich.work.aequorea.common.di.Injectable
-import nich.work.aequorea.common.di.ViewModelProviderFactory
 import nich.work.aequorea.common.ui.widget.MaterialSearchView
 import nich.work.aequorea.common.ui.widget.NestedScrollAppBarLayout
 import nich.work.aequorea.common.ui.widget.StatusBarView
@@ -22,7 +21,6 @@ import nich.work.aequorea.data.entity.Datum
 import nich.work.aequorea.data.entity.search.SearchDatum
 import nich.work.aequorea.ui.adapter.InstantSearchAdapter
 import java.util.*
-import javax.inject.Inject
 
 class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
 
@@ -38,9 +36,6 @@ class HomeFragment : ListFragment<Datum, Datum>(), Injectable {
     lateinit var searchView: MaterialSearchView
     @BindView(R.id.search_mask)
     lateinit var searchMask: View
-
-    @Inject
-    lateinit var factory: ViewModelProviderFactory
 
     private var mClickTime: Long = 0
 

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="nich.work.aequorea.common.utils.IntentUtils"/>
+
+        <variable
+            name="data"
+            type="nich.work.aequorea.data.entity.Datum" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> IntentUtils.startArticleActivity(context, data.id)}"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_article_content">
+
+        <ImageView
+            image="@{data.coverUrl}"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/placeholder_cover" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_toStartOf="@id/iv_article_cover"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{data.title}"
+                android:textColor="?attr/title_color"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="世界的逻辑" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="1.5dp"
+                android:maxLines="4"
+                android:text="@{data.summary}"
+                android:textColor="?attr/subtitle_color"
+                android:textSize="12sp"
+                tools:text="环境恶化、贫富差距扩大、暴力事件频发等社会问题的根源到底在哪里？大规模城市化进程，究竟是给人类社会带来了什么影响？我们是否想生活在人口规模超过1.3亿的超级城市？" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

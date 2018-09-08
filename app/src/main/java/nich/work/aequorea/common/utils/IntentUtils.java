@@ -13,12 +13,12 @@ import java.io.File;
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.data.entity.Author;
-import nich.work.aequorea.ui.activitiy.ArticleActivity;
 import nich.work.aequorea.ui.activitiy.AuthorActivity;
 import nich.work.aequorea.ui.activitiy.PhotoActivity;
 import nich.work.aequorea.ui.activitiy.SearchActivity;
 import nich.work.aequorea.ui.activitiy.SettingsActivity;
 import nich.work.aequorea.ui.activitiy.TagActivity;
+import nich.work.aequorea.view.ShellActivity;
 
 public class IntentUtils {
     public static void startSettingsActivity(Context context) {
@@ -27,8 +27,9 @@ public class IntentUtils {
     }
     
     public static void startArticleActivity(Context context, long id) {
-        Intent i = new Intent(context, ArticleActivity.class);
+        Intent i = new Intent(context, ShellActivity.class);
         i.putExtra(Constants.ARTICLE_ID, id);
+        i.putExtra(Constants.INTENT_TYPE, ShellActivity.AUTHOR);
         context.startActivity(i);
     }
 

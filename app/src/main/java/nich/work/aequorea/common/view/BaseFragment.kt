@@ -27,4 +27,10 @@ abstract class BaseFragment : Fragment() {
     fun isInLightTheme(): Boolean {
         return Aequorea.isLightTheme()
     }
+
+    fun withBundle(bundle: Bundle): BaseFragment {
+        arguments = bundle
+        return this
+    }
+
 }

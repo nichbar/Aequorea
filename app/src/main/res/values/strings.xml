@@ -6,7 +6,7 @@
     <string name="cover_story_not_supported">暂不支持封面故事</string>
     <string name="not_supported">暂不支持</string>
     <string name="default_introduction">第一财经周刊编辑</string>
-    <string name="article_count">%d篇文章</string>
+    <string name="article_count">共 %d 篇文章</string>
     <string name="click_to_refresh">点击刷新</string>
     <string name="related_article">相关阅读</string>
     <string name="dot">•</string>

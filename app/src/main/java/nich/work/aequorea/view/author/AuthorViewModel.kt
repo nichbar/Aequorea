@@ -13,6 +13,7 @@ class AuthorViewModel(application: Application, private var apiService: ApiServi
     : ListViewModel<Datum, Datum>(application, DEFAULT_PAGE_SIZE) {
 
     var authorId: Long = 0
+    var author: Author? = null
 
     var authorInfo = MutableLiveData<Author>()
 
@@ -34,6 +35,7 @@ class AuthorViewModel(application: Application, private var apiService: ApiServi
                 if (author.id == authorId) {
                     // lack article count
                     // author.meta = datum.getMeta()
+                    this.author = author
                     authorInfo.postValue(author)
                 }
             }

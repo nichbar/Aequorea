@@ -1,13 +1,15 @@
 package nich.work.aequorea.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import nich.work.aequorea.Aequorea
 import nich.work.aequorea.R
 import nich.work.aequorea.common.Constants
+import nich.work.aequorea.common.utils.DisplayUtils
 import nich.work.aequorea.common.view.BaseActivity
 import nich.work.aequorea.view.author.AuthorFragment
 import javax.inject.Inject
@@ -19,6 +21,8 @@ open class ShellActivity : BaseActivity(), HasSupportFragmentInjector {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        DisplayUtils.setStatusBarStyle(this, Aequorea.isLightTheme())
 
         if (savedInstanceState == null) handleIntent(intent.extras)
     }

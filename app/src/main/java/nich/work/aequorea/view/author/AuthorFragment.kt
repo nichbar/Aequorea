@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import androidx.lifecycle.Observer
 import butterknife.BindView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -20,6 +19,7 @@ import nich.work.aequorea.common.arch.paging.ListViewModel
 import nich.work.aequorea.common.di.Injectable
 import nich.work.aequorea.common.utils.DisplayUtils
 import nich.work.aequorea.common.utils.ImageHelper
+import nich.work.aequorea.common.utils.observeNonNull
 import nich.work.aequorea.common.utils.viewModelProvider
 import nich.work.aequorea.data.entity.Author
 import nich.work.aequorea.data.entity.Datum
@@ -43,24 +43,17 @@ class AuthorFragment : ListFragment<Datum, Datum>(), Injectable {
     lateinit var appBar: AppBarLayout
 
     private lateinit var mViewModel: AuthorViewModel
-    private lateinit var mAdapter: SimpleArticleListAdapter
 
     private var mIsAuthorDetailShowing = false
 
-    private var mAuthorId: Long? = 0
-    private var mAuthor: Author? = null
-
     override fun provideViewModel(): ListViewModel<Datum, Datum> {
-        mAuthorId = arguments?.getLong(Constants.AUTHOR_ID)
-
         mViewModel = viewModelProvider(factory)
-        mViewModel.authorId = mAuthorId!!
+        mViewModel.authorId = arguments?.getLong(Constants.AUTHOR_ID)!!
         return mViewModel
     }
 
     override fun provideAdapter(): ListAdapter<Datum> {
-        mAdapter = SimpleArticleListAdapter()
-        return mAdapter
+        return SimpleArticleListAdapter()
     }
 
     override fun provideContentView(): View {
@@ -70,7 +63,7 @@ class AuthorFragment : ListFragment<Datum, Datum>(), Injectable {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mAuthor = arguments?.get(Constants.AUTHOR) as Author
+        mViewModel.author = arguments?.get(Constants.AUTHOR) as Author
 
         toolbar.setNavigationIcon(R.drawable.icon_ab_back_material)
         toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -86,11 +79,8 @@ class AuthorFragment : ListFragment<Datum, Datum>(), Injectable {
             }
         })
 
-        mAuthor?.let { updateAuthorImg(it) }
-
-        mViewModel.authorInfo.observe(this, Observer { author ->
-            author?.let { updateAuthorInfo(it) }
-        })
+        mViewModel.author?.let { updateAuthorImg(it) }
+        mViewModel.authorInfo.observeNonNull(this) { updateAuthorInfo(it) }
     }
 
     private fun updateAuthorImg(author: Author) {
@@ -99,9 +89,7 @@ class AuthorFragment : ListFragment<Datum, Datum>(), Injectable {
     }
 
     private fun updateAuthorInfo(author: Author) {
-        if (mAuthor == null) {
-            updateAuthorImg(author)
-        }
+        updateAuthorImg(author)
 
         var intro = author.introduction
         if (!TextUtils.isEmpty(intro) && " " != intro) {
@@ -114,7 +102,7 @@ class AuthorFragment : ListFragment<Datum, Datum>(), Injectable {
             introductionTv.setText(R.string.default_introduction)
         }
 
-        articleCountTv.text = String.format(getString(R.string.article_count), author.meta?.totalCount)
+        articleCountTv.text = String.format(getString(R.string.article_count), author.articleCount)
     }
 
     private fun showAuthorDetail() {

@@ -2,7 +2,7 @@ package nich.work.aequorea.view.home
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -10,7 +10,6 @@ import nich.work.aequorea.common.Event
 import nich.work.aequorea.common.arch.paging.ListViewModel
 import nich.work.aequorea.common.network.ApiService
 import nich.work.aequorea.common.utils.FilterUtils
-import nich.work.aequorea.data.entity.Data
 import nich.work.aequorea.data.entity.Datum
 import nich.work.aequorea.data.entity.search.SearchDatum
 import java.util.concurrent.TimeUnit
@@ -38,11 +37,7 @@ class HomeViewModel(application: Application, private var apiService: ApiService
     }
 
     override fun load(page: Int): Single<List<Datum>> {
-        return mapData(apiService.getMainPageInfo(page, DEFAULT_PAGE_SIZE))
-    }
-
-    private fun mapData(data: Single<Data>): Single<List<Datum>> {
-        return data.map { d -> d.data }
+        return apiService.getMainPageInfo(page, DEFAULT_PAGE_SIZE).map { d -> d.data }
     }
 
     fun getSearchList(searchContent: String) {

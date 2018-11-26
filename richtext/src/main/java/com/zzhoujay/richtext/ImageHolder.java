@@ -1,14 +1,15 @@
 package com.zzhoujay.richtext;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
 
 import com.zzhoujay.richtext.exceptions.ResetImageSourceException;
 import com.zzhoujay.richtext.ext.MD5;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
 
 /**
  * Created by zhou on 16-5-28.

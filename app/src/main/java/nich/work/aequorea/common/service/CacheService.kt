@@ -10,9 +10,9 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import com.google.gson.Gson
 import com.jakewharton.disklrucache.DiskLruCache
 import com.zzhoujay.richtext.ext.MD5
@@ -263,7 +263,7 @@ class CacheService : Service() {
                 os.write(0)
 
                 val buffer = ByteArray(2048)
-                var len = 0
+                var len: Int
                 val outputStream = edit.newOutputStream(1)
                 outputStream.write(1)
                 while (inputStream.read(buffer).let { len = it; it != -1 }) {

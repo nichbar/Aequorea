@@ -1,6 +1,6 @@
 package nich.work.aequorea.common.utils
 
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -23,7 +23,7 @@ fun setImage(view: ImageView, imageUrl: String?, placeHolder: Drawable) {
 
 @BindingAdapter("authorClickListener")
 fun setAuthorListener(view: View, author: Author?) {
-    author?.let { view.setOnClickListener { IntentUtils.startAuthorActivity(view.context, view, author) } }
+    author?.let { _ -> view.setOnClickListener { IntentUtils.startAuthorActivity(view.context, view, author) } }
 }
 
 @BindingAdapter("visible")

@@ -1,6 +1,6 @@
 package com.zzhoujay.richtext.ig;
 
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 
 import java.io.File;
 

@@ -1,7 +1,7 @@
 package nich.work.aequorea.common.di
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 
 /**
  * A provider factory that persists ViewModels[ViewModel].

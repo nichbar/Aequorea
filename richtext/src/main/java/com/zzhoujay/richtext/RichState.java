@@ -1,9 +1,9 @@
 package com.zzhoujay.richtext;
 
-import android.support.annotation.IntDef;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by zhou on 16-10-24.

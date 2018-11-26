@@ -2,9 +2,9 @@ package nich.work.aequorea.common.arch.paging
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import io.reactivex.Single

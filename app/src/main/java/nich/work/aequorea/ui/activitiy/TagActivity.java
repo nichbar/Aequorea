@@ -1,7 +1,7 @@
 package nich.work.aequorea.ui.activitiy;
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import butterknife.ButterKnife;
 import nich.work.aequorea.R;

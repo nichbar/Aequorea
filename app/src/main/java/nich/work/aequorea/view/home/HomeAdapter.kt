@@ -1,8 +1,8 @@
 package nich.work.aequorea.view.home
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import nich.work.aequorea.R
 import nich.work.aequorea.common.arch.paging.ListAdapter

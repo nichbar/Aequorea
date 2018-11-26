@@ -1,13 +1,13 @@
 package nich.work.aequorea.common.arch.paging
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import butterknife.BindView
 import nich.work.aequorea.R
 import nich.work.aequorea.common.di.ViewModelProviderFactory
@@ -148,8 +148,8 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
         mRecyclerView.adapter = mListAdapter
         mRecyclerView.layoutManager = LinearLayoutManager(context)
         mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                val llManager = recyclerView?.layoutManager as LinearLayoutManager
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                val llManager = recyclerView.layoutManager as LinearLayoutManager
 
                 if (mListAdapter.footerStatus == ListAdapter.FooterStatus.REACH_THE_END || mListAdapter.itemCount == 0) return
 
@@ -160,13 +160,13 @@ abstract class ListFragment<LD, ILD> : BaseFragment(), SwipeRefreshLayout.OnRefr
         })
         savedInstanceState?.let {
             mRecyclerView.postDelayed({
-                mRecyclerView.layoutManager.onRestoreInstanceState(it.getParcelable(SAVED_RECYCLER_VIEW_STATE))
+                mRecyclerView.layoutManager?.onRestoreInstanceState(it.getParcelable(SAVED_RECYCLER_VIEW_STATE))
             }, 50)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(SAVED_RECYCLER_VIEW_STATE, mRecyclerView.layoutManager.onSaveInstanceState())
+        outState.putParcelable(SAVED_RECYCLER_VIEW_STATE, mRecyclerView.layoutManager?.onSaveInstanceState())
         super.onSaveInstanceState(outState)
     }
 

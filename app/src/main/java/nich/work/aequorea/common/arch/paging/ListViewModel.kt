@@ -1,9 +1,9 @@
 package nich.work.aequorea.common.arch.paging
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 
 /**
  * LD -> ListData means data entity from internet

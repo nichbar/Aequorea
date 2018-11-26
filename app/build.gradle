@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "nich.work.aequorea"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 14000
         versionName "1.4.0"
         resConfigs "zh"
@@ -36,44 +36,46 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(':richtext')
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    debugImplementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation "androidx.appcompat:appcompat:$appCompact"
+    implementation "androidx.recyclerview:recyclerview:$recyclerView"
+    implementation "com.google.android.material:material:$material"
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava2"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid2"
 
-    implementation "android.arch.lifecycle:runtime:1.1.1"
-    kapt "android.arch.lifecycle:compiler:1.1.1"
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation "com.squareup.okhttp3:okhttp:$okHttp"
+    debugImplementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
 
-    implementation "com.google.dagger:dagger:2.16"
-    implementation "com.google.dagger:dagger-android:2.16"
-    implementation "com.google.dagger:dagger-android-support:2.16"
-    kapt "com.google.dagger:dagger-android-processor:2.16"
-    kapt "com.google.dagger:dagger-compiler:2.16"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycle"
+    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycle"
 
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.7.1'
-    kapt "com.github.bumptech.glide:compiler:4.7.1"
+    implementation "com.google.dagger:dagger:$dagger2"
+    implementation "com.google.dagger:dagger-android:$dagger2"
+    implementation "com.google.dagger:dagger-android-support:$dagger2"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2"
+    kapt "com.google.dagger:dagger-compiler:$dagger2"
 
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.github.chrisbanes:PhotoView:$photoView"
 
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    implementation 'com.jakewharton:disklrucache:2.0.2'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+
+    implementation "com.google.code.gson:gson:$gson"
+
+    implementation "com.jakewharton:butterknife:$butterKnife"
+    kapt "com.jakewharton:butterknife-compiler:$butterKnife"
+    implementation "com.jakewharton:disklrucache:$diskLru"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
+    debugImplementation "com.facebook.stetho:stetho:$stetho"
+    debugImplementation "com.facebook.stetho:stetho-okhttp3:$stetho"
 }
 
 repositories {

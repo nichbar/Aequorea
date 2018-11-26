@@ -36,10 +36,10 @@
             android:paddingEnd="5dp">
 
             <ImageView
-                authorClickListener="@{data.authors[0]}"
                 roundImage="@{data.authors[0].avatar}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:onClick="@{() -> IntentUtils.startAuthorActivity(context, data.authors[0])}"
                 android:transitionName="author_avatar" />
 
             <TextView
@@ -48,11 +48,11 @@
                 android:text="@string/linker" />
 
             <ImageView
-                authorClickListener="@{data.authors[1]}"
                 roundImage="@{data.authors[1].avatar}"
                 visibleIfExist="@{data.authors[1].avatar}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:onClick="@{() -> IntentUtils.startAuthorActivity(context, data.authors[1])}"
                 android:transitionName="author_avatar" />
 
             <TextView
@@ -61,11 +61,11 @@
                 android:text="@string/linker" />
 
             <ImageView
-                authorClickListener="@{data.authors[2]}"
                 roundImage="@{data.authors[2].avatar}"
                 visibleIfExist="@{data.authors[2].avatar}"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:onClick="@{() -> IntentUtils.startAuthorActivity(context, data.authors[2])}"
                 android:transitionName="author_avatar" />
 
             <TextView

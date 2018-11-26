@@ -1,6 +1,6 @@
 package nich.work.aequorea.common
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 
 /*
  * Copyright 2018 Google LLC

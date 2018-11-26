@@ -1,8 +1,8 @@
 package nich.work.aequorea.view.shared
 
 import android.app.Activity
-import android.databinding.DataBindingUtil
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import nich.work.aequorea.R
 import nich.work.aequorea.common.arch.paging.ListAdapter
@@ -18,17 +18,17 @@ class SimpleArticleListAdapter : ListAdapter<Datum>() {
     override fun onBindListViewHolder(holder: RecyclerView.ViewHolder, item: Datum, position: Int) {
         when (holder) {
             is ArticleHolder -> {
-                holder.binding.data = item.data[0]
+                holder.binding.data = item
             }
         }
     }
 
     override fun areItemsTheSame(oldItem: Datum, newItem: Datum): Boolean {
-        return oldItem.data[0].id == newItem.data[0].id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Datum, newItem: Datum): Boolean {
-        return oldItem.data[0].likeTimes == oldItem.data[0].likeTimes
+        return oldItem.likeTimes == oldItem.likeTimes
     }
 
     class ArticleHolder(var binding: ItemArticleLiteBinding) : RecyclerView.ViewHolder(binding.root)

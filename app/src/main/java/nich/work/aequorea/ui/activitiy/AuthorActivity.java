@@ -1,10 +1,10 @@
 package nich.work.aequorea.ui.activitiy;
 
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.LinearLayoutManager;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;

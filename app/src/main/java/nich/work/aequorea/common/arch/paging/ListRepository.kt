@@ -2,7 +2,7 @@ package nich.work.aequorea.common.arch.paging
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import nich.work.aequorea.common.network.Response

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import com.zzhoujay.richtext.CacheType;
@@ -33,6 +32,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

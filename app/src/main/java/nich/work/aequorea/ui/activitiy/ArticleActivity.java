@@ -12,11 +12,11 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.NestedScrollView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -543,7 +543,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
                 ClickableSpan cs = new ClickableSpan() {
                     @Override
                     public void onClick(View widget) {
-                        gotoAuthorPage(authors.get(finalI).getId());
+                        gotoAuthorPage(authors.get(finalI));
                     }
                     
                     @Override
@@ -799,7 +799,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         ToastUtils.showShortToast(getString(R.string.save_failed) + t.toString());
     }
     
-    protected void gotoAuthorPage(long id) {
-        IntentUtils.startAuthorActivity(this, id);
+    protected void gotoAuthorPage(Author author) {
+        IntentUtils.startAuthorActivity(this, author);
     }
 }

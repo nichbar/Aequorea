@@ -4,9 +4,9 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -54,7 +54,7 @@ class AppInjector {
 
             if (activity is FragmentActivity) {
                 activity.supportFragmentManager.registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
-                    override fun onFragmentPreAttached(fm: FragmentManager?, f: Fragment?, context: Context?) {
+                    override fun onFragmentPreAttached(fm: FragmentManager, f: Fragment, context: Context) {
                         super.onFragmentPreAttached(fm, f, context)
                         if (f is Injectable) {
                             AndroidSupportInjection.inject(f)

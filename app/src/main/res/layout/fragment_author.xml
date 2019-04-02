@@ -9,7 +9,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorPrimary"
+        android:background="@color/white"
         tools:context=".ui.activitiy.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -21,11 +21,11 @@
                 android:id="@+id/container_collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
+                android:elevation="4dp"
                 app:collapsedTitleTextAppearance="@style/TextAppearanceAuthorTitleCollapsed"
                 app:expandedTitleMarginBottom="64dp"
                 app:expandedTitleMarginEnd="60dp"
-                app:expandedTitleMarginStart="100dp"
-                android:elevation="4dp"
+                app:expandedTitleMarginStart="103dp"
                 app:expandedTitleTextAppearance="@style/TextAppearanceAuthorTitleExpand"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
@@ -33,55 +33,69 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin" />
 
-                <ImageView
-                    android:id="@+id/iv_author"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginStart="15dp"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.2"
-                    android:transitionName="author_avatar"
-                    tools:src="@drawable/icon_author"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="?android:attr/actionBarSize">
 
-                <TextView
-                    android:id="@+id/tv_introduction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="100dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="?attr/subtitle_desc_color"
-                    android:textSize="14sp"
-                    tools:text="报道消费，以及它的创造和消费者。"/>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginBottom="15dp">
 
-                <TextView
-                    android:id="@+id/tv_article_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|bottom"
-                    android:layout_marginBottom="35dp"
-                    android:layout_marginStart="100dp"
-                    android:maxLines="1"
-                    android:textColor="?attr/subtitle_desc_color"
-                    android:textSize="14sp"
-                    tools:text="151 篇文章"/>
+                        <ImageView
+                            android:id="@+id/iv_author"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:transitionName="author_avatar"
+                            app:layout_collapseMode="parallax"
+                            app:layout_collapseParallaxMultiplier="0.2"
+                            tools:src="@drawable/icon_author" />
+
+                        <TextView
+                            android:id="@+id/tv_article_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@id/tv_introduction"
+                            android:layout_gravity="start|bottom"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_toEndOf="@id/iv_author"
+                            android:maxLines="1"
+                            android:textColor="?attr/subtitle_desc_color"
+                            android:textSize="13sp"
+                            tools:text="共 151 篇文章" />
+
+                        <TextView
+                            android:id="@+id/tv_introduction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_toEndOf="@id/iv_author"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="?attr/subtitle_desc_color"
+                            android:textSize="13sp"
+                            tools:text="报道消费，以及它的创造和消费者。" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/piece_list"/>
+        <include layout="@layout/piece_list" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <nich.work.aequorea.common.ui.widget.StatusBarView
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </FrameLayout>
 

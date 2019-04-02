@@ -18,7 +18,7 @@ ext {
     recyclerView = "1.0.0"
     constraintLayout = "1.1.0"
 
-    butterKnife = "9.0.0-rc2"
+    butterKnife = "10.1.0"
 
     // rxJava & rxAndroid
     rxJava2 = "2.1.10"
@@ -34,21 +34,11 @@ ext {
 
     gson = "2.8.2"
 
-    apkChannelPackage = "2.0.1"
-
     stetho = '1.5.0'
 
     leakcanary = '1.5.4'
 
-    magicIndicator = '1.5.0'
-
-    mta = "3.4.7-release"
-    mid = "4.06-Release"
-
     photoView = "2.2.0"
-
-    // 标签
-    tagView = "1.1.4"
 
     materialDialog = "0.9.6.0"
 

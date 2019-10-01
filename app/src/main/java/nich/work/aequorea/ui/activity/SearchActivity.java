@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activitiy;
+package nich.work.aequorea.ui.activity;
 
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.data.SimpleArticleListModel;

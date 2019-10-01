@@ -4,20 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.View;
+
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.FileProvider;
-import android.view.View;
 
 import java.io.File;
 
 import nich.work.aequorea.BuildConfig;
 import nich.work.aequorea.common.Constants;
 import nich.work.aequorea.data.entity.Author;
-import nich.work.aequorea.ui.activitiy.AuthorActivity;
-import nich.work.aequorea.ui.activitiy.PhotoActivity;
-import nich.work.aequorea.ui.activitiy.SearchActivity;
-import nich.work.aequorea.ui.activitiy.SettingsActivity;
-import nich.work.aequorea.ui.activitiy.TagActivity;
+import nich.work.aequorea.ui.activity.AuthorActivity;
+import nich.work.aequorea.ui.activity.PhotoActivity;
+import nich.work.aequorea.ui.activity.SearchActivity;
+import nich.work.aequorea.ui.activity.SettingsActivity;
+import nich.work.aequorea.ui.activity.TagActivity;
 import nich.work.aequorea.view.ShellActivity;
 
 public class IntentUtils {

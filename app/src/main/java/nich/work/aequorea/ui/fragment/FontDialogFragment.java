@@ -2,13 +2,14 @@ package nich.work.aequorea.ui.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.DialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,7 +18,7 @@ import butterknife.OnLongClick;
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.utils.FontHelper;
 import nich.work.aequorea.common.utils.ToastUtils;
-import nich.work.aequorea.ui.activitiy.ArticleActivity;
+import nich.work.aequorea.ui.activity.ArticleActivity;
 
 public class FontDialogFragment extends DialogFragment {
     private ArticleActivity mView;

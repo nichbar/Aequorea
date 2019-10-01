@@ -9,7 +9,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.activitiy.MainActivity">
+        tools:context=".ui.activity.MainActivity">
 
         <include layout="@layout/piece_list"/>
 

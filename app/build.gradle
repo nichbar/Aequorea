@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+apply from: '../secret.gradle'
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -18,9 +20,11 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "FLURRY_ID", "\"${flurryId}\""
         }
         debug {
             applicationIdSuffix '.debug'
+            buildConfigField "String", "FLURRY_ID", "\"NO_ANALYTICS_IN_DEBUG_MODE\""
         }
     }
     compileOptions {
@@ -37,10 +41,14 @@ dependencies {
     implementation project(':richtext')
 
     implementation "androidx.appcompat:appcompat:$appCompact"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefresh"
     implementation "androidx.recyclerview:recyclerview:$recyclerView"
     implementation "com.google.android.material:material:$material"
     implementation "io.reactivex.rxjava2:rxjava:$rxJava2"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid2"
+
+    debugImplementation "com.github.ChuckerTeam.Chucker:library:$chucker"
+    releaseImplementation "com.github.ChuckerTeam.Chucker:library-no-op:$chucker"
 
     implementation "com.squareup.okhttp3:okhttp:$okHttp"
     debugImplementation "com.squareup.okhttp3:logging-interceptor:$okHttp"
@@ -50,7 +58,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
     implementation "androidx.lifecycle:lifecycle-runtime:$archLifecycle"
-    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$archLifecycle"
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycle"
 
     implementation "com.google.dagger:dagger:$dagger2"
@@ -72,6 +80,8 @@ dependencies {
     implementation "com.jakewharton:disklrucache:$diskLru"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation "com.flurry.android:analytics:$flurry"
 
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanary"
     debugImplementation "com.facebook.stetho:stetho:$stetho"

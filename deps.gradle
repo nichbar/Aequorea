@@ -12,13 +12,14 @@ ext {
     androidSupport = "28.0.0"
     multidex = "1.0.3"
 
-    archLifecycle = "2.0.0"
+    archLifecycle = "2.1.0"
 
-    appCompact = "1.0.2"
+    appCompact = "1.1.0"
     recyclerView = "1.0.0"
+    swipeRefresh = "1.0.0"
     constraintLayout = "1.1.0"
 
-    butterKnife = "10.1.0"
+    butterKnife = "10.2.0"
 
     // rxJava & rxAndroid
     rxJava2 = "2.1.10"
@@ -26,8 +27,7 @@ ext {
     rxPermissions = "0.9.5@aar"
 
     diskLru = "2.0.2"
-
-    material = "1.1.0-alpha01"
+    material = "1.1.0-alpha10"
 
     retrofit = "2.5.0"
     okHttp = "3.12.0"
@@ -35,6 +35,10 @@ ext {
     gson = "2.8.2"
 
     stetho = '1.5.0'
+
+    chucker = "3.0.1"
+
+    flurry = "11.7.1@aar"
 
     leakcanary = '1.5.4'
 

@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activitiy;
+package nich.work.aequorea.ui.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

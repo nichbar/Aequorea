@@ -1,4 +1,4 @@
-package nich.work.aequorea.ui.activitiy;
+package nich.work.aequorea.ui.activity;
 
 import android.graphics.drawable.Drawable;
 import androidx.recyclerview.widget.LinearLayoutManager;

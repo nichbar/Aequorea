@@ -2,12 +2,14 @@ package nich.work.aequorea
 
 import android.app.Activity
 import android.app.Application
+import com.flurry.android.FlurryAgent
 import com.zzhoujay.richtext.RichText
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import nich.work.aequorea.common.Constants
 import nich.work.aequorea.common.utils.ThemeHelper
+import nich.work.aequorea.common.utils.releaseOnly
 import nich.work.aequorea.di.AppInjector
 import java.io.File
 import javax.inject.Inject
@@ -31,6 +33,8 @@ class Aequorea : Application(), HasActivityInjector {
 
         app = this
         currentTheme = ThemeHelper.getTheme()
+
+        releaseOnly { FlurryAgent.Builder().build(this, BuildConfig.FLURRY_ID) }
 
         AppInjector.init(this)
         DebuggableProvider.init(this)

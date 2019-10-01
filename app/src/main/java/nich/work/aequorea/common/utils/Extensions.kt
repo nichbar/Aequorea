@@ -3,6 +3,7 @@ package nich.work.aequorea.common.utils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
+import nich.work.aequorea.BuildConfig
 
 inline fun <reified VM : ViewModel> FragmentActivity.viewModelProvider(
         provider: ViewModelProvider.Factory
@@ -27,4 +28,16 @@ fun <T> LiveData<T?>.observeNonNull(owner: LifecycleOwner, callback: (T) -> Unit
             callback(value)
         }
     })
+}
+
+inline fun debugOnly(f: () -> Unit) {
+    if (BuildConfig.DEBUG) {
+        f()
+    }
+}
+
+inline fun releaseOnly(f: () -> Unit) {
+    if (!BuildConfig.DEBUG) {
+        f()
+    }
 }

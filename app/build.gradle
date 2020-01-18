@@ -9,13 +9,12 @@ android {
         targetSdkVersion 29
         versionCode 13910
         versionName "1.3.9.1"
-        resConfigs "zh"
     }
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             applicationIdSuffix '.debug'

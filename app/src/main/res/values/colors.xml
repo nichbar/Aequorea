@@ -20,7 +20,6 @@
 
     <!-- text color -->
     <color name="colorTextTitle_light">#333333</color>
-    <color name="colorTextSubtitle_light">#666666</color>
     <color name="colorTextSubtitleDesc_light">#999999</color>
     <color name="colorTextContent_light">#555555</color>
 
@@ -32,6 +31,5 @@
     <color name="white">#ffffff</color>
     <!-- color with alpha value -->
     <color name="alphaDark">#20424242</color>
-    <color name="transparent">#00000000</color>
     <color name="transparentBlack">#66000000</color>
 </resources>

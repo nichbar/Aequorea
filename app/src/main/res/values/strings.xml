@@ -1,22 +1,17 @@
 <resources>
     <string name="app_name">Aequorea</string>
     <string name="default_author">CBNWeekly</string>
-    <string name="network_error">网络异常 </string>
     <string name="please_connect_to_the_internet">网络连接已断开，请检查</string>
     <string name="cover_story_not_supported">暂不支持封面故事</string>
-    <string name="not_supported">暂不支持</string>
     <string name="default_introduction">第一财经周刊编辑</string>
     <string name="article_count">%d篇文章</string>
     <string name="click_to_refresh">点击刷新</string>
     <string name="related_article">相关阅读</string>
-    <string name="dot">•</string>
     <string name="switch_to_dark_theme">切换至深色主题</string>
     <string name="modify_font">调整字体</string>
-    <string name="open_in_browser">在浏览器打开</string>
     <string name="share">分享</string>
     <string name="share_to">分享至</string>
     <string name="switch_to_light_theme">切换至浅色主题</string>
-    <string name="theme">主题</string>
     <string name="use_default_font_size">已恢复默认字体大小</string>
     <string name="use_default_line_spacing">已恢复至默认行间距</string>
     <string name="sans_serif">Sans Serif</string>
@@ -38,7 +33,6 @@
     <string name="settings">设置</string>
     <string name="offline_cache">离线缓存</string>
     <string name="offline_cache_summary">在WiFi下刷新时自动离线缓存文章</string>
-    <string name="offline_caching_only_in_wifi">为了你的流量着想，仅在WiFi下进行离线缓存</string>
     <string name="caching_offline_article">正在离线缓存文章</string>
     <string name="linker">x</string>
     <string name="photo_not_ready">图片尚未加载完成</string>

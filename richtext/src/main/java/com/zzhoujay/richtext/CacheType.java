@@ -1,6 +1,6 @@
 package com.zzhoujay.richtext;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 /**
  * Created by zhou on 2016/12/5.

@@ -1,8 +1,8 @@
 package com.zzhoujay.richtext;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntDef;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntDef;
 
 import com.zzhoujay.richtext.exceptions.ResetImageSourceException;
 import com.zzhoujay.richtext.ext.MD5;

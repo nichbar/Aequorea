@@ -1,6 +1,6 @@
 package com.zzhoujay.richtext;
 
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 /**
  * Created by zhou on 2016/11/17.

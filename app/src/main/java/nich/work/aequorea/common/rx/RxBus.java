@@ -1,6 +1,6 @@
 package nich.work.aequorea.common.rx;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;

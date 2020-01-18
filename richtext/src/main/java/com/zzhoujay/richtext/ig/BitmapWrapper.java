@@ -3,7 +3,7 @@ package com.zzhoujay.richtext.ig;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.jakewharton.disklrucache.DiskLruCache;
 import com.zzhoujay.richtext.ImageHolder;

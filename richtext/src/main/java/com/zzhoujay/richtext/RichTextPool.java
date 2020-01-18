@@ -1,6 +1,6 @@
 package com.zzhoujay.richtext;
 
-import android.support.v4.util.LruCache;
+import androidx.collection.LruCache;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 

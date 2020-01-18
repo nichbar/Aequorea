@@ -1,8 +1,8 @@
 package nich.work.aequorea.common.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import nich.work.aequorea.R;
 import nich.work.aequorea.common.Constants;

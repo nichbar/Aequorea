@@ -5,7 +5,7 @@ def version_name = "2.5.4"
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
+    buildToolsVersion "29.0.3"
 
     resourcePrefix "zhou_"
 

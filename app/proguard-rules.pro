@@ -25,10 +25,6 @@
 #-renamesourcefileattribute SourceFile
 
 -optimizationpasses 0
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontpreverify
--verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
 -keep public class * extends android.app.Activity
@@ -69,9 +65,7 @@
     public static final android.os.Parcelable$Creator *;
 }
 
-# andrroid v4 v7
--dontwarn android.support.v4.**
--dontwarn android.support.v7.**
+-keep class nich.work.aequorea.model.** {*;}
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule

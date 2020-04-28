@@ -12,11 +12,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.widget.NestedScrollView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -35,6 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.widget.NestedScrollView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.zzhoujay.richtext.RichText;
 import com.zzhoujay.richtext.callback.OnImageClickListener;
 import com.zzhoujay.richtext.callback.OnUrlClickListener;
@@ -501,6 +502,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         
         // remove figcaption tag
         content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>", "");
+        content = content.replaceAll("http", "https");
         
         if (isRefresh) {
             mRichText = RichText.from(content)

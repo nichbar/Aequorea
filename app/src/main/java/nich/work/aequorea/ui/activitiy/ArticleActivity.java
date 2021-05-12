@@ -503,6 +503,7 @@ public class ArticleActivity extends BaseActivity implements ArticleView {
         // remove figcaption tag
         content = content.replaceAll("<figcaption((.|\\n|\\r)*?)<\\/figcaption>", "");
         content = content.replaceAll("http", "https");
+        content = content.replaceAll("httpss", "https");
         
         if (isRefresh) {
             mRichText = RichText.from(content)

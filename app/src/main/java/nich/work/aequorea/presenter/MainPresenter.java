@@ -141,7 +141,7 @@ public class MainPresenter extends BasePresenter<HomeView> {
     private void getSearchListAfterDelay(String key) {
     
         mComposite.add(mNetworkService
-            .getArticleListWithKeyword(1, 10, key, false)
+            .getArticleListWithKeyword(1, 10, key, false, "article")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<SearchData>() {

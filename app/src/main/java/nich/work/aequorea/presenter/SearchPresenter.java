@@ -29,7 +29,7 @@ public class SearchPresenter extends SimpleArticleListPresenter {
         mBaseView.getModel().setLoading(true);
         
         mComposite.add(mService.getArticleListWithKeyword(mPage, 20, mBaseView.getModel()
-            .getKey(), false)
+            .getKey(), false, "article")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Consumer<SearchData>() {

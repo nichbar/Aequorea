@@ -32,5 +32,5 @@ public interface NetworkService {
     
     // article with keyword
     @GET("v4/pg_search_documents")
-    Observable<SearchData> getArticleListWithKeyword(@Query("page") int page, @Query("per") int per, @Query("query") String keyword, @Query("group") boolean group);
+    Observable<SearchData> getArticleListWithKeyword(@Query("page") int page, @Query("per") int per, @Query("query") String keyword, @Query("group") boolean group, @Query("type") String type);
 }

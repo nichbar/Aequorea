@@ -23,11 +23,8 @@ public class SignatureHelper {
             sb.append("CBNWeeklyAPI");
             String sb2 = sb.toString();
             String md5 = md5(sb2);
-            String encode = Base64.encodeToString(md5.getBytes(), Base64.DEFAULT);
-            Log.i("签名", "原值: " + sb2 + "  md5: " + md5 + "  base64: " + encode);
-            return encode;
+            return Base64.encodeToString(md5.getBytes(), Base64.NO_WRAP);
         } catch (Exception e) {
-            Log.e("签名", "报错: " + e.getMessage());
             return "";
         }
     }
@@ -60,14 +57,14 @@ public class SignatureHelper {
             MessageDigest digest = java.security.MessageDigest
                 .getInstance(MD5);
             digest.update(s.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
             
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
             for (byte aMessageDigest : messageDigest) {
-                String h = Integer.toHexString(0xFF & aMessageDigest);
+                StringBuilder h = new StringBuilder(Integer.toHexString(0xFF & aMessageDigest));
                 while (h.length() < 2)
-                    h = "0" + h;
+                    h.insert(0, "0");
                 hexString.append(h);
             }
             return hexString.toString();

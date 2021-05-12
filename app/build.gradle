@@ -7,8 +7,8 @@ android {
         applicationId "nich.work.aequorea"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 14000
-        versionName "1.4.0"
+        versionCode 14100
+        versionName "1.4.1"
     }
     buildTypes {
         release {

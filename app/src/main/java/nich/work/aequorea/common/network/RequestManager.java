@@ -1,11 +1,14 @@
 package nich.work.aequorea.common.network;
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
 import nich.work.aequorea.Aequorea;
+import nich.work.aequorea.model.entity.Datum;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -51,9 +54,11 @@ public class RequestManager {
             .addNetworkInterceptor(new ChuckerInterceptor(Aequorea.getApp()))
             .build();
         
+        Gson gson = new GsonBuilder().registerTypeAdapter(Datum.class, new DatumDeserializer()).create();
+        
         mRetrofit = new Retrofit.Builder().baseUrl(NetworkConstants.CBNWEEK_HTTPS_HOST)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build();
     }

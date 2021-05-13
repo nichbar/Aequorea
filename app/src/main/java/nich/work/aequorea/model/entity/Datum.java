@@ -55,7 +55,6 @@ public class Datum {
     private Long mVisitTimes;
     @SerializedName("articles_count")
     private Long mArticlesCount;
-    @SerializedName("cover_url")
     private String mCoverUrl;
     @SerializedName("description")
     private Object mDescription;
